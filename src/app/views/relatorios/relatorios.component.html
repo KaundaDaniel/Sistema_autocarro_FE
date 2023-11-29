@@ -1,0 +1,58 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-10 offset-md-1 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title"><strong>Reporting & BI</strong></h4>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <hr>
+                                            <h4>Categorias</h4>
+                                        <hr>
+
+                                        <ul *ngFor="let item of list_reportings">
+                                            <li (click)="setReportin(item)"><i class="fa fa-list"></i> {{ item.title }}</li>
+                                          </ul>
+
+                                    </div>
+
+                                    <div class="col-md-6" *ngIf="reporting.title">
+
+                                        <hr>
+                                            <h4>{{ reporting.title }}</h4>
+                                        <hr>
+
+                                        <ul>
+                                            <li routerLink="{{ reporting.path_url }}" routerLinkActive><i class="fa fa-line-chart"></i> {{ reporting.sub_modulo }}</li>
+                                          </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <app-footer></app-footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>

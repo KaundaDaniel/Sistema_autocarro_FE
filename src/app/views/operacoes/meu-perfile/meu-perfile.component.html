@@ -1,0 +1,127 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-8 offset-md-2 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title"><i class="fa fa-key"></i> Recuperar Password</h4>
+                            </div>
+
+                            <spinner-overlay [loading]="loading"></spinner-overlay>
+
+                            <div class="card-body">
+                                <form [formGroup]="perfileForm" (submit)="save();">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label">Nome</label>
+                                            <div class="form-group">
+                                                <input type="text" formControlName="name" readonly name="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors, 'is-valid': f.name.touched && !f.name.errors }" />
+                                                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['name'].errors.required">O campo nome é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="control-label">Usuário</label>
+                                            <div class="form-group">
+                                                <input
+                                                    type="text"
+                                                    formControlName="username"
+                                                    readonly
+                                                    name="username"
+                                                    class="form-control"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.username.errors, 'is-valid': f.username.touched && !f.username.errors }"
+                                                />
+                                                <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['username'].errors.required">O campo username é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Email</label>
+                                            <div class="form-group">
+                                                <input type="email" formControlName="email" readonly name="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors, 'is-valid': f.email.touched && !f.email.errors }" />
+                                                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['email'].errors.required">O campo email é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Telefone</label>
+                                            <div class="form-group">
+                                                <input type="number" formControlName="phone" readonly name="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors, 'is-valid': f.phone.touched && !f.phone.errors }" />
+                                                <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['phone'].errors.required">O campo phone é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Password</label>
+                                            <div class="form-group">
+                                                <input
+                                                    type="password"
+                                                    formControlName="password"
+                                                    name="password"
+                                                    class="form-control"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'is-valid': f.password.touched && !f.password.errors }"
+                                                />
+                                                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['password'].errors.required">O campo password é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Confirmar password</label>
+                                            <div class="form-group">
+                                                <input
+                                                    type="password"
+                                                    formControlName="confirm_password"
+                                                    name="confirm_password"
+                                                    class="form-control"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.confirm_password.errors, 'is-valid': f.confirm_password.touched && !f.confirm_password.errors }"
+                                                />
+                                                <div *ngIf="submitted && f['confirm_password'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['confirm_password'].errors.required">O campo confirmar password é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="btn-group">
+                                                <button class="btn btn-danger btn-sm mr-1" type="reset" [disabled]="perfileForm.pristine && !submitted" (click)="onReset()">Limpar</button>
+                                                <button class="btn btn-success btn-sm mr-1" type="submit" [disabled]="perfileForm.valid">Validar</button>
+                                                <button type="submit" [disabled]="perfileForm.pristine || perfileForm.invalid" class="btn btn-primary btn-sm">Salvar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <app-footer></app-footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>

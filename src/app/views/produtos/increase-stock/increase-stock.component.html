@@ -1,0 +1,44 @@
+<div class="modal modal-info fade in" id="{{modal}}">
+    <div class="modal-dialog modal-lg" style="max-width: 500px;">
+        <div class="modal-content">
+            <form [formGroup]="increaseStockForm" (submit)="increaseStock();" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa fa-archive" aria-hidden="true"></i> {{title}}</h5>
+                    <button id="close" type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h5 *ngIf="product" class="bg bg-primary" style="color: white; padding: 15px 15px;">Produto: <strong>{{product.name}}</strong></h5>
+                    <p *ngIf="product" class="bg bg-warning" style="padding: 8px 8px;">Quantidade em stock {{ product.quantity }}</p>
+                    <hr>
+                    <ngx-loading [show]="loading"></ngx-loading>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-sort-numeric-desc"></i> Quantidade</label>
+                                <input
+                                    type="number"
+                                    formControlName="quantity"
+                                    name="quantity"
+                                    class="form-control"
+                                    min="1"
+                                    placeholder="Quantidade"
+                                    [ngClass]="{ 'is-invalid': submitted && f.quantity.errors, 'is-valid': f.quantity.touched && !f.quantity.errors }"
+                                />
+                                <div *ngIf="submitted && f['quantity'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['quantity'].errors.required">O campo quantidade é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-sm" type="reset" [disabled]="increaseStockForm.pristine && !submitted" (click)="onReset()">Limpar</button>
+                    <button class="btn btn-success btn-sm mr-1" type="submit" [disabled]="increaseStockForm.valid">Validar</button>
+                    <button type="submit" [disabled]="increaseStockForm.pristine || increaseStockForm.invalid" class="btn btn-primary btn-sm">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

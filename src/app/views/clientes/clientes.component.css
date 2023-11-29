@@ -1,0 +1,5 @@
+.dropdown-item:hover{ 
+  background-color:#1c45ef;
+  color: white;
+  cursor: pointer;
+}

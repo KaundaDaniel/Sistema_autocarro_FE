@@ -1,0 +1,94 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-10 offset-md-1 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Listagem de Distritos</h4>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Pesquisar..." class="form-control">
+                                    </div>
+                                    <div class="col-md-6" style="text-align:right;">
+                                        <button class="btn btn-primary btn-flat" data-toggle="modal"
+                                            data-target="#createOrEditDistritoModal">Registar Distritos</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr style="background:  #1c45ef;position: sticky;top: 0;">
+                                                <th style="color: white;">#</th>
+                                                <th style="color: white;" with="200px">Descricao</th>
+                                                <th style="color: white;" with="200px">Slug</th>
+                                                <th style="color: white;" with="200px">Municipio</th>
+                                                <th style="color: white;" with="200px">Opções</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="municipios">
+                                            <tr *ngFor="let item of municipios | paginate: { itemsPerPage: this.filters.pagination.perPage, currentPage: this.filters.pagination.page, totalItems: this.filters.pagination.total }; index as i">
+                                                <td> {{i+1}} </td>
+                                                <td>{{ item.name}}</td>
+                                                <td>{{ item.slug}}</td>
+                                                <td>{{ item.municipio}}</td>
+                                                <td>
+                                                    <div class="dropdown ml-lg-auto ml-3 toolbar-item">
+                                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                                            id="dropdownexport" data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">Operações</button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownexport">
+                                                            <a class="dropdown-item" href="javascript:void(0)"
+                                                                (click)="setCategoria(item)" data-toggle="modal"
+                                                                data-target="#createOrEditDistritoModal">Editar</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="footer">
+                                    <div class="row">
+                                      <div class="col-sm-12 col-md-5">
+                                        <div class="dataTables_info">Mostrando de {{this.filters.pagination.page}} a
+                                          {{this.filters.pagination.perPage}} de
+                                          {{this.filters.pagination.total}} categorias
+                                        </div>
+                                      </div>
+                                      <!--<div class="col-sm-12 col-md-7">
+                                        <div class="pull-right">
+                                          <pagination-controls (pageChange)="getPageFilterData($event)" previousLabel="Anterior" maxSize="6"
+                                            nextLabel="Proximo" directionLinks="true" responsive="true"></pagination-controls>
+                                        </div>
+                                      </div>-->
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <app-footer></app-footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    <createOrEditDistrito [bairro]="bairro" [modal]=""></createOrEditDistrito>
+</div>

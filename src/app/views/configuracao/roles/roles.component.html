@@ -1,0 +1,127 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-10 offset-md-1 grid-margin stretch-card">
+                        <div class="col-md-2">
+                            <select class="form-control">
+                                <option>5</option>
+                                <option>10</option>
+                                <option>15</option>
+                                <option>20</option>
+                                <option>25</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 offset-md-1 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Listagem de Roles</h4>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Pesquisar..." class="form-control">
+                                    </div>
+                                    <div class="col-md-6" style="text-align:right;">
+                                        <button class="btn btn-primary btn-flat" data-toggle="modal"
+                                            data-target="#createOrEditRoleModal">Registar Role</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr style="background:  #1c45ef;position: sticky;top: 0;">
+                                                <th style="color: white;">#</th>
+                                                <th style="color: white;" with="200px">Descricao</th>
+                                                <th style="color: white;" with="200px">Slug</th>
+                                                <th style="color: white;" with="200px">Data</th>
+                                                <th style="color: white;" with="200px">Opções</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of roles;index as i">
+                                                <td> {{i+1}} </td>
+                                                <td>{{ item.name}}</td>
+                                                <td>{{ item.slug}}</td>
+                                                <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
+                                                <td>
+                                                    <div class="dropdown ml-lg-auto ml-3 toolbar-item">
+                                                        <button class="btn btn-primary dropdown-toggle">Operações</button>
+                                                        <ul class="dropdown-menu">
+                                                          <li class="dropdown-item" href="javascript:void(0)" (click)="setRole(item);listaOfPermissions()" data-toggle="modal" data-target="#associarPermissionModal"><i class="fa fa-edit" aria-hidden="true"></i> Associar Permissões</li>
+                                                        </ul>
+                                                      </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <app-footer></app-footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    <createOrEditRole [role]="role" [modal]=""></createOrEditRole>
+</div>
+
+<div class="modal modal-info fade in" id="associarPermissionModal">
+    <div class="modal-dialog modal-lg" style="max-width: 1000px;">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Painel de Permissões</h5>
+                    <button id="close" type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr style="background:  #1c45ef;position: sticky;top: 0;">
+                                <th style="color: white;">#</th>
+                                <th style="color: white;" with="200px">Descricao</th>
+                                <th style="color: white;" with="200px">Slug</th>
+                                <th style="color: white;" with="200px">Data</th>
+                                <th style="color: white;" with="200px">Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of _permisions;index as i">
+                                <td> {{i+1}} </td>
+                                <td>{{ item.name}}</td>
+                                <td>{{ item.slug}}</td>
+                                <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
+                                <td>
+                                    <span>
+                                        <input type="checkbox" *ngIf="item.role_id == item.role_associated" checked (change)="associarRolePermision(item)">
+                                        <input type="checkbox" *ngIf="item.role_id != item.role_associated" (change)="associarRolePermision(item)">
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>                 
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-secondary btn-sm">Fechar</button>
+                </div>
+        </div>
+    </div>
+</div>

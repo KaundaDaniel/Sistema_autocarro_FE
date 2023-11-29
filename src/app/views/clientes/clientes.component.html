@@ -1,0 +1,135 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Listagem de Clientes</h4>
+
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <select class="form-control" (change)="listOfCustomers()" [(ngModel)]="filters.pagination.perPage">
+                                            <option>5</option>
+                                            <option>10</option>
+                                            <option>15</option>
+                                            <option>20</option>
+                                            <option>25</option>
+                                        </select>
+                                        <small>Entrada</small>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" (keyup)="listOfCustomers()" [(ngModel)]="filters.search" placeholder="Pesquisar..." class="form-control" />
+                                        <small>Pesquisar por (Nome, Telefone, Email)...</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select class="form-control" [(ngModel)]="filters.customer_via">
+                                            <option value="ALL">Todos</option>
+                                            <option value="PORTAL">Portal</option>
+                                            <option value="ADMIN">Administrador</option>
+                                        </select>
+                                        <small>Registados via?</small>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <select class="form-control" [(ngModel)]="filters.status">
+                                            <option value="ALL">Todos</option>
+                                            <option value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
+                                        </select>
+                                        <small>Filtrar por estados...</small>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="listOfCustomers()" class="btn btn-primary">Filtrar</button>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-primary btn-sm" (click)="exportExcel()" title="Exportar excel"><i class="fa fa-file-excel-o"></i></button>
+                                    </div>
+                                    <div class="col-md-3" style="text-align: right;">
+                                        <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#createOrEditClienteModal">Registar Cliente</button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="table-responsive" style="height: 400px;">
+                                    
+                                    <spinner-overlay [loading]="loading"></spinner-overlay>
+
+                                    <table class="table table-hover table-striped text-center">
+                                        <tbody *ngIf="customers">
+                                            <tr style="color: white; background: #FF4949; position: sticky; top: 0;">
+                                                <th>#</th>
+                                                <th with="200px">Nome</th>
+                                                <th with="200px">Telefone</th>
+                                                <th with="200px">Email</th>
+                                                <th with="200px">Bairro</th>
+                                                <th with="200px">Género</th>
+                                                <th with="200px">Registado via portal ?</th>
+                                                <th with="200px">Estado</th>
+                                                <th with="200px">Data Registo</th>
+                                                <th with="200px">Opções</th>
+                                            </tr>
+                                            <tr *ngFor="let item of customers | paginate: { itemsPerPage: this.filters.pagination.perPage, currentPage: this.filters.pagination.page, totalItems: this.filters.pagination.total }; index as i">
+                                                <td>{{i+1}}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.phone }}</td>
+                                                <td>{{ item.email }}</td>
+                                                <td>{{ item.bairro }}</td>
+                                                <td>
+                                                    <span *ngIf="item.gender=='M'" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Masculino</span>
+                                                    <span *ngIf="item.gender=='F'" class="bg bg-warning" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Femenino</span>
+                                                </td>
+                                                <td>
+                                                    <span *ngIf="item.customer_portal_id" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Sim</span>
+                                                    <span *ngIf="!item.customer_portal_id" class="bg bg-warning" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Não</span>
+                                                </td>
+                                                <td>
+                                                    <span *ngIf="item.is_active" class="bg bg-warning" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Activo</span>
+                                                    <span *ngIf="!item.is_active" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Inactivo</span>
+                                                </td>
+                                                <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
+                                                <td>
+                                                    <div class="dropdown ml-lg-auto ml-3 toolbar-item">
+                                                        <button class="btn btn-primary dropdown-toggle">Operações</button>
+                                                        <ul class="dropdown-menu">
+                                                          <li class="dropdown-item" href="javascript:void(0)" (click)="setCustomer(item)" data-toggle="modal" data-target="#createOrEditClienteModal"><i class="fa fa-edit" aria-hidden="true"></i> Editar</li>
+                                                        </ul>
+                                                      </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="footer">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-5">
+                                            <div class="dataTables_info">Mostrando de {{this.filters.pagination.page}} a {{this.filters.pagination.perPage}} de {{this.filters.pagination.total}} clientes</div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-7">
+                                          <pagination-controls (pageChange)="getPageData($event)" previousLabel="Anterior" nextLabel="Proximo"></pagination-controls>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <app-footer></app-footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    <app-create-or-edit-cliente [customer]="customer" [modal]=""></app-create-or-edit-cliente>
+</div>

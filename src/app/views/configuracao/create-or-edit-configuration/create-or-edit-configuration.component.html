@@ -1,0 +1,86 @@
+<div class="modal modal-info fade in" id="{{modal}}">
+    <div class="modal-dialog modal-lg" style="max-width: 800px;">
+        <div class="modal-content">
+            <form [formGroup]="configurationForm" (submit)="createOrEdit();">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{title}}</h5>
+                    <button id="close" type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <ngx-loading [show]="loading"></ngx-loading>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Descrição</label>
+                                <input
+                                    type="text"
+                                    formControlName="description"
+                                    name="description"
+                                    class="form-control"
+                                    placeholder="Descrição"
+                                    [ngClass]="{ 'is-invalid': submitted && f.description.errors, 'is-valid': f.description.touched && !f.description.errors }"
+                                />
+                                <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['description'].errors.required">O campo description é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Slug</label>
+                                <input
+                                    type="text"
+                                    formControlName="slug"
+                                    name="slug"
+                                    class="form-control"
+                                    placeholder="Slug"
+                                    [ngClass]="{ 'is-invalid': submitted && f.slug.errors, 'is-valid': f.slug.touched && !f.slug.errors }"
+                                />
+                                <div *ngIf="submitted && f['slug'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['slug'].errors.required">O campo slug é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Valor</label>
+                                <input
+                                    type="number"
+                                    formControlName="value"
+                                    name="value"
+                                    class="form-control"
+                                    placeholder="Valor"
+                                    [ngClass]="{ 'is-invalid': submitted && f.value.errors, 'is-valid': f.value.touched && !f.value.errors }"
+                                />
+                                <div *ngIf="submitted && f['value'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['value'].errors.required">O campo value é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Estado</label>
+                                <select class="form-control" 
+                                formControlName="is_active"
+                                 [ngClass]="{ 'is-invalid': submitted && f.is_active.errors, 'is-valid': f.is_active.touched && !f.is_active.errors }">
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                                <div *ngIf="submitted && f['is_active'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['is_active'].errors.required">O campo estado é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-sm" type="reset" [disabled]="configurationForm.pristine && !submitted" (click)="onReset()">Limpar</button>
+                    <button class="btn btn-success btn-sm mr-1" type="submit" [disabled]="configurationForm.valid">Validar</button>
+                    <button type="submit" [disabled]="configurationForm.pristine || configurationForm.invalid" class="btn btn-primary btn-sm">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

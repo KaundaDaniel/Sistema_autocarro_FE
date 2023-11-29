@@ -1,0 +1,226 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <br />
+        <br />
+        <li class="nav-item nav-profile">
+            <a class="nav-link">
+                <div class="profile-image">
+                    <div class="dot-indicator bg-success"></div>
+                </div>
+                <div class="text-wrapper">
+                    <p class="profile-name">{{ current_user?.user?.username }}</p>
+                    <p class="designation">{{ current_user?.role[0]?.name }}</p>
+                </div>
+            </a>
+        </li>
+        <li class="nav-item nav-category">Menu Principal</li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive>
+                <i class="menu-icon typcn typcn-document-text"></i>
+                <span class="menu-title">{{ 'SIDEBAR.main_page' | translate }}</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard" routerLinkActive>
+                <i class="menu-icon typcn typcn-document-text"></i>
+                <span class="menu-title">{{ 'SIDEBAR.dashboard' | translate }}</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#clientes" aria-expanded="false" aria-controls="clientes">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">{{ 'SIDEBAR.CUSTOMERS.title' | translate }}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="clientes">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/clientes/listar-clientes" routerLinkActive>{{ 'SIDEBAR.CUSTOMERS.listing' | translate }}</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#produtos" aria-expanded="false" aria-controls="produtos">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">{{ 'SIDEBAR.PRODUCTS.title' | translate }}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="produtos">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/produtos/listar-produtos" routerLinkActive>{{ 'SIDEBAR.PRODUCTS.listing' | translate }}</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#encomendas" aria-expanded="false"
+                aria-controls="encomendas">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">{{ 'SIDEBAR.ORDERS.title' | translate }}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="encomendas">
+                <ul class="nav flex-column sub-menu">
+                  <!--<li class="nav-item">
+                    <a class="nav-link"  routerLink="/encomendas/registar-encomenda" routerLinkActive>Registar Encomenda</a>
+                  </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/encomendas/listar-encomendas" routerLinkActive>{{ 'SIDEBAR.ORDERS.listing' | translate }}</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!--<li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#facturas" aria-expanded="false"
+                aria-controls="facturas">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">Facturação</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="facturas">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link"  routerLink="/facturacaos/registar-factura" routerLinkActive>Registar Factura</a>
+                  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/facturacaos/listar-facturas" routerLinkActive>Listar Facturas</a>
+                    </li>
+                </ul>
+            </div>
+        </li>-->
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#relatorios" aria-expanded="false"
+                aria-controls="relatorios">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">Relatórios</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="relatorios">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/relatorios/reporting_bi" routerLinkActive>Reporting & BI</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#operacoes" aria-expanded="false"
+                aria-controls="operacoes">
+                <i class="menu-icon typcn typcn-document-add"></i>
+                <span class="menu-title">{{ 'SIDEBAR.OPERATIONS.title' | translate }}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="operacoes">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/operacoes/noticias" routerLinkActive> {{ 'SIDEBAR.OPERATIONS.news' | translate }} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/operacoes/banners-loja" routerLinkActive> Banners Loja </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/operacoes/mensagens/faleConnosco" routerLinkActive> Listagem de fale connosco </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#productos_parceiros" aria-expanded="false" aria-controls="productos_parceiros">
+                            <i class="menu-icon typcn typcn-document-add"></i>
+                            <span class="menu-title">Produtos e Parceiros</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="productos_parceiros">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/operacoes/productos/stock_baixo" routerLinkActive>Produtos Stock Baixo</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/operacoes/productos/of_partners" routerLinkActive>Produtos de Parceiros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/operacoes/productos/movimento_comissao" routerLinkActive>Movimento Produto Comissão</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#configuracoes" aria-expanded="false"
+                aria-controls="configuracoes">
+                <i class="menu-icon typcn typcn-document-add"></i>
+                <span class="menu-title">{{ 'SIDEBAR.CONFIGURATIONS.title' | translate }}</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="configuracoes">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#controle_acesso" aria-expanded="false" aria-controls="controle_acesso">
+                            <i class="menu-icon typcn typcn-document-add"></i>
+                            <span class="menu-title">Controle Acesso</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="controle_acesso">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/configuracao/utilizadores" routerLinkActive> {{ 'SIDEBAR.OPERATIONS.users' | translate }} </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/configuracao/roles" routerLinkActive> {{ 'SIDEBAR.OPERATIONS.roles' | translate }} </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/configuracao/permissions" routerLinkActive> {{ 'SIDEBAR.OPERATIONS.permissions' | translate }} </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#estruta_de_morada" aria-expanded="false" aria-controls="estruta_de_morada">
+                            <i class="menu-icon typcn typcn-document-add"></i>
+                            <span class="menu-title">Estruta de Morada</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="estruta_de_morada">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/configuracao/provincias" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.provinces' | translate }} </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/configuracao/municipios" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.municipalities' | translate }} </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/configuracao/distritos" routerLinkActive> Distritos </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLink="/configuracao/bairros" routerLinkActive>Bairros </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/configuracao/empresa" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.company' | translate }} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/configuracao/sistema" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.system' | translate }} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/configuracao/imposto" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.tax' | translate }} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/configuracao/categorias-produto" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.category_product' | translate }} </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/configuracao/tipos-produto" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.product_types' | translate }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/configuracao/formas-pagamento" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.payment_methods' | translate }}</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</nav>

@@ -1,0 +1,206 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Listagem de Facturação Por Operador</h4>
+
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                        <select class="form-control" (change)="reportingOfOrders()" [(ngModel)]="filters.pagination.perPage">
+                                            <option value="5">5</option>
+                                            <option value="10">10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="500000">Todos</option>
+                                        </select>
+                                        <small>Entrada</small>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-3">
+                                        <div class="form-group">
+                                        <input type="text" (keyup)="onSearch()" [(ngModel)]="filters.search" placeholder="Pesquisar..." class="form-control" />
+                                        <small>Pesquisar por (Nº, Cliente)</small>
+                                        </div>
+                                    </div>-->
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                          <div class="input-group">
+                                            <input type="text" placeholder="Pesquisar Operador" [(ngModel)]="filters.search_operador"
+                                              class="form-control" (keyup)="searchOperador()">
+                                            <span class="input-group-btn">
+                                              <!--<button type="button" class="btn btn-default btn-flat"
+                                                  style="background-color: transparent;"><i class="fa fa-search"></i></button>-->
+                                            </span>
+                                          </div>
+                    
+                                          <div *ngIf="view_operador" class="autocomplete-container">
+                                            <ul>
+                                              <li *ngFor="let item of operadores">
+                                                <a href="javascript:void(0)" (click)="setOperador(item)">{{ item.name }}</a>
+                                              </li>
+                                            </ul>
+                                          </div>
+                    
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                        <select class="form-control" (change)="reportingOfOrders()" [(ngModel)]="filters.status_id">
+                                            <option value="ALL">Todos</option>
+                                            <option value="{{item.id}}" *ngFor="let item of order_status">{{item.description}}</option>
+                                        </select>
+                                        <small>Filtrar por estado</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <select class="form-control" (change)="reportingOfOrders()" [(ngModel)]="filters.is_pago">
+                                            <option value="ALL">Todos</option>
+                                            <option value="PAGAS">Pagas</option>
+                                            <option value="NAO_PAGAS">Não Pagas</option>
+                                        </select>
+                                        <small>Pagas/Não Pagas</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                        <select class="form-control" (change)="reportingOfOrders()" [(ngModel)]="filters.payment_method_id">
+                                            <option value="ALL">Todos</option>
+                                            <option *ngFor="let item of method_payments" value="{{ item.id }}">{{ item.name }}</option>
+                                        </select>
+                                        <small>Filtrar por forma pagamento</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input class="form-control" [(ngModel)]="filters.start_date" type="date">
+                                            <small>Data Inicio</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <input class="form-control" [(ngModel)]="filters.end_date" type="date">
+                                            <small>Data Fim</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="reportingOfOrders()" class="btn btn-primary btn-sm">Filtrar</button>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="resetFilters()" class="btn btn-danger btn-sm">Limpar</button>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-primary btn-sm" (click)="exportToExcel()" title="Exportar Excel"><i class="fa fa-file-excel-o"></i></button>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="table-responsive">
+
+                                    <spinner-overlay [loading]="loading"></spinner-overlay>
+
+                                    <table class="table table-hover table-striped text-center" *ngIf="orders.length;else emptyList">
+                                        <tbody *ngIf="orders">
+                                            <tr style="color: white; background: #FF4949; position: sticky; top: 0;">
+                                                <th>#</th>
+                                                <th with="200px">Nº Encomenda</th>
+                                                <th with="200px">Cliente</th>
+                                                <th with="200px">Local de Entrega</th>
+                                                <th with="200px">Total</th>
+                                                <th with="200px">Quantidade de Produtos</th>
+                                                <th with="100px">Forma Pagamento</th>
+                                                <th with="200px">Estado</th>
+                                                <th with="200px">Paga ?</th>
+                                                <th with="200px">Data Registo</th>
+                                                <th with="200px">Operador</th>
+                                            </tr>
+                                            <tr *ngFor="let item of orders | paginate: { itemsPerPage: this.filters.pagination.perPage, currentPage: this.filters.pagination.page, totalItems: this.filters.pagination.total }; index as i">
+                                                <td>{{i+1}}</td>
+                                                <td>{{ item.codigo || '---' }}</td>
+                                                <td>{{ item.customer }}</td>
+                                                <td>{{ item.delivery_address }}</td>
+                                                <td>{{ configService.numberFormat(item.total_without_tax) }}</td>
+                                                <td>
+                                                    <span class="bg bg-secondary" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">{{ item.quantity_products }}</span>
+                                                </td>
+                                                <td>{{ item.payment_method || '' }}</td>
+                                                <td>
+                                                    <span *ngIf="item.order_status == 'AGUARDAR_APROVACAO'" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: white; border-radius: 5px;">
+                                                        {{ item.status_description }}
+                                                    </span>
+                                                    <span *ngIf="item.order_status == 'APROVADA'" class="bg bg-warning" style="padding: 8px 30px; font-size: 12px; color: white; border-radius: 5px;">{{ item.status_description }}</span>
+                                                    <span *ngIf="item.order_status == 'ENCOMENDA_A_SER_PREPARADA'" class="bg bg-secondary" style="padding: 8px 20px; font-size: 12px; color: white; border-radius: 5px;">
+                                                        {{ item.status_description }}
+                                                    </span>
+                                                    <span *ngIf="item.order_status == 'ENVIADA'" class="bg bg-secondary" style="padding: 8px 20px; font-size: 12px; color: white; border-radius: 5px;">{{ item.status_description }}</span>
+                                                    <span *ngIf="item.order_status == 'ENTREGUE'" class="bg bg-success" style="padding: 8px 20px; font-size: 12px; color: white; border-radius: 5px;">{{ item.status_description }}</span>
+                                                    <span *ngIf="item.order_status == 'CANCELADA'" class="bg bg-secondary" style="padding: 8px 20px; font-size: 12px; color: white; border-radius: 5px;">{{ item.status_description }}</span>
+                                                </td>
+                                                <td>
+                                                    <span *ngIf="item.is_pago" class="bg bg-success" style="padding: 8px 20px; font-size: 12px; color: white; border-radius: 5px;">Sim</span>
+                                                    <span *ngIf="!item.is_pago" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: white; border-radius: 5px;">Não</span>
+                                                </td>
+                                                <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
+                                                <td>{{ item.user }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                        <div class="col-md-4 offset-8">
+                                            <table class="table table-hover table-striped">
+                                                <tr>
+                                                    <th>Total Encomendas</th>
+                                                </tr>
+                                                <tr  style="background-color: #f0f0f0">
+                                                    <td>{{ configService.numberFormat(calcularTotalOrdes()) }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                </div>
+                                <div class="footer">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-5">
+                                            <div class="dataTables_info">Mostrando de {{this.filters.pagination.page}} a {{this.filters.pagination.perPage}} de {{this.filters.pagination.total}} encomendas</div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-7">
+                                          <pagination-controls (pageChange)="getPageData($event)" previousLabel="Anterior" nextLabel="Proximo"></pagination-controls>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <app-footer></app-footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+
+<ng-template #emptyList>
+    <div align="center">
+        <h2>Sem resultados</h2>
+        <span></span>
+    </div>
+</ng-template>

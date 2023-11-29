@@ -1,0 +1,113 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-10 offset-md-1 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Listagem de configuração</h4>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <select class="form-control">
+                                            <option>5</option>
+                                            <option>10</option>
+                                            <option>15</option>
+                                            <option>20</option>
+                                            <option>25</option>
+                                        </select>
+                                        <small>Entrada</small>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" placeholder="Pesquisar..." class="form-control">
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-2" style="text-align:right;">
+                                        <button class="btn btn-primary btn-flat" data-toggle="modal"
+                                            data-target="#creatOrEditConfigurationModal">Registar Configuração</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="table-responsive">
+                                    <ngx-loading [show]="loading"></ngx-loading>
+                                    <table class="table table-hover">
+                                        <tbody *ngIf="configurations">
+                                            <tr style="color: white; background: #FF4949; position: sticky; top: 0;">
+                                                <th>#</th>
+                                                <th with="200px">Descricao</th>
+                                                <th with="200px">Valor</th>
+                                                <th with="200px">Slug</th>
+                                                <th with="200px">Estado</th>
+                                                <th with="200px">Data</th>
+                                                <th with="200px">Opções</th>
+                                            </tr>
+                                            <tr *ngFor="let item of configurations | paginate: { itemsPerPage: this.filters.pagination.perPage, currentPage: this.filters.pagination.page, totalItems: this.filters.pagination.total }; index as i">
+                                                <td> {{i+1}} </td>
+                                                <td>{{ item.description}}</td>
+                                                <td>{{ item.value}}</td>
+                                                <td>{{ item.slug}}</td>
+                                                <th>
+                                                    <span *ngIf="item.is_active" class="bg bg-warning" style="padding:10px 30px;">Activo</span>
+                                                    <span *ngIf="!item.is_active" class="bg bg-danger" style="padding:10px 30px;">Inactivo</span>
+                                                </th>
+                                                <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
+                                                <td>
+                                                    <div class="dropdown ml-lg-auto ml-3 toolbar-item">
+                                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                                            id="dropdownexport" data-toggle="dropdown"
+                                                            aria-haspopup="true"
+                                                            aria-expanded="false">Operações</button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownexport">
+                                                            <a class="dropdown-item" href="javascript:void(0)"
+                                                                (click)="setConfiguration(item)" data-toggle="modal"
+                                                                data-target="#creatOrEditConfigurationModal">Editar</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="footer">
+                                    <div class="row">
+                                      <div class="col-sm-12 col-md-5">
+                                        <div class="dataTables_info">Mostrando de {{this.filters.pagination.page}} a
+                                          {{this.filters.pagination.perPage}} de
+                                          {{this.filters.pagination.total}} categorias
+                                        </div>
+                                      </div>
+                                      <!--<div class="col-sm-12 col-md-7">
+                                        <div class="pull-right">
+                                          <pagination-controls (pageChange)="getPageFilterData($event)" previousLabel="Anterior" maxSize="6"
+                                            nextLabel="Proximo" directionLinks="true" responsive="true"></pagination-controls>
+                                        </div>
+                                      </div>-->
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+    <createOrEditConfiguration [configuration]="configuration" [modal]=""></createOrEditConfiguration>
+</div>

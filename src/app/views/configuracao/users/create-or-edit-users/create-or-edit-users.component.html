@@ -1,0 +1,155 @@
+<div class="modal modal-info fade in" id="{{modal}}">
+    <div class="modal-dialog modal-lg" style="max-width: 1150px;">
+        <div class="modal-content">
+            <form [formGroup]="userForm" (submit)="createOrEdit();">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{title}}</h5>
+                    <button id="close" type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <ngx-loading [show]="loading"></ngx-loading>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Role</label>
+                                <select class="form-control" 
+                                formControlName="role_id"
+                                 [ngClass]="{ 'is-invalid': submitted && f.role_id.errors, 'is-valid': f.role_id.touched && !f.role_id.errors }">
+                                    <option value="{{item.id}}" *ngFor="let item of roles">{{item.name}}</option>
+                                </select>
+                                <div *ngIf="submitted && f['role_id'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['role_id'].errors.required">O campo role é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Nome</label>
+                                <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nome" 
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors, 'is-valid': f.name.touched && !f.name.errors }" />
+                                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['name'].errors.required">O campo nome é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Email</label>
+                                <input
+                                    type="email"
+                                    formControlName="email"
+                                    name="email"
+                                    class="form-control"
+                                    placeholder="Email"
+                                    [ngClass]="{ 'is-invalid': submitted && f.email.errors, 'is-valid': f.email.touched && !f.email.errors }"
+                                />
+                                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['email'].errors.required">O campo email é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Telefone</label>
+                                <input
+                                    type="number"
+                                    formControlName="phone"
+                                    name="phone"
+                                    min="1"
+                                    class="form-control"
+                                    placeholder="Telefone"
+                                    [ngClass]="{ 'is-invalid': submitted && f.phone.errors, 'is-valid': f.phone.touched && !f.phone.errors }"
+                                />
+                                <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['phone'].errors.required">O campo telefone é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Gênero</label>
+                                <select class="form-control" 
+                                formControlName="gender"
+                                 [ngClass]="{ 'is-invalid': submitted && f.gender.errors, 'is-valid': f.gender.touched && !f.gender.errors }">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                                <div *ngIf="submitted && f['gender'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['gender'].errors.required">O campo genero é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Estado</label>
+                                <select class="form-control" 
+                                formControlName="is_active"
+                                 [ngClass]="{ 'is-invalid': submitted && f.is_active.errors, 'is-valid': f.is_active.touched && !f.is_active.errors }">
+                                    <option value="1">Activo</option>
+                                    <option value="0">Inactivo</option>
+                                </select>
+                                <div *ngIf="submitted && f['is_active'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['is_active'].errors.required">O campo estado é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Províncias</label>
+                                <select class="form-control" 
+                                (change)="handMunicipios($event)"
+                                formControlName="provincia_id"
+                                 [ngClass]="{ 'is-invalid': submitted && f.provincia_id.errors, 'is-valid': f.provincia_id.touched && !f.provincia_id.errors }">
+                                    <option value="{{item.id}}" *ngFor="let item of provincias">{{item.name}}</option>
+                                </select>
+                                <div *ngIf="submitted && f['provincia_id'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['provincia_id'].errors.required">O campo provincia é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Municipios</label>
+                                <select class="form-control" 
+                                (change)="handBairros($event)"
+                                formControlName="municipio_id"
+                                 [ngClass]="{ 'is-invalid': submitted && f.municipio_id.errors, 'is-valid': f.municipio_id.touched && !f.municipio_id.errors }">
+                                    <option *ngIf="laodings.municipio" value="{{ laodings.municipio }}" selected>{{ laodings.municipio }}</option>
+                                    <option value="{{item.id}}" *ngFor="let item of municipios">{{item.name}}</option>
+                                </select>
+                                <div *ngIf="submitted && f['municipio_id'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['municipio_id'].errors.required">O campo municipio é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Bairro</label>
+                                <select class="form-control" 
+                                formControlName="bairro_id"
+                                 [ngClass]="{ 'is-invalid': submitted && f.bairro_id.errors, 'is-valid': f.bairro_id.touched && !f.bairro_id.errors }">
+                                    <option *ngIf="laodings.bairro" value="{{ laodings.bairro }}" selected>{{ laodings.bairro }}</option>
+                                    <option value="{{item.id}}" *ngFor="let item of bairros">{{item.name}}</option>
+                                </select>
+                                <div *ngIf="submitted && f['bairro_id'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['bairro_id'].errors.required">O campo bairro é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-sm" type="reset" [disabled]="userForm.pristine && !submitted" (click)="onReset()">Limpar</button>
+                    <button class="btn btn-success btn-sm mr-1" type="submit" [disabled]="userForm.valid">Validar</button>
+                    <button type="submit" [disabled]="userForm.pristine || userForm.invalid" class="btn btn-primary btn-sm">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

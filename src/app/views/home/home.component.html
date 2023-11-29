@@ -1,0 +1,85 @@
+<div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <app-navbar></app-navbar>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_sidebar.html -->
+    <app-sidebar></app-sidebar>   
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <!-- Page Title Header Starts-->
+       <app-header></app-header>
+        <!-- Page Title Header Ends-->
+        <div class="row">
+          <div class="col-md-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <ngx-loading [show]="loading"></ngx-loading>
+                  <div class="col-lg-3 col-md-6">
+                    <div class="d-flex">
+                      <div class="wrapper">
+                        <h3 class="mb-0 font-weight-semibold">{{ dashbaord.customer_count }}</h3>
+                        <h5 class="mb-0 font-weight-medium text-primary">Total de Clientes</h5>
+                        <!--<p class="mb-0 text-muted">+14.00(+0.50%)</p>-->
+                      </div>
+                      <div class="wrapper my-auto ml-auto ml-lg-4">
+                        <canvas height="50" width="100" id="stats-line-graph-1"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 mt-md-0 mt-4">
+                    <div class="d-flex">
+                      <div class="wrapper">
+                        <h3 class="mb-0 font-weight-semibold">{{ dashbaord.users_count }}</h3>
+                        <h5 class="mb-0 font-weight-medium text-primary">Total de Usuários</h5>
+                        <!--<p class="mb-0 text-muted">+138.97(+0.54%)</p>-->
+                      </div>
+                      <div class="wrapper my-auto ml-auto ml-lg-4">
+                        <canvas height="50" width="100" id="stats-line-graph-2"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 mt-md-0 mt-4">
+                    <div class="d-flex">
+                      <div class="wrapper">
+                        <h3 class="mb-0 font-weight-semibold">{{ dashbaord.products_count }}</h3>
+                        <h5 class="mb-0 font-weight-medium text-primary">Total de Produtos</h5>
+                        <!--<p class="mb-0 text-muted">+57.62(+0.76%)</p>-->
+                      </div>
+                      <div class="wrapper my-auto ml-auto ml-lg-4">
+                        <canvas height="50" width="100" id="stats-line-graph-3"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-6 mt-md-0 mt-4">
+                    <div class="d-flex">
+                      <div class="wrapper">
+                        <h3 class="mb-0 font-weight-semibold">{{ configService.numberFormat(dashbaord.total_today) }} <span style="font-size:12px">KZ</span></h3>
+                        <h5 class="mb-0 font-weight-medium text-primary">Total Hoje</h5>
+                        <!--<p class="mb-0 text-muted">+138.97(+0.54%)</p>-->
+                      </div>
+                      <div class="wrapper my-auto ml-auto ml-lg-4">
+                        <canvas height="50" width="100" id="stats-line-graph-4"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="content_center">
+            <h1>{{company_name}}</h1>
+          </div>
+        </div>        
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- partial:partials/_footer.html -->
+      <app-footer></app-footer>
+      <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>

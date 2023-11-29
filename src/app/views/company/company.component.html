@@ -1,0 +1,181 @@
+<div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <app-navbar></app-navbar>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <app-sidebar></app-sidebar>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!-- Page Title Header Starts-->
+                <app-header></app-header>
+                <!-- Page Title Header Ends-->
+                <div class="row">
+                    <div class="col-lg-4 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h4 class="card-title">Logotipo</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="company" style="height: 495px">
+                                    <img src="./../../../assets/images/company/logos/ajca.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Dados da empresa</h4>
+                            </div>
+                            <div class="card-body">
+                                <form [formGroup]="companyForm" (submit)="save();">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label"><i class="fa fa-edit"></i>Nome</label>
+                                            <div class="form-group">
+                                                <input type="text" formControlName="name" name="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors, 'is-valid': f.name.touched && !f.name.errors }" />
+                                                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['name'].errors.required">O campo nome é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="control-label"><i class="fa fa-edit"></i>Contribuente</label>
+                                            <div class="form-group">
+                                                <input
+                                                    type="text"
+                                                    formControlName="contributor"
+                                                    name="contributor"
+                                                    class="form-control"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.contributor.errors, 'is-valid': f.contributor.touched && !f.contributor.errors }"
+                                                />
+                                                <div *ngIf="submitted && f['contributor'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['contributor'].errors.required">O campo contributor é obrigatório</div>
+                                                </div>
+                                                <small>Nº de contribuinte da empresa</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label><i class="fa fa-edit"></i>Email</label>
+                                            <div class="form-group">
+                                                <input type="email" formControlName="email" name="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors, 'is-valid': f.email.touched && !f.email.errors }" />
+                                                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['email'].errors.required">O campo email é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label><i class="fa fa-edit"></i>Telefone</label>
+                                            <div class="form-group">
+                                                <input type="number" formControlName="phone" name="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors, 'is-valid': f.phone.touched && !f.phone.errors }" />
+                                                <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['phone'].errors.required">O campo telefone é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label><i class="fa fa-edit"></i>Número do Whatsapp</label>
+                                            <div class="form-group">
+                                                <input type="number" formControlName="whatsapp_number" name="whatsapp_number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.whatsapp_number.errors, 'is-valid': f.whatsapp_number.touched && !f.whatsapp_number.errors }" />
+                                                <div *ngIf="submitted && f['whatsapp_number'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['whatsapp_number'].errors.required">O campo número de whatsapp é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label><i class="fa fa-edit"></i>Nome Comercial</label>
+                                            <div class="form-group">
+                                                <input
+                                                    type="text"
+                                                    formControlName="commercial_name"
+                                                    name="commercial_name"
+                                                    class="form-control"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.commercial_name.errors, 'is-valid': f.commercial_name.touched && !f.commercial_name.errors }"
+                                                />
+                                                <div *ngIf="submitted && f['commercial_name'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['commercial_name'].errors.required">O campo commercial_name é obrigatório</div>
+                                                </div>
+                                                <small>Designação informal pela qual é conhecida a empresa. Ex: Papelaria Antunes</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label><i class="fa fa-edit"></i>Slogan</label>
+                                            <div class="form-group">
+                                                <input
+                                                    type="text"
+                                                    formControlName="slogan"
+                                                    name="slogan"
+                                                    class="form-control"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.slogan.errors, 'is-valid': f.slogan.touched && !f.slogan.errors }"
+                                                />
+                                                <div *ngIf="submitted && f['slogan'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['slogan'].errors.required">O campo slogan é obrigatório</div>
+                                                </div>
+                                                <small>Expressão que aparece imediatamente abaixo do nome nos documentos</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <label><i class="fa fa-edit"></i>Website</label>
+                                            <div class="form-group">
+                                                <input
+                                                    type="text"
+                                                    formControlName="website"
+                                                    name="website"
+                                                    class="form-control"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.website.errors, 'is-valid': f.website.touched && !f.website.errors }"
+                                                />
+                                                <div *ngIf="submitted && f['website'].errors" class="invalid-feedback">
+                                                    <div *ngIf="f['website'].errors.required">O campo website é obrigatório</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label"><i class="fa fa-edit"></i> Endereço</label>
+                                                    <textarea
+                                                        type="text"
+                                                        formControlName="address"
+                                                        name="address"
+                                                        class="form-control"
+                                                        placeholder="Nome">
+                                                    </textarea>                               
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="btn-group">
+                                                <button type="button" (click)="setCompany()" class="btn btn-secondary mr-1" data-toggle="modal" data-target="#associarContaModal">Associar Coordenada Bancária</button>
+                                                <button class="btn btn-success btn-sm mr-1" type="submit" [disabled]="companyForm.valid">Validar</button>
+                                                <button type="submit" [disabled]="companyForm.pristine || companyForm.invalid" class="btn btn-primary btn-sm">Salvar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:../../partials/_footer.html -->
+            <app-footer></app-footer>
+            <AssociarConta [company]="company"></AssociarConta>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>

@@ -1,0 +1,45 @@
+{
+    "HOME": {
+        "TITLE": "Hello Angular with ngx-translate!",
+        "SELECT": "Change language"
+    },
+    "LOGIN": {
+        "user": "User",
+        "password": "Password"
+    },
+    "SIDEBAR": {
+        "main_page": "Main Page",
+        "dashboard": "Dashboard",
+        "CUSTOMERS": {
+            "title": "Customers",
+            "listing": "Listing"
+        },
+        "PRODUCTS": {
+            "title": "Products",
+            "listing": "Listing"
+        },
+        "ORDERS": {
+            "title": "Orders",
+            "listing": "Listing"
+        },
+        "OPERATIONS": {
+            "title": "Operations",
+            "news": "News",
+            "users": "Users",
+            "roles": "Roles",
+            "permissions": "Permissions"
+        },
+        "CONFIGURATIONS": {
+            "title": "Configurations",
+            "company": "Company",
+            "system": "System",
+            "tax": "Tax",
+            "category_product": "Category Product",
+            "product_types": "Product Types",
+            "payment_methods": "Payment Methods",
+            "provinces": "Provinces",
+            "municipalities": "Municipalities",
+            "neighborhoods": "Neighborhoods"
+        }
+    }
+}

@@ -1,0 +1,43 @@
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+          <div class="row w-100">
+              <div class="col-lg-3 mx-auto">
+                  <div class="auto-form-wrapper">
+                      <form action="#">
+                        <div class="form-group text-center">
+                            <img class="logotipo" src="./../../../assets/images/company/logos/ajca.png" style="height:40px;width: 40px;">
+                        </div>
+                          <div class="form-group">
+                              <label class="label">Usuário</label>
+                              <div class="input-group">
+                                  <input type="text" [(ngModel)]="admin.username" name="username" class="form-control" placeholder="Usuário" />
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="label">Password</label>
+                              <div class="input-group">
+                                  <input type="password" [(ngModel)]="admin.password" name="password" class="form-control" placeholder="Password" />
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <button (click)="_signIn()" class="btn btn-danger submit-btn btn-block">Entrar</button>
+                              
+                              <div class="spinnerBorder">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                              </div>
+                          </div>
+                          <div class="form-group d-flex justify-content-between">
+                              <div class="form-check form-check-flat mt-0"></div>
+                              <!--<a href="#" class="text-small forgot-password text-black">Esqueste da password ?</a>-->
+                          </div>
+                      </form>
+                  </div>
+                  <br />
+              </div>
+          </div>
+      </div>
+      <!-- content-wrapper ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
