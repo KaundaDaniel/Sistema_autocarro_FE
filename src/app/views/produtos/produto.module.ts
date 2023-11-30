@@ -10,16 +10,12 @@ import { LayoutModule } from '../layout/layout.module';
 
 import { ProdutosComponent } from './produtos.component';
 import { CreateOrEditProdutoComponent } from './create-or-edit-produto/create-or-edit-produto.component';
-import { IncreaseStockComponent } from './increase-stock/increase-stock.component';
-import { ShareProuctOnFacebookComponent } from './share-prouct-on-facebook/share-prouct-on-facebook.component';
 
 
 @NgModule({
   declarations: [
     ProdutosComponent,
-    CreateOrEditProdutoComponent,
-    IncreaseStockComponent,
-    ShareProuctOnFacebookComponent
+    CreateOrEditProdutoComponent
   ],
   imports: [
     CommonModule,

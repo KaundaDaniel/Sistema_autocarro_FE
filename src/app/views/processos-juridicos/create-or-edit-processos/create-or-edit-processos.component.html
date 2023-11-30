@@ -1,1 +1,92 @@
-<p>create-or-edit-processos works!</p>
+<div class="modal modal-info fade in" data-backdrop="static" id="{{modal}}">
+    <div class="modal-dialog modal-lg" style="max-width: 1000px;">
+        <div class="modal-content">
+            <form [formGroup]="processoForm" (submit)="createOrEdit();" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa fa-archive" aria-hidden="true"></i> {{title}}</h5>
+                    <button id="close" type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <ngx-loading [show]="loading"></ngx-loading>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Nome</label>
+                                <input type="text" formControlName="name" name="name" class="form-control" placeholder="Nome" 
+                                [ngClass]="{ 'is-invalid': submitted && f.name.errors, 'is-valid': f.name.touched && !f.name.errors }" />
+                                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['name'].errors.required">O campo nome é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Valor</label>
+                                <input
+                                    type="number"
+                                    formControlName="value"
+                                    name="value"
+                                    min="1"
+                                    class="form-control"
+                                    placeholder="Valor"
+                                    [ngClass]="{ 'is-invalid': submitted && f.value.errors, 'is-valid': f.value.touched && !f.value.errors }"
+                                />
+                                <div *ngIf="submitted && f['value'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['value'].errors.required">O campo valor é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Quantidade</label>
+                                <input
+                                    type="number"
+                                    formControlName="quantity"
+                                    name="quantity"
+                                    min="1"
+                                    class="form-control"
+                                    placeholder="Quantidade"
+                                    [ngClass]="{ 'is-invalid': submitted && f.quantity.errors, 'is-valid': f.quantity.touched && !f.quantity.errors }"
+                                />
+                                <div *ngIf="submitted && f['quantity'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['quantity'].errors.required">O campo quantidade é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i>Imagem</label>
+                                <input (change)="uploadFile($event)" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" type="file" name="image" class="form-control"
+                                    placeholder="Imagem"
+                                    [ngClass]="{ 'is-invalid': submitted && f.image.errors, 'is-valid': f.image.touched && !f.image.errors }" />
+                                <div *ngIf="submitted && f['image'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['image'].errors.required"> O campo Imagem é obrigatório</div>
+                                </div>
+                                <!--<img *ngIf="image_preview" style="width:100%;height: 300px;" [src]="image_preview">-->
+                            </div>
+                        </div>
+                        <!--<div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Descrição</label>
+                                <textarea
+                                    type="text"
+                                    formControlName="descricao"
+                                    name="descricao"
+                                    class="form-control"
+                                    placeholder="Nome">
+                                </textarea>                               
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-sm" type="reset" [disabled]="processoForm.pristine && !submitted" (click)="onReset()">Limpar</button>
+                    <button class="btn btn-success btn-sm mr-1" type="submit" [disabled]="processoForm.valid">Validar</button>
+                    <button type="submit" [disabled]="processoForm.pristine || processoForm.invalid" class="btn btn-primary btn-sm">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

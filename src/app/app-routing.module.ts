@@ -35,7 +35,7 @@ const routes: Routes = [
     loadChildren: () => import('./views/configuracao/configuration.module').then(m => m.ConfigurationModule)
   },
   {
-    path: 'processosJuridicos',
+    path: 'processos_juridicos',
     loadChildren: () => import('./views/processos-juridicos/processos-juridicos.module').then(m => m.ProcessosJuridicosModule)
   }
 ];

@@ -41,7 +41,7 @@ export class ProdutosComponent implements OnInit {
     public produtoService: ProdutoService,
     public translate: TranslateService,
   ) {
-    this.listOfProduts();
+    //this.listOfProduts();
 
     this.getFirstDateOfYear();
     this.getDataAtual();
