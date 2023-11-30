@@ -27,22 +27,17 @@ const routes: Routes = [
     loadChildren: () => import('./views/produtos/produto.module').then(m => m.ProdutoModule)
   },
   {
-    path: 'encomendas',
-    loadChildren: () => import('./views/encomenda/encomenda.module').then(m => m.EncomendaModule)
-  },
-  {
     path: 'operacoes',
     loadChildren: () => import('./views/operacoes/operacoes.module').then(m => m.OperacoesModule)
-  },
-  {
-    path: 'relatorios',
-    loadChildren: () => import('./views/relatorios/relatorios.module').then(m => m.RelatoriosModule)
   },
   {
     path: 'configuracao',
     loadChildren: () => import('./views/configuracao/configuration.module').then(m => m.ConfigurationModule)
   },
-  { path: 'facturacaos', loadChildren: () => import('./views/facturacaos/facturacaos.module').then(m => m.FacturacaosModule) }
+  {
+    path: 'processosJuridicos',
+    loadChildren: () => import('./views/processos-juridicos/processos-juridicos.module').then(m => m.ProcessosJuridicosModule)
+  }
 ];
 
 @NgModule({

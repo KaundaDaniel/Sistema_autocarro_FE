@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
   ) {
 
     this.isNotOnline()
-    this.getLastsNotifications()
+    //this.getLastsNotifications()
     this.current_user = authService.current_user()
   }
 

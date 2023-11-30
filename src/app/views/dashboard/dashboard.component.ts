@@ -11,7 +11,7 @@ import { HttpService } from 'src/app/providers/http.service';
 })
 export class DashboardComponent implements OnInit {
 
-  company_name: any = 'AJCA Digital';
+  company_name: any = 'Adv Control';
 
   loading: boolean = false;
 
@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService,
     public configService: ConfigService
   ) {
-    this.getDashboard()
+    //this.getDashboard()
   }
 
   ngOnInit(): void { }
