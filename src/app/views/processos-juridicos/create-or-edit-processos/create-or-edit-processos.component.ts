@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfiguracaoService } from '../../configuracao/configuracao.service';
 import { ConfigService } from 'src/app/providers/config.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProcessosService } from '../processos.service';
+import { ProcessosJuridicosComponent } from '../processos-juridicos.component';
+import { ClientesService } from '../../clientes/clientes.service';
 
 @Component({
   selector: 'createOrEditProcesso',
@@ -20,32 +21,50 @@ export class CreateOrEditProcessosComponent implements OnInit {
   submitted = false;
   public loading = false;
 
+  public filters = {
+    search: null,
+
+    search_cliente: null,
+    customer_id: null,
+
+    start_date: null,
+    end_date: null,
+
+    pagination: {
+      page: 1,
+      perPage: 5,
+      total: 0,
+      lastPage: 0
+    }
+  }
+
   constructor(
     private fb: FormBuilder,
     public sanitizer: DomSanitizer,
     private configService: ConfigService,
     public processosService: ProcessosService,
-    private configuracaoService: ConfiguracaoService
+    private clientesService: ClientesService,
+    private listProcessosComp: ProcessosJuridicosComponent
   ) {
 
     this.processoForm = this.fb.group({
       id: [{ value: null, disabled: true }],
+      codigo: [null],
+      search_cliente: [null],
       customer_id: [null, Validators.required],
       description: [null, Validators.required],
       date_start: [null, Validators.required],
       date_end: [null, Validators.required],
-      is_active: [1, Validators.required]
+      status: [1, Validators.required]
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (this.processo !== undefined) {
       this.title = "Editar Processo";
-      //this.image_preview = this.previewImage(this.product.image)
       this.processoForm.patchValue(this.processo);
     } else {
       this.title = "Registar Processo";
@@ -72,7 +91,7 @@ export class CreateOrEditProcessosComponent implements OnInit {
           this.configService.toastrError(Object(response).message)
         }
         this.loading = false;
-        //this.listOfProductComp.listOfProduts()
+        this.listProcessosComp.listOfProcessos()
       })
   }
 
@@ -97,8 +116,6 @@ export class CreateOrEditProcessosComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0])
   }
 
-
-
   // convenience getter for easy access to form fields
   get f() {
     return this.processoForm.controls;
@@ -108,5 +125,27 @@ export class CreateOrEditProcessosComponent implements OnInit {
     this.submitted = false;
     this.processoForm.reset();
   }
+
+  view_cliente = false;
+  clientes: any = []
+
+  searchCliente() {
+
+    this.view_cliente = true
+
+    this.filters.search = this.processoForm.getRawValue().search_cliente
+
+    this.clientesService
+      .listOfCustomers(this.filters)
+      .subscribe(response => {
+        this.clientes = Object(response).data
+      })
+  }
+
+  setCliente(item: any) {
+    this.processoForm.patchValue({ customer_id: item.id, search_cliente: item.name })
+    this.view_cliente = false
+  }
+
 
 }

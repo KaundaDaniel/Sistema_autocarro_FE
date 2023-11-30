@@ -33,7 +33,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <input type="text" (keyup)="onSearch()" [(ngModel)]="filters.search" placeholder="Pesquisar..." class="form-control" />
-                                            <small>Pesquisar por (Produto, Categória, Tipo Produto)...</small>
+                                            <small>Pesquisar por (Código, Cliente)...</small>
                                         </div>
                                     </div>
                                     <div class="col-md-1">
@@ -67,26 +67,26 @@
                                         <tbody *ngIf="products">
                                             <tr style="color: white; background: #FF4949; position: sticky; top: 0;">
                                                 <th>#</th>
-                                                <th with="200px">Nome</th>
-                                                <th with="200px">Preço</th>
-                                                <th with="200px">Quantidade</th>
-                                                <th with="200px">Categória Produto</th>
-                                                <th with="200px">Tipo de Produto</th>
+                                                <th with="200px">Nº Processo</th>
+                                                <th with="200px">Cliente</th>
+                                                <th with="200px">Data Inicio</th>
+                                                <th with="200px">Data Fim</th>
                                                 <th with="200px">Estado</th>
-                                                <th with="200px">Data</th>
+                                                <th with="200px">Descrição</th>
+                                                <th with="200px">Data Registo</th>
                                                 <th with="200px">Opções</th>
                                             </tr>
                                             <tr *ngFor="let item of products | paginate: { itemsPerPage: this.filters.pagination.perPage, currentPage: this.filters.pagination.page, totalItems: this.filters.pagination.total }; index as i">
                                                 <td> {{i+1}} </td>
-                                                <td>{{ item.name}}</td>
-                                                <td>{{ configService.numberFormat(item.value) }}</td>
-                                                <td>{{ item.quantity}}</td>
-                                                <td>{{ item.categorie || '---' }}</td>
-                                                <td>{{ item.product_type || '---' }}</td>
+                                                <td>{{ item.codigo}}</td>
+                                                <td>{{ item.customer }}</td>
+                                                <td>{{ item.date_start}}</td>
+                                                <td>{{ item.date_end || '---' }}</td>
                                                 <td>
                                                     <span *ngIf="item.is_active" class="bg bg-warning" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Activo</span>
                                                     <span *ngIf="!item.is_active" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Inactivo</span>
                                                 </td>
+                                                <td>{{ item.description }}</td>
                                                 <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
                                                 <td>
                                                     <div class="dropdown ml-lg-auto ml-3 toolbar-item">

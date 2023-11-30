@@ -18,7 +18,6 @@ import { LayoutModule } from './views/layout/layout.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HomeComponent } from './views/home/home.component';
-import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { AgmCoreModule } from '@agm/core';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -29,8 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent,
-    DashboardComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,

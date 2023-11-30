@@ -43,7 +43,6 @@ export class CreateOrEditClienteComponent implements OnInit {
       phone: [null, Validators.required],
       is_active: [1, Validators.required],
       gender: [null, Validators.required],
-      type_of_customer: ['NORMAL', Validators.required],
       provincia_id: [null, Validators.required],
       municipio_id: [null, Validators.required],
       bairro_id: [null, Validators.required],
@@ -120,7 +119,7 @@ export class CreateOrEditClienteComponent implements OnInit {
   createOrEdit() {
 
     this.submitted = true
-    
+
     if (this.customerForm.invalid) {
       return
     }

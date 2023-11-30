@@ -51,21 +51,6 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label"><i class="fa fa-edit"></i> Tipo de Cliente</label>
-                                <select class="form-control" 
-                                formControlName="type_of_customer"
-                                 [ngClass]="{ 'is-invalid': submitted && f.type_of_customer.errors, 'is-valid': f.type_of_customer.touched && !f.type_of_customer.errors }">
-                                    <option value="NORMAL">Normal</option>
-                                    <option value="VENDEDOR">Vendedor</option>
-                                    <option value="PARCEIRO">Parceiro</option>
-                                </select>
-                                <div *ngIf="submitted && f['type_of_customer'].errors" class="invalid-feedback">
-                                    <div *ngIf="f['type_of_customer'].errors.required">O campo tipo de cliente é obrigatório</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
                                 <label class="control-label"><i class="fa fa-edit"></i> Genero</label>
                                 <select class="form-control" 
                                 formControlName="gender"
@@ -85,6 +70,7 @@
                                 (change)="handMunicipios($event)"
                                 formControlName="provincia_id"
                                  [ngClass]="{ 'is-invalid': submitted && f.provincia_id.errors, 'is-valid': f.provincia_id.touched && !f.provincia_id.errors }">
+                                    <option value="null">Selecione</option>
                                     <option value="{{item.id}}" *ngFor="let item of provincias">{{item.name}}</option>
                                 </select>
                                 <div *ngIf="submitted && f['provincia_id'].errors" class="invalid-feedback">
@@ -99,7 +85,7 @@
                                 (change)="handBairros($event)"
                                 formControlName="municipio_id"
                                  [ngClass]="{ 'is-invalid': submitted && f.municipio_id.errors, 'is-valid': f.municipio_id.touched && !f.municipio_id.errors }">
-                                    <option *ngIf="laodings.municipio" value="{{ laodings.municipio }}" selected>{{ laodings.municipio }}</option>
+                                    <option value="null">Selecione</option>
                                     <option value="{{item.id}}" *ngFor="let item of municipios">{{item.name}}</option>
                                 </select>
                                 <div *ngIf="submitted && f['municipio_id'].errors" class="invalid-feedback">
@@ -113,7 +99,7 @@
                                 <select class="form-control" 
                                 formControlName="bairro_id"
                                  [ngClass]="{ 'is-invalid': submitted && f.bairro_id.errors, 'is-valid': f.bairro_id.touched && !f.bairro_id.errors }">
-                                    <option *ngIf="laodings.bairro" value="{{ laodings.bairro }}" selected>{{ laodings.bairro }}</option>
+                                    <option value="null">Selecione</option>
                                     <option value="{{item.id}}" *ngFor="let item of bairros">{{item.name}}</option>
                                 </select>
                                 <div *ngIf="submitted && f['bairro_id'].errors" class="invalid-feedback">

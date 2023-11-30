@@ -72,7 +72,6 @@
                                                 <th with="200px">Email</th>
                                                 <th with="200px">Bairro</th>
                                                 <th with="200px">Género</th>
-                                                <th with="200px">Registado via portal ?</th>
                                                 <th with="200px">Estado</th>
                                                 <th with="200px">Data Registo</th>
                                                 <th with="200px">Opções</th>
@@ -86,10 +85,6 @@
                                                 <td>
                                                     <span *ngIf="item.gender=='M'" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Masculino</span>
                                                     <span *ngIf="item.gender=='F'" class="bg bg-warning" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Femenino</span>
-                                                </td>
-                                                <td>
-                                                    <span *ngIf="item.customer_portal_id" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Sim</span>
-                                                    <span *ngIf="!item.customer_portal_id" class="bg bg-warning" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Não</span>
                                                 </td>
                                                 <td>
                                                     <span *ngIf="item.is_active" class="bg bg-warning" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">Activo</span>

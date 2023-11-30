@@ -26,6 +26,7 @@ export class ProcessosJuridicosComponent implements OnInit {
       lastPage: 0
     }
   }
+  
   public processo: any
   public products: any = []
   public loading = false;

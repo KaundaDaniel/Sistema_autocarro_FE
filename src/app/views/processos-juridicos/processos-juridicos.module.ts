@@ -10,13 +10,15 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ArchwizardModule } from 'angular-archwizard';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { AssociarAdvogadoComponent } from './associar-advogado/associar-advogado.component';
+import { AssociarDocumentosComponent } from './associar-documentos/associar-documentos.component';
 
 
 @NgModule({
   declarations: [
     ProcessosJuridicosComponent,
     CreateOrEditProcessosComponent,
-    AssociarAdvogadoComponent
+    AssociarAdvogadoComponent,
+    AssociarDocumentosComponent
   ],
   imports: [
     CommonModule,
