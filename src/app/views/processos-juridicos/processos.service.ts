@@ -34,9 +34,10 @@ export class ProcessosService {
     return this.http.post(url, productForm.value, { headers: this.authService.headers })
   }
 
-  getDocumentoProcesso(legal_process_id:any) {
+  getDocumentoProcesso(legal_process_id: any) {
 
-    var url = `${this.httpService.base_url}/processos/documentos`
+    var url = `${this.httpService.base_url}/process_documents/listBy/${legal_process_id}`
+
     return this.http.get(url, { headers: this.authService.headers })
   }
 

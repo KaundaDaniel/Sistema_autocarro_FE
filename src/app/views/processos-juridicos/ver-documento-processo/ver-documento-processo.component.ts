@@ -37,6 +37,7 @@ export class VerDocumentoProcessoComponent implements OnInit {
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (this.processo !== undefined) {
+      console.log("==========")
       this.getDocumentoProcesso(this.processo.id)
       this.title = "Documentos Processo";
     } else {
