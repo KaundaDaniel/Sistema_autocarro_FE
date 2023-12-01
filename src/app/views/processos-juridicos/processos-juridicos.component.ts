@@ -90,7 +90,7 @@ export class ProcessosJuridicosComponent implements OnInit {
   }
 
 
-  setProduct(item: any) {
+  setProcesso(item: any) {
     this.processo = item;
   }
 
