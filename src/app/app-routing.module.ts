@@ -18,10 +18,6 @@ const routes: Routes = [
     loadChildren: () => import('./views/clientes/clientes.module').then(m => m.ClientesModule)
   },
   {
-    path: 'produtos',
-    loadChildren: () => import('./views/produtos/produto.module').then(m => m.ProdutoModule)
-  },
-  {
     path: 'operacoes',
     loadChildren: () => import('./views/operacoes/operacoes.module').then(m => m.OperacoesModule)
   },

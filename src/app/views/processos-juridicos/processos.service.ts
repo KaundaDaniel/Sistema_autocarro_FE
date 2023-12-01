@@ -34,6 +34,12 @@ export class ProcessosService {
     return this.http.post(url, productForm.value, { headers: this.authService.headers })
   }
 
+  getDocumentoProcesso(legal_process_id:any) {
+
+    var url = `${this.httpService.base_url}/processos/documentos`
+    return this.http.get(url, { headers: this.authService.headers })
+  }
+
   exportExcel(products: any[], filename: string): void {
 
     const data = products.map(({ name, value, quantity, categorie, product_type, created_at }: any) => ({ name, value, quantity, categorie, product_type, created_at }));

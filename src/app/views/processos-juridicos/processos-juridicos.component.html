@@ -94,6 +94,7 @@
                                                         <ul class="dropdown-menu">
                                                           <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#createOrEditProcessoModal">Editar</li>
                                                           <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#associarDocumentoModal">Associar Documento</li>
+                                                          <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#verDocumentosProcessoModal">Ver Documentos</li>
                                                         </ul>
                                                       </div>
                                                 </td>
@@ -124,6 +125,7 @@
             <app-footer></app-footer>
             <createOrEditProcesso [processo]="processo" [modal]=""></createOrEditProcesso>
             <associarDocumento [processo]="processo" [modal]=""></associarDocumento>
+            <verDocumentoProcesso [modal]=""></verDocumentoProcesso>
             <!-- partial -->
         </div>
         <!-- main-panel ends -->

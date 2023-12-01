@@ -11,6 +11,7 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { AssociarAdvogadoComponent } from './associar-advogado/associar-advogado.component';
 import { AssociarDocumentosComponent } from './associar-documentos/associar-documentos.component';
+import { VerDocumentoProcessoComponent } from './ver-documento-processo/ver-documento-processo.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AssociarDocumentosComponent } from './associar-documentos/associar-docu
     ProcessosJuridicosComponent,
     CreateOrEditProcessosComponent,
     AssociarAdvogadoComponent,
-    AssociarDocumentosComponent
+    AssociarDocumentosComponent,
+    VerDocumentoProcessoComponent
   ],
   imports: [
     CommonModule,
