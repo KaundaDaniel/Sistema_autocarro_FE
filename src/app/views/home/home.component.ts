@@ -16,9 +16,8 @@ export class HomeComponent implements OnInit {
 
   dashbaord = {
     customer_count: 0,
-    products_count: 0,
+    legal_processes_count: 0,
     users_count: 0,
-    total_today: 0.00
   }
 
   constructor(
@@ -27,7 +26,7 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     public configService: ConfigService
   ) {
-    //this.getDashboard()
+    this.getDashboard()
   }
 
   ngOnInit(): void { }
@@ -38,9 +37,8 @@ export class HomeComponent implements OnInit {
       .subscribe(response => {
         const dash = Object(response)
         this.dashbaord.customer_count = dash.customer_count
-        this.dashbaord.products_count = dash.products_count
+        this.dashbaord.legal_processes_count = dash.legal_processes_count
         this.dashbaord.users_count = dash.users_count
-        this.dashbaord.total_today = dash.total_today
         this.loading = false
       })
   }
