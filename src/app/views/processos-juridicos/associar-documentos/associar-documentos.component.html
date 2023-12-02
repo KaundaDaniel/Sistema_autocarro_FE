@@ -8,7 +8,25 @@
                 </div>
                 <div class="modal-body">
                     <ngx-loading [show]="loading"></ngx-loading>
-                    <div class="row">          
+                    <div class="row">        
+                        
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Titulo do Ficheiro</label>
+                                <input
+                                    type="text"
+                                    formControlName="title"
+                                    name="title"
+                                    min="1"
+                                    class="form-control"
+                                    placeholder="title"
+                                    [ngClass]="{ 'is-invalid': submitted && f.title.errors, 'is-valid': f.title.touched && !f.title.errors }"
+                                />
+                                <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['title'].errors.required">O campo title é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
             
                         <div class="col-md-12">
                             <div class="form-group">

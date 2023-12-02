@@ -6,52 +6,15 @@
                 <button id="close" type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <table *ngIf="processo" class="table table-hover table-striped">
-                    <tbody>
-                        <tr>
-                            <th>Nº Processo:</th>
-                            <td>{{processo.codigo}}</td>
-                        </tr>
-                        <tr>
-                            <th>Cliente:</th>
-                            <td>{{processo.customer}}</td>
-                        </tr>
-                        <!--<tr>
-                            <th>Total:</th>
-                            <td>{{ configService.numberFormat(order.total_without_tax) }}</td>
-                        </tr>-->
-                    </tbody>
-                </table>
+                <h5 *ngIf="documento" class="bg bg-danger" style="color: white; padding: 15px 15px;">Documento: <strong>{{documento.title}}</strong></h5>
                 <hr />
-                <div class="table-responsive">
-                    <ngx-loading [show]="loading"></ngx-loading>
-                    <table class="table table-hover table-striped text-center" *ngIf="process_documents.length;else emptyList">
-                        <tbody>
-                            <tr style="color: white; background: #FF4949; position: sticky; top: 0;">
-                                <th with="200px">#</th>
-                                <th with="200px">Estado</th>
-                                <th with="200px">Validado Por</th>
-                                <th with="200px">Data Registo</th>
-                            </tr>
-                            <tr *ngFor="let item of process_documents; index as i">
-                                <td>{{ i+1 }}</td>
-                                <!--<td>
-                                    <span *ngIf="item.order_status == 'AGUARDAR_APROVACAO'" class="bg bg-danger" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">
-                                        {{ item.status_description }}
-                                    </span>
-                                    <span *ngIf="item.order_status == 'APROVADA'" class="bg bg-warning" style="padding: 8px 30px; font-size: 12px; color: black; border-radius: 5px;">{{ item.status_description }}</span>
-                                    <span *ngIf="item.order_status == 'ENCOMENDA_A_SER_PREPARADA'" class="bg bg-secondary" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">
-                                        {{ item.status_description }}
-                                    </span>
-                                    <span *ngIf="item.order_status == 'ENVIADA'" class="bg bg-secondary" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">{{ item.status_description }}</span>
-                                    <span *ngIf="item.order_status == 'ENTREGUE'" class="bg bg-success" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">{{ item.status_description }}</span>
-                                    <span *ngIf="item.order_status == 'CANCELADA'" class="bg bg-secondary" style="padding: 8px 20px; font-size: 12px; color: black; border-radius: 5px;">{{ item.status_description }}</span>
-                                </td>-->
-                                <td>{{ item.user }}</td>
-                                <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <ngx-loading [show]="loading"></ngx-loading>
+                <div class="row">
+                    <div class="col-md-12" *ngIf="documento">
+                        <div class="form-group">
+                            <iframe width="100%" height="300px" frameborder="0" [src]="previewfile_name(documento.file_name)"></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Modal footer -->

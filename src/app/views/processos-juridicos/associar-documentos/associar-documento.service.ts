@@ -21,7 +21,7 @@ export class AssociarDocumentoService {
   image: any
   previewImage(fileName: any) {
 
-    this.image = `${this.httpService.base_url}/preview/tmp/process_documents/${fileName}`;
+    this.image = `${this.httpService.base_url}/process_documents/tmp/${fileName}`;
     return this.image_safe = this.sanitizer.bypassSecurityTrustResourceUrl(this.image);
   }
 

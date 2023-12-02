@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, SimpleChange } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ConfigService } from 'src/app/providers/config.service';
-import { ProcessosService } from '../processos.service';
+import { AssociarDocumentoService } from '../associar-documentos/associar-documento.service';
 
 @Component({
   selector: 'verDocumentoProcesso',
@@ -11,38 +9,33 @@ import { ProcessosService } from '../processos.service';
 })
 export class VerDocumentoProcessoComponent implements OnInit {
 
-  @Input() modal: any = "verDocumentosProcessoModal";
+  @Input() modal: any = "verDocumentoModal";
   @Input() title: string = "Ver Documentos Associados";
-  @Input() processo: any;
+  @Input() documento: any;
 
   submitted = false;
   public loading = false;
   public process_documents: any = []
 
   constructor(
-    private processosService: ProcessosService,
+    private associarDocumentoService: AssociarDocumentoService,
     public configService: ConfigService
   ) { }
 
   ngOnInit(): void { }
 
 
-  getDocumentoProcesso(legal_process_id: any) {
-    this.processosService
-      .getDocumentoProcesso(legal_process_id)
-      .subscribe(response => {
-        this.process_documents = response
-      })
-  }
-
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    if (this.processo !== undefined) {
-      console.log("==========")
-      this.getDocumentoProcesso(this.processo.id)
+    if (this.documento !== undefined) {
       this.title = "Documentos Processo";
     } else {
       this.title = "Documentos Processo";
     }
+  }
+
+  file_name_preview: any;
+  previewfile_name(fileName: any) {
+    return this.associarDocumentoService.previewImage(fileName)
   }
 
 }

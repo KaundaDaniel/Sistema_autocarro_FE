@@ -19,16 +19,16 @@
 
                                 <div class="row">
                                     <div class="col-md-1">
-                                       <div class="form-group">
-                                        <select class="form-control" (change)="listOfProcessos()" [(ngModel)]="filters.pagination.perPage">
-                                            <option>5</option>
-                                            <option>10</option>
-                                            <option>15</option>
-                                            <option>20</option>
-                                            <option>25</option>
-                                        </select>
-                                        <small>Entrada</small>
-                                       </div>
+                                        <div class="form-group">
+                                            <select class="form-control" (change)="listOfProcessos()" [(ngModel)]="filters.pagination.perPage">
+                                                <option>5</option>
+                                                <option>10</option>
+                                                <option>15</option>
+                                                <option>20</option>
+                                                <option>25</option>
+                                            </select>
+                                            <small>Entrada</small>
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -38,13 +38,13 @@
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <input class="form-control" [(ngModel)]="filters.start_date" type="date">
+                                            <input class="form-control" [(ngModel)]="filters.start_date" type="date" />
                                             <small>Data Inicio</small>
                                         </div>
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <input class="form-control" [(ngModel)]="filters.end_date" type="date">
+                                            <input class="form-control" [(ngModel)]="filters.end_date" type="date" />
                                             <small>Data Fim</small>
                                         </div>
                                     </div>
@@ -58,14 +58,13 @@
                                         <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#createOrEditProcessoModal">Registar Processo</button>
                                     </div>
                                 </div>
-                                <hr>
+                                <hr />
                                 <div class="table-responsive" style="height: 400px;">
-                                    
                                     <spinner-overlay [loading]="loading"></spinner-overlay>
-                                    
+
                                     <table class="table table-hover table-striped text-center">
                                         <tbody *ngIf="products">
-                                            <tr style="color: white; background: #FF4949; position: sticky; top: 0;">
+                                            <tr style="color: white; background: #ff4949; position: sticky; top: 0;">
                                                 <th>#</th>
                                                 <th with="200px">Nº Processo</th>
                                                 <th with="200px">Cliente</th>
@@ -77,7 +76,7 @@
                                                 <th with="200px">Opções</th>
                                             </tr>
                                             <tr *ngFor="let item of products | paginate: { itemsPerPage: this.filters.pagination.perPage, currentPage: this.filters.pagination.page, totalItems: this.filters.pagination.total }; index as i">
-                                                <td> {{i+1}} </td>
+                                                <td>{{i+1}}</td>
                                                 <td>{{ item.codigo}}</td>
                                                 <td>{{ item.customer }}</td>
                                                 <td>{{ item.date_start}}</td>
@@ -92,11 +91,11 @@
                                                     <div class="dropdown ml-lg-auto ml-3 toolbar-item">
                                                         <button class="btn btn-danger dropdown-toggle">Operações</button>
                                                         <ul class="dropdown-menu">
-                                                          <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#createOrEditProcessoModal">Editar</li>
-                                                          <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#associarDocumentoModal">Associar Documento</li>
-                                                          <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#verDocumentosProcessoModal">Ver Documentos</li>
+                                                            <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#createOrEditProcessoModal">Editar</li>
+                                                            <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#associarDocumentoModal">Associar Documento</li>
+                                                            <li class="dropdown-item" href="javascript:void(0)" (click)="setProcesso(item)" data-toggle="modal" data-target="#listarDocumentosModal">Listar Documentos</li>
                                                         </ul>
-                                                      </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -104,17 +103,14 @@
                                 </div>
                                 <div class="footer">
                                     <div class="row">
-                                      <div class="col-sm-12 col-md-5">
-                                        <div class="dataTables_info">Mostrando de {{this.filters.pagination.page}} a
-                                          {{this.filters.pagination.perPage}} de
-                                          {{this.filters.pagination.total}} produtos
+                                        <div class="col-sm-12 col-md-5">
+                                            <div class="dataTables_info">Mostrando de {{this.filters.pagination.page}} a {{this.filters.pagination.perPage}} de {{this.filters.pagination.total}} produtos</div>
                                         </div>
-                                      </div>
-                                      <div class="col-sm-12 col-md-7">
-                                          <pagination-controls (pageChange)="getPageData($event)" previousLabel="Anterior" nextLabel="Proximo"></pagination-controls>
-                                      </div>
+                                        <div class="col-sm-12 col-md-7">
+                                            <pagination-controls (pageChange)="getPageData($event)" previousLabel="Anterior" nextLabel="Proximo"></pagination-controls>
+                                        </div>
                                     </div>
-                                  </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -125,7 +121,7 @@
             <app-footer></app-footer>
             <createOrEditProcesso [processo]="processo" [modal]=""></createOrEditProcesso>
             <associarDocumento [processo]="processo" [modal]=""></associarDocumento>
-            <verDocumentoProcesso [processo]="processo" [modal]=""></verDocumentoProcesso>
+            <listarDocumentos [processo]="processo" [modal]=""></listarDocumentos>
             <!-- partial -->
         </div>
         <!-- main-panel ends -->

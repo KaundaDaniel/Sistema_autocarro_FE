@@ -1,0 +1,59 @@
+<div class="modal modal-info fade in" id="{{modal}}">
+    <div class="modal-dialog modal-lg" style="max-width: 600px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{title}}</h5>
+                <button id="close" type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table *ngIf="processo" class="table table-hover table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Nº Processo:</th>
+                            <td>{{processo.codigo}}</td>
+                        </tr>
+                        <tr>
+                            <th>Cliente:</th>
+                            <td>{{processo.customer}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr />
+                <div class="table-responsive">
+                    <ngx-loading [show]="loading"></ngx-loading>
+                    <table class="table table-hover table-striped text-center" *ngIf="process_documents.length;else emptyList">
+                        <tbody>
+                            <tr style="color: white; background: #ff4949; position: sticky; top: 0;">
+                                <th with="200px">#</th>
+                                <th with="200px">Titulo</th>
+                                <th with="200px">Data Registo</th>
+                                <th with="200px">Vizualizar</th>
+                            </tr>
+                            <tr *ngFor="let item of process_documents; index as i">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.created_at | date: 'dd-MM-yyyy'}}</td>
+                                <td>
+                                    <button type="button" (click)="setDocumento(item)" data-toggle="modal" data-target="#verDocumentoModal" class="btn btn-danger btn-sm">Vizualizar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<verDocumentoProcesso [documento]="documento" [modal]=""></verDocumentoProcesso>
+
+<ng-template #emptyList>
+    <div align="center">
+        <h2>Sem resultados</h2>
+        <span></span>
+    </div>
+</ng-template>

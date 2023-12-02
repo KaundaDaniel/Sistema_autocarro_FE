@@ -2,7 +2,6 @@ import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConfigService } from 'src/app/providers/config.service';
-import { ConfiguracaoService } from '../../configuracao/configuracao.service';
 import { ProcessosService } from '../processos.service';
 import { ProcessosJuridicosComponent } from '../processos-juridicos.component';
 import { AssociarDocumentoService } from './associar-documento.service';
@@ -46,6 +45,7 @@ export class AssociarDocumentosComponent implements OnInit {
 
     this.associarDocumentoForm = this.fb.group({
       id: [{ value: null, disabled: true }],
+      title: [null],
       file_name: [null],
       legal_process_id: [null]
     });
@@ -61,11 +61,6 @@ export class AssociarDocumentosComponent implements OnInit {
   onReset() {
     this.submitted = false;
     this.associarDocumentoForm.reset();
-  }
-
-  file_name_preview: any;
-  previewfile_name(fileName: any) {
-    //return this.processosService.previewfile_name(fileName)
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
@@ -105,7 +100,6 @@ export class AssociarDocumentosComponent implements OnInit {
 
   resetForm() {
     this.associarDocumentoForm.reset()
-    this.file_name_preview = null
   }
 
   private file_names: any = []

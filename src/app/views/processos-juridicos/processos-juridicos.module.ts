@@ -12,6 +12,7 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { AssociarAdvogadoComponent } from './associar-advogado/associar-advogado.component';
 import { AssociarDocumentosComponent } from './associar-documentos/associar-documentos.component';
 import { VerDocumentoProcessoComponent } from './ver-documento-processo/ver-documento-processo.component';
+import { ListarDocumentosComponent } from './listar-documentos/listar-documentos.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { VerDocumentoProcessoComponent } from './ver-documento-processo/ver-docu
     CreateOrEditProcessosComponent,
     AssociarAdvogadoComponent,
     AssociarDocumentosComponent,
-    VerDocumentoProcessoComponent
+    VerDocumentoProcessoComponent,
+    ListarDocumentosComponent
   ],
   imports: [
     CommonModule,
