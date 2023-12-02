@@ -34,6 +34,26 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Usuário</label>
+                                <input type="text" formControlName="username" name="username" class="form-control" placeholder="Usuário" 
+                                [ngClass]="{ 'is-invalid': submitted && f.username.errors, 'is-valid': f.username.touched && !f.username.errors }" />
+                                <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['username'].errors.required">O campo usuário é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"><i class="fa fa-edit"></i> Password</label>
+                                <input type="password" formControlName="password" name="password" class="form-control" placeholder="Password" 
+                                [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'is-valid': f.password.touched && !f.password.errors }" />
+                                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['password'].errors.required">O campo password é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="control-label"><i class="fa fa-edit"></i> Email</label>
                                 <input
                                     type="email"

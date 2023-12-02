@@ -46,6 +46,8 @@ export class CreateOrEditUsersComponent implements OnInit {
       id: [{ value: null, disabled: true }],
       email: [null],
       name: [null, Validators.required],
+      username: [null, Validators.required],
+      password: [null, Validators.required],
       gender: [null, Validators.required],
       is_active: [1, Validators.required],
       phone: [null, Validators.required],

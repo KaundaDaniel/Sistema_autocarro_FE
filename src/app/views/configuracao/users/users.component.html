@@ -67,6 +67,7 @@
                                             <tr style="color: white; background: #FF4949; position: sticky; top: 0;">
                                                 <th>#</th>
                                                 <th with="200px">Nome</th>
+                                                <th with="200px">Usuário</th>
                                                 <th with="200px">Email</th>
                                                 <th with="200px">Telefone</th>
                                                 <th with="200px">Role</th>
@@ -78,6 +79,7 @@
                                             <tr *ngFor="let item of users | paginate: { itemsPerPage: this.filters.pagination.perPage, currentPage: this.filters.pagination.page, totalItems: this.filters.pagination.total }; index as i">
                                                 <td> {{i+1}} </td>
                                                 <td>{{ item.name || '' }}</td>
+                                                <td>{{ item.username || '' }}</td>
                                                 <td>{{ item.email}}</td>
                                                 <td>{{ item.phone }}</td>
                                                 <td>{{ item.role}}</td>
