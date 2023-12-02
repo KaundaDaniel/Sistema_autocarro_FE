@@ -10,7 +10,7 @@ import { AssociarDocumentoService } from '../associar-documentos/associar-docume
 export class VerDocumentoProcessoComponent implements OnInit {
 
   @Input() modal: any = "verDocumentoModal";
-  @Input() title: string = "Ver Documentos Associados";
+  @Input() title: string = "Vizualizar Documento";
   @Input() documento: any;
 
   submitted = false;
@@ -27,9 +27,9 @@ export class VerDocumentoProcessoComponent implements OnInit {
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (this.documento !== undefined) {
-      this.title = "Documentos Processo";
+      this.title = "Vizualizar Documento";
     } else {
-      this.title = "Documentos Processo";
+      this.title = "Vizualizar Documento";
     }
   }
 
