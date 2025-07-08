@@ -1,126 +1,202 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <ul class="nav">
-        <br />
-        <br />
-        <li class="nav-item nav-profile">
-            <a class="nav-link">
-                <div class="profile-image">
-                    <div class="dot-indicator bg-success"></div>
-                </div>
-                <div class="text-wrapper">
-                    <p class="profile-name">{{ current_user?.user?.username }}</p>
-                    <p class="designation">{{ current_user?.role[0]?.name }}</p>
-                </div>
+  <ul class="nav">
+    <br />
+    <br />
+    <!-- Perfil do utilizador -->
+    <li class="nav-item nav-profile">
+      <a class="nav-link">
+        <div class="profile-image">
+          <div class="dot-indicator bg-success"></div>
+        </div>
+        <div class="text-wrapper">
+          <p class="profile-name">{{ current_user?.nome }}</p>
+          <p class="designation">{{ current_user?.roles[0] }}</p>
+        </div>
+      </a>
+    </li>
+
+    <!-- Menu Principal -->
+    <li class="nav-item nav-category">Menu Principal</li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/home" routerLinkActive>
+        <i class="fas fa-home menu-icon"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+
+    <!-- Gestão de Transportes -->
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        data-toggle="collapse"
+        href="#transportes"
+        aria-expanded="false"
+        aria-controls="transportes"
+      >
+        <i class="fas fa-bus menu-icon"></i>
+        <span class="menu-title">Transportes</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="transportes">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/transportes/autocarros"
+              >Autocarros</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/viagens">Viagens</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/lugares">Lugares</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <!-- Gestão de Empresas -->
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="/configuracao/empresa"
+        routerLinkActive="active"
+      >
+        <i class="menu-icon typcn typcn-group"></i>
+        <span class="menu-title">Empresa</span>
+      </a>
+    </li>
+
+    <!-- Reservas e Bilhetes -->
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        data-toggle="collapse"
+        href="#reservas"
+        aria-expanded="false"
+        aria-controls="reservas"
+      >
+        <i class="fas fa-ticket-alt menu-icon"></i>
+        <span class="menu-title">Reservas e Bilhetes</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="reservas">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/reservas">Reservas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/bilhetes">Bilhetes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/pagamentos">Pagamentos</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <!-- Configurações -->
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        data-toggle="collapse"
+        href="#configuracoes"
+        aria-expanded="false"
+        aria-controls="configuracoes"
+      >
+        <i class="fas fa-cogs menu-icon"></i>
+        <span class="menu-title">Configurações</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="configuracoes">
+        <ul class="nav flex-column sub-menu">
+          <!-- Gestão de Acessos -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="collapse"
+              href="#acessos"
+              aria-expanded="false"
+              aria-controls="acessos"
+            >
+              <i class="fas fa-user-shield menu-icon"></i>
+              <span class="menu-title">Gestão de Acessos</span>
+              <i class="menu-arrow"></i>
             </a>
-        </li>
-        <li class="nav-item nav-category">Menu Principal</li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/home" routerLinkActive>
-                <i class="menu-icon typcn typcn-document-text"></i>
-                <span class="menu-title">{{ 'SIDEBAR.main_page' | translate }}</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#clientes" aria-expanded="false" aria-controls="clientes">
-                <i class="menu-icon typcn typcn-coffee"></i>
-                <span class="menu-title">{{ 'SIDEBAR.CUSTOMERS.title' | translate }}</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="clientes">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/clientes/listar-clientes" routerLinkActive>{{ 'SIDEBAR.CUSTOMERS.listing' | translate }}</a>
-                    </li>
-                </ul>
+            <div class="collapse" id="acessos">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/configuracao/utilizadores"
+                    >Utilizadores</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/configuracao/roles"
+                    >Perfis</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/configuracao/permissions"
+                    >Permissões</a
+                  >
+                </li>
+              </ul>
             </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#processos_juridicos" aria-expanded="false"
-                aria-controls="processos_juridicos">
-                <i class="menu-icon typcn typcn-coffee"></i>
-                <span class="menu-title">Processos Jurídicos</span>
-                <i class="menu-arrow"></i>
+          </li>
+
+          <!-- Estrutura de Morada -->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="collapse"
+              href="#morada"
+              aria-expanded="false"
+              aria-controls="morada"
+            >
+              <i class="fas fa-map-marked-alt menu-icon"></i>
+              <span class="menu-title">Estrutura de Morada</span>
+              <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="processos_juridicos">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/processos_juridicos/listagem_processos" routerLinkActive>{{ 'SIDEBAR.ORDERS.listing' | translate }}</a>
-                    </li>
-                </ul>
+            <div class="collapse" id="morada">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/configuracao/provincias"
+                    >Provincias</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/configuracao/municipios"
+                    >Municípios</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/configuracao/distritos"
+                    >Distritos</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="/configuracao/bairros"
+                    >Bairros</a
+                  >
+                </li>
+              </ul>
             </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#configuracoes" aria-expanded="false"
-                aria-controls="configuracoes">
-                <i class="menu-icon typcn typcn-document-add"></i>
-                <span class="menu-title">{{ 'SIDEBAR.CONFIGURATIONS.title' | translate }}</span>
-                <i class="menu-arrow"></i>
+          </li>
+
+          <!-- Outros -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/configuracao/imposto">
+              <i class="fas fa-receipt menu-icon"></i>
+              Impostos
             </a>
-            <div class="collapse" id="configuracoes">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#controle_acesso" aria-expanded="false" aria-controls="controle_acesso">
-                            <i class="menu-icon typcn typcn-document-add"></i>
-                            <span class="menu-title">Controle Acesso</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="controle_acesso">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLink="/configuracao/utilizadores" routerLinkActive> {{ 'SIDEBAR.OPERATIONS.users' | translate }} </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLink="/configuracao/roles" routerLinkActive> {{ 'SIDEBAR.OPERATIONS.roles' | translate }} </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLink="/configuracao/permissions" routerLinkActive> {{ 'SIDEBAR.OPERATIONS.permissions' | translate }} </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#estruta_de_morada" aria-expanded="false" aria-controls="estruta_de_morada">
-                            <i class="menu-icon typcn typcn-document-add"></i>
-                            <span class="menu-title">Estruta de Morada</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="estruta_de_morada">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLink="/configuracao/provincias" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.provinces' | translate }} </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLink="/configuracao/municipios" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.municipalities' | translate }} </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLink="/configuracao/distritos" routerLinkActive> Distritos </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" routerLink="/configuracao/bairros" routerLinkActive>Bairros </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/configuracao/empresa" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.company' | translate }} </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/configuracao/sistema" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.system' | translate }} </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/configuracao/imposto" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.tax' | translate }} </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/configuracao/categorias-produto" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.category_product' | translate }} </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/configuracao/tipos-produto" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.product_types' | translate }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/configuracao/formas-pagamento" routerLinkActive> {{ 'SIDEBAR.CONFIGURATIONS.payment_methods' | translate }}</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/configuracao/formas-pagamento">
+              <i class="fas fa-money-bill-wave menu-icon"></i>
+              Formas de Pagamento
+            </a>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
 </nav>

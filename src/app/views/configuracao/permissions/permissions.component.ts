@@ -6,13 +6,12 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-permissions',
   templateUrl: './permissions.component.html',
-  styleUrls: ['./permissions.component.css']
+  styleUrls: ['./permissions.component.css'],
 })
 export class PermissionsComponent implements OnInit {
+  public permision: any;
+  public permisions: any = [];
 
-  public permision: any
-  public permisions: any = []
-  
   constructor(
     private http: HttpClient,
     private httpService: HttpService,
@@ -21,17 +20,19 @@ export class PermissionsComponent implements OnInit {
     this.listaOfPermissions();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   listaOfPermissions() {
-    this.http.get(`${this.httpService.base_url}/permissions/listagem`, { headers: this.authService.headers })
-      .subscribe(res => {
-        this.permisions = Object(res)
+    this.http
+      .get(`${this.httpService.base_url}/permissions/listagem`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.permisions = Object(res);
+      });
   }
 
   setRole(item: any) {
     this.permision = item;
   }
-
 }

@@ -6,21 +6,20 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-distritos',
   templateUrl: './distritos.component.html',
-  styleUrls: ['./distritos.component.css']
+  styleUrls: ['./distritos.component.css'],
 })
 export class DistritosComponent implements OnInit {
-
   public filters = {
     pagination: {
       page: 1,
       perPage: 5,
       total: 0,
-      lastPage: 0
-    }
-  }
+      lastPage: 0,
+    },
+  };
 
-  public bairro: any
-  public municipios: any = []
+  public bairro: any;
+  public municipios: any = [];
   public loading = false;
 
   constructor(
@@ -31,23 +30,23 @@ export class DistritosComponent implements OnInit {
     this.listaOfBairros();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   listaOfBairros() {
-    this.loading = true
-    this.http.get(`${this.httpService.base_url}/bairros/listagem`, { headers: this.authService.headers })
-      .subscribe(res => {
-        this.municipios = Object(res)
-        this.loading = false
+    this.loading = true;
+    this.http
+      .get(`${this.httpService.base_url}/bairros/listagem`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.municipios = Object(res);
+        this.loading = false;
+      });
   }
 
   setCategoria(item: any) {
     this.bairro = item;
   }
 
-  getPageFilterData(event: any) {
-
-  }
-
+  getPageFilterData(event: any) {}
 }

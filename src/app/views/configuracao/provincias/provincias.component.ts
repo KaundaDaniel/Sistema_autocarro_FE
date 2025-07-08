@@ -5,23 +5,22 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-provincias',
   templateUrl: './provincias.component.html',
-  styleUrls: ['./provincias.component.css']
+  styleUrls: ['./provincias.component.css'],
 })
 export class ProvinciasComponent implements OnInit {
-
   public filters = {
     pagination: {
       page: 1,
       perPage: 5,
       total: 0,
-      lastPage: 0
-    }
-  }
+      lastPage: 0,
+    },
+  };
 
   public loading = false;
 
-  public provincia: any
-  public provincias: any = []
+  public provincia: any;
+  public provincias: any = [];
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -30,23 +29,23 @@ export class ProvinciasComponent implements OnInit {
     this.listOfProvinces();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   listOfProvinces() {
-    this.loading = true
-    this.http.get(`${this.httpService.base_url}/provincias/listagem`, { headers: this.authService.headers })
-      .subscribe(res => {
-        this.provincias = Object(res)
-        this.loading = false
+    this.loading = true;
+    this.http
+      .get(`${this.httpService.base_url}/provincias/listagem`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.provincias = Object(res);
+        this.loading = false;
+      });
   }
 
   setCategoria(item: any) {
     this.provincia = item;
   }
 
-  getPageFilterData(event: any) {
-
-  }
-
+  getPageFilterData(event: any) {}
 }

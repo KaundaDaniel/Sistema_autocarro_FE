@@ -9,13 +9,11 @@ import { ConfigurationComponent } from '../configuration.component';
 @Component({
   selector: 'createOrEditConfiguration',
   templateUrl: './create-or-edit-configuration.component.html',
-  styleUrls: ['./create-or-edit-configuration.component.css']
+  styleUrls: ['./create-or-edit-configuration.component.css'],
 })
 export class CreateOrEditConfigurationComponent implements OnInit {
-
-
-  @Input() modal: any = "creatOrEditConfigurationModal";
-  @Input() title: string = "Registar Configuração";
+  @Input() modal: any = 'creatOrEditConfigurationModal';
+  @Input() title: string = 'Registar Configuração';
   @Input() configuration: any;
 
   submitted = false;
@@ -31,7 +29,6 @@ export class CreateOrEditConfigurationComponent implements OnInit {
     private configService: ConfigService,
     private configurationComp: ConfigurationComponent
   ) {
-
     this.configurationForm = this.fb.group({
       id: [{ value: null, disabled: true }],
       description: [null, Validators.required],
@@ -41,7 +38,7 @@ export class CreateOrEditConfigurationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   // convenience getter for easy access to form fields
   get f() {
@@ -55,31 +52,34 @@ export class CreateOrEditConfigurationComponent implements OnInit {
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (this.configuration !== undefined) {
-      this.title = "Editar Configuração";
+      this.title = 'Editar Configuração';
       this.configurationForm.patchValue(this.configuration);
     } else {
-      this.title = "Registar Configuração";
+      this.title = 'Registar Configuração';
     }
   }
 
   createOrEdit() {
-
-    this.submitted = true
+    this.submitted = true;
     if (this.configurationForm.invalid) {
-      return
+      return;
     }
 
     this.loading = true;
-    const url = this.configurationForm.getRawValue().id == null ? `${this.httpService.base_url}/configurations/create` : `${this.httpService.base_url}/configurations/update/` + this.configurationForm.getRawValue().id
+    const url =
+      this.configurationForm.getRawValue().id == null
+        ? `${this.httpService.base_url}/configurations/create`
+        : `${this.httpService.base_url}/configurations/update/` +
+          this.configurationForm.getRawValue().id;
 
     this.http
-      .post(url, this.configurationForm.value, { headers: this.authService.headers })
-      .subscribe(response => {
-        this.loading = false;
-        this.configService.toastrSucess(Object(response).message)
-        this.configurationComp.listOfConfigurations()
+      .post(url, this.configurationForm.value, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((response) => {
+        this.loading = false;
+        this.configService.toastrSucess(Object(response).message);
+        this.configurationComp.listOfConfigurations();
+      });
   }
-
-
 }

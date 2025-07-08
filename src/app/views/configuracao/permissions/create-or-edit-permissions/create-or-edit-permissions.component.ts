@@ -8,12 +8,11 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'createOrEditPermission',
   templateUrl: './create-or-edit-permissions.component.html',
-  styleUrls: ['./create-or-edit-permissions.component.css']
+  styleUrls: ['./create-or-edit-permissions.component.css'],
 })
 export class CreateOrEditPermissionsComponent implements OnInit {
-
-  @Input() modal: any = "createOrEditRoleModal";
-  @Input() title: string = "Registar Role";
+  @Input() modal: any = 'createOrEditRoleModal';
+  @Input() title: string = 'Registar Role';
   @Input() permision: any;
 
   submitted = false;
@@ -28,7 +27,6 @@ export class CreateOrEditPermissionsComponent implements OnInit {
     private httpService: HttpService,
     private authService: AuthService
   ) {
-
     this.permisionForm = this.fb.group({
       id: [{ value: null, disabled: true }],
       name: [null, Validators.required],
@@ -37,7 +35,7 @@ export class CreateOrEditPermissionsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   // convenience getter for easy access to form fields
   get f() {
@@ -51,40 +49,40 @@ export class CreateOrEditPermissionsComponent implements OnInit {
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (this.permision !== undefined) {
-      this.title = "Editar Permissão";
+      this.title = 'Editar Permissão';
       this.permisionForm.patchValue(this.permision);
     } else {
-      this.title = "Registar Permissão";
+      this.title = 'Registar Permissão';
     }
   }
 
   createOrEdit() {
-
-    this.submitted = true
+    this.submitted = true;
     if (this.permisionForm.invalid) {
-      return
+      return;
     }
 
     this.loading = true;
 
-    const url = this.permisionForm.getRawValue().id == null ?
-      `${this.httpService.base_url}/permissions/create` :
-      `${this.httpService.base_url}/permissions/update/` + this.permisionForm.getRawValue().id
+    const url =
+      this.permisionForm.getRawValue().id == null
+        ? `${this.httpService.base_url}/permissions/create`
+        : `${this.httpService.base_url}/permissions/update/` +
+          this.permisionForm.getRawValue().id;
 
     this.http
-      .post(url, this.permisionForm.value, { headers: this.authService.headers })
-      .subscribe(res => {
-
-        if (Object(res).code == 200) {
-
-          this.submitted = false
-          this.loading = false;
-          
-          this.configService.toastrSucess(Object(res).message)
-        } else {
-          this.configService.toastrError(Object(res).message)
-        }
+      .post(url, this.permisionForm.value, {
+        headers: this.authService.getHeaders(),
       })
-  }
+      .subscribe((res) => {
+        if (Object(res).code == 200) {
+          this.submitted = false;
+          this.loading = false;
 
+          this.configService.toastrSucess(Object(res).message);
+        } else {
+          this.configService.toastrError(Object(res).message);
+        }
+      });
+  }
 }

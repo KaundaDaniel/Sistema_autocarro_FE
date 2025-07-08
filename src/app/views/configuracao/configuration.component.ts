@@ -6,23 +6,22 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-configuration',
   templateUrl: './configuration.component.html',
-  styleUrls: ['./configuration.component.css']
+  styleUrls: ['./configuration.component.css'],
 })
 export class ConfigurationComponent implements OnInit {
-
   public filters = {
     pagination: {
       page: 1,
       perPage: 5,
       total: 0,
-      lastPage: 0
-    }
-  }
+      lastPage: 0,
+    },
+  };
 
   public loading = false;
 
-  public configuration: any
-  public configurations: any = []
+  public configuration: any;
+  public configurations: any = [];
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -31,22 +30,23 @@ export class ConfigurationComponent implements OnInit {
     this.listOfConfigurations();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   listOfConfigurations() {
-    this.loading = true
-    this.http.get(`${this.httpService.base_url}/configurations/listagem`, { headers: this.authService.headers })
-      .subscribe(res => {
-        this.configurations = Object(res)
-        this.loading = false
+    this.loading = true;
+    this.http
+      .get(`${this.httpService.base_url}/configurations/listagem`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.configurations = Object(res);
+        this.loading = false;
+      });
   }
 
   setConfiguration(item: any) {
     this.configuration = item;
   }
 
-  getPageFilterData(event: any) {
-
-  }
+  getPageFilterData(event: any) {}
 }

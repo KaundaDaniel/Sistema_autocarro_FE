@@ -9,19 +9,18 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'createOrEditMunicipio',
   templateUrl: './create-or-edit-municipios.component.html',
-  styleUrls: ['./create-or-edit-municipios.component.css']
+  styleUrls: ['./create-or-edit-municipios.component.css'],
 })
 export class CreateOrEditMunicipiosComponent implements OnInit {
-
-  @Input() modal: any = "createOrEditMunicipioModal";
-  @Input() title: string = "Registar Municipios";
+  @Input() modal: any = 'createOrEditMunicipioModal';
+  @Input() title: string = 'Registar Municipios';
   @Input() municipio: any;
   @Input() municipioForm: FormGroup;
 
   submitted = false;
   public loading = false;
 
-  public provincias: any = []
+  public provincias: any = [];
 
   constructor(
     private http: HttpClient,
@@ -29,7 +28,6 @@ export class CreateOrEditMunicipiosComponent implements OnInit {
     private httpService: HttpService,
     private authService: AuthService
   ) {
-
     this.municipioForm = this.fb.group({
       id: [{ value: null, disabled: true }],
       name: [null, Validators.required],
@@ -37,10 +35,10 @@ export class CreateOrEditMunicipiosComponent implements OnInit {
       provincia_id: [null, Validators.required],
     });
 
-    this.selectBoxProvinica()
+    this.selectBoxProvinica();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   // convenience getter for easy access to form fields
   get f() {
@@ -53,37 +51,42 @@ export class CreateOrEditMunicipiosComponent implements OnInit {
   }
 
   selectBoxProvinica() {
-    this.http.get(`${this.httpService.base_url}/provincias/listagem`, { headers: this.authService.headers })
-      .subscribe(res => {
-        this.provincias = Object(res)
+    this.http
+      .get(`${this.httpService.base_url}/provincias/listagem`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.provincias = Object(res);
+      });
   }
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     if (this.municipio !== undefined) {
-      this.title = "Editar Municipicio";
+      this.title = 'Editar Municipicio';
       this.municipioForm.patchValue(this.municipio);
     } else {
-      this.title = "Registar Municipicio";
+      this.title = 'Registar Municipicio';
     }
   }
 
   createOrEdit() {
-
-    this.submitted = true
+    this.submitted = true;
     if (this.municipioForm.invalid) {
-      return
+      return;
     }
 
     this.loading = true;
-    const url = this.municipioForm.getRawValue().id == null
-      ? `${this.httpService.base_url}/municipios/create` :
-      `${this.httpService.base_url}/municipios/update/` + this.municipioForm.getRawValue().id
+    const url =
+      this.municipioForm.getRawValue().id == null
+        ? `${this.httpService.base_url}/municipios/create`
+        : `${this.httpService.base_url}/municipios/update/` +
+          this.municipioForm.getRawValue().id;
 
     this.http
-      .post(url, this.municipioForm.value, { headers: this.authService.headers })
-      .subscribe(res => {
-        this.loading = false;
+      .post(url, this.municipioForm.value, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.loading = false;
+      });
   }
-
 }

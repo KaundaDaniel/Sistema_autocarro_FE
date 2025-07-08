@@ -7,10 +7,9 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-
   company_name: any = 'Adv Control';
   loading: boolean = false;
 
@@ -18,7 +17,7 @@ export class HomeComponent implements OnInit {
     customer_count: 0,
     legal_processes_count: 0,
     users_count: 0,
-  }
+  };
 
   constructor(
     private http: HttpClient,
@@ -26,21 +25,23 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     public configService: ConfigService
   ) {
-    this.getDashboard()
+    this.getDashboard();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   getDashboard() {
-    this.loading = true
-    this.http.get(`${this.httpService.base_url}/dashboard/listagem`, { headers: this.authService.headers })
-      .subscribe(response => {
-        const dash = Object(response)
-        this.dashbaord.customer_count = dash.customer_count
-        this.dashbaord.legal_processes_count = dash.legal_processes_count
-        this.dashbaord.users_count = dash.users_count
-        this.loading = false
+    this.loading = true;
+    this.http
+      .get(`${this.httpService.base_url}/dashboard/listagem`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((response) => {
+        const dash = Object(response);
+        this.dashbaord.customer_count = dash.customer_count;
+        this.dashbaord.legal_processes_count = dash.legal_processes_count;
+        this.dashbaord.users_count = dash.users_count;
+        this.loading = false;
+      });
   }
-
 }

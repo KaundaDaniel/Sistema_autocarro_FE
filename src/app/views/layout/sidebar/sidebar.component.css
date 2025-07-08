@@ -1,7 +1,13 @@
 .sidebar {
   min-height: calc(100vh - 63px);
-  background: -webkit-gradient(linear, left bottom, left top, from(#5768f3), to(##FF4949));
-  background: linear-gradient(to top, #FF4949, #FF4949);
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(#5768f3),
+    to(##ff4949)
+  );
+  background: linear-gradient(to top, #ff4949, #ff4949);
   font-family: "roboto", sans-serif;
   padding: 0;
   width: 270px;
@@ -11,4 +17,24 @@
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
+}
+
+.primary {
+  background-color: #ff4949;
+}
+
+.secondary {
+  background-color: #ff7676;
+}
+
+ {
+  background-color: #d62e2e;
+}
+
+.tertiary {
+  background-color: #ffbdbd;
+}
+
+.quaternary {
+  background-color: #8c1c1c;
 }

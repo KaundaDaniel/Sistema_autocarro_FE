@@ -8,18 +8,16 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-meu-perfile',
   templateUrl: './meu-perfile.component.html',
-  styleUrls: ['./meu-perfile.component.css']
+  styleUrls: ['./meu-perfile.component.css'],
 })
 export class MeuPerfileComponent implements OnInit {
-
-
   @Input() user: any;
   @Input() perfileForm: FormGroup;
 
   submitted = false;
   public loading = false;
 
-  public my_perfile: any = []
+  public my_perfile: any = [];
 
   constructor(
     private http: HttpClient,
@@ -28,7 +26,6 @@ export class MeuPerfileComponent implements OnInit {
     private httpService: HttpService,
     private authService: AuthService
   ) {
-
     this.perfileForm = this.fb.group({
       id: [{ value: null, disabled: true }],
       name: [null, Validators.required],
@@ -36,13 +33,13 @@ export class MeuPerfileComponent implements OnInit {
       email: [null, Validators.required],
       phone: [null, Validators.required],
       password: [null, Validators.required],
-      confirm_password: [null, Validators.required]
+      confirm_password: [null, Validators.required],
     });
 
-    this.getMyPerfile()
+    this.getMyPerfile();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   // convenience getter for easy access to form fields
   get f() {
@@ -55,49 +52,62 @@ export class MeuPerfileComponent implements OnInit {
   }
 
   getMyPerfile() {
+    this.loading = true;
 
-    this.loading = true
-    
-    this.http.get(`${this.httpService.base_url}/users/getMyAccount`, { headers: this.authService.headers })
-      .subscribe(res => {
-
-        this.my_perfile = Object(res).user
-        this.handPerfile(this.my_perfile)
-        this.loading = false
+    this.http
+      .get(`${this.httpService.base_url}/users/getMyAccount`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.my_perfile = Object(res).user;
+        this.handPerfile(this.my_perfile);
+        this.loading = false;
+      });
   }
 
   handPerfile(perfile: any) {
-    this.perfileForm.patchValue({ id: perfile.id, name: perfile.name, username: perfile.username, email: perfile.email, phone: perfile.phone })
+    this.perfileForm.patchValue({
+      id: perfile.id,
+      name: perfile.name,
+      username: perfile.username,
+      email: perfile.email,
+      phone: perfile.phone,
+    });
   }
 
   save() {
-
-    this.submitted = true
+    this.submitted = true;
     if (this.perfileForm.invalid) {
-      return
+      return;
     }
 
-    if (this.perfileForm.getRawValue().password != this.perfileForm.getRawValue().confirm_password) {
-      this.configService.toastrError('A password de confirmação é diferente da password!')
-      return
+    if (
+      this.perfileForm.getRawValue().password !=
+      this.perfileForm.getRawValue().confirm_password
+    ) {
+      this.configService.toastrError(
+        'A password de confirmação é diferente da password!'
+      );
+      return;
     }
 
     this.loading = true;
 
-    const url = `${this.httpService.base_url}/users/resetPassword`
+    const url = `${this.httpService.base_url}/users/resetPassword`;
 
-    this.http.post(url, this.perfileForm.value, { headers: this.authService.headers })
-      .subscribe(response => {
-        this.loading = false;
-        this.submitted = false
-        if (Object(response).code == 200) {
-          this.configService.toastrSucess(Object(response).message)
-          this.perfileForm.reset()
-        }else{
-          this.configService.toastrError(Object(response).message)
-        }
+    this.http
+      .post(url, this.perfileForm.value, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((response) => {
+        this.loading = false;
+        this.submitted = false;
+        if (Object(response).code == 200) {
+          this.configService.toastrSucess(Object(response).message);
+          this.perfileForm.reset();
+        } else {
+          this.configService.toastrError(Object(response).message);
+        }
+      });
   }
-
 }

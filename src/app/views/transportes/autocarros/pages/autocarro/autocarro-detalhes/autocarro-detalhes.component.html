@@ -1,0 +1,70 @@
+<div class="container-scroller">
+  <app-navbar></app-navbar>
+
+  <div class="container-fluid page-body-wrapper">
+    <app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <app-header></app-header>
+
+        <div class="container py-4">
+          <h2 class="mb-4 text-danger">Detalhes do Autocarro</h2>
+
+          <div *ngIf="autocarro; else loading">
+            <div class="card shadow-sm mb-4">
+              <div class="card-body">
+                <h4 class="card-title text-primary">
+                  <i class="fas fa-bus me-2"></i>{{ autocarro.identificacao }}
+                  <span class="badge bg-secondary ms-2">{{
+                    autocarro.tipo
+                  }}</span>
+                </h4>
+                <p class="mb-2">
+                  <strong>Capacidade:</strong>
+                  {{ autocarro.capacidade }} lugares
+                </p>
+                <p class="mb-2">
+                  <strong>Estado:</strong>
+                  <span
+                    class="badge"
+                    [ngClass]="{
+                      'bg-success': autocarro.estado === 'disponivel',
+                      'bg-warning': autocarro.estado === 'manutencao'
+                    }"
+                  >
+                    {{ autocarro.estado | titlecase }}
+                  </span>
+                </p>
+                <p class="mb-0">
+                  <strong>Empresa:</strong> {{ autocarro.nomeEmpresa }}
+                </p>
+              </div>
+            </div>
+
+            <h5 class="mb-3 text-muted">Mapa de Lugares</h5>
+            <div class="row row-cols-4 g-2">
+              <div *ngFor="let lugar of autocarro.lugares" class="col">
+                <div
+                  class="text-center py-2 rounded shadow-sm border small"
+                  [ngClass]="{
+                    'bg-success text-white': lugar.estado === 'LIVRE',
+                    'bg-danger text-white': lugar.estado !== 'LIVRE'
+                  }"
+                >
+                  {{ lugar.numeroLugar }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #loading>
+            <p>A carregar dados do autocarro...</p>
+          </ng-template>
+        </div>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>

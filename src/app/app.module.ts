@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,19 +23,16 @@ import { HomeComponent } from './views/home/home.component';
 import { AgmCoreModule } from '@agm/core';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    LoginComponent
-  ],
+  declarations: [AppComponent, HomeComponent, LoginComponent],
   imports: [
     HttpClientModule,
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
@@ -41,15 +40,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxPaginationModule,
     BrowserAnimationsModule,
     LayoutModule,
+    ModalModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyCTOukbn64mybdh8NDWQGbqb4imGEm1QHs"
+      apiKey: 'AIzaSyCTOukbn64mybdh8NDWQGbqb4imGEm1QHs',
     }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     ToastrModule.forRoot(),
     NgxLoadingModule.forRoot({
@@ -58,10 +58,10 @@ export function HttpLoaderFactory(http: HttpClient) {
       backdropBorderRadius: '4px',
       primaryColour: '#ffffff',
       secondaryColour: '#ffffff',
-      tertiaryColour: '#ffffff'
+      tertiaryColour: '#ffffff',
     }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,0 +1,206 @@
+/* Estilo do modal de autocarro */
+.modal-md {
+  max-width: 650px; /* Largura média personalizada */
+}
+
+.modal-content {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header.bg-primary {
+  background-color: #ff4949 !important;
+  border-bottom: none;
+  padding: 1rem 1.5rem;
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Melhor espaçamento entre elementos do formulário */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  color: #495057;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-control,
+.form-select {
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 0.25rem; /* Espaço entre label e input */
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.autocarros-container {
+  padding-bottom: 2rem; /* Espaço extra na parte inferior */
+  margin-bottom: 1rem; /* Margem para separar do footer */
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: #ff4949;
+  box-shadow: 0 0 0 0.2rem rgba(255, 73, 73, 0.15);
+}
+
+/* Validação */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* Botões */
+.btn {
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #ff4949;
+  border-color: #ff4949;
+}
+
+.btn-primary:hover {
+  background-color: #d62e2e;
+  border-color: #d62e2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:disabled {
+  background-color: #ffbdbd;
+  border-color: #ffbdbd;
+}
+
+/* Ícones */
+.fa-bus,
+.fa-times,
+.fa-save {
+  font-size: 0.9em;
+}
+
+/* Estilos para os cards de autocarros */
+.hover-effect {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(255, 73, 73, 0.2);
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.825rem;
+  border-radius: 6px;
+}
+
+.btn-outline-primary {
+  color: #ff4949;
+  border-color: #ff4949;
+}
+
+.btn-outline-primary:hover {
+  background-color: #ff4949;
+  color: white;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Responsividade melhorada */
+@media (max-width: 768px) {
+  .autocarros-container {
+    padding-bottom: 1.5rem;
+  }
+
+  .card {
+    margin-bottom: 1rem;
+  }
+
+  .row.g-4 {
+    --bs-gutter-y: 1.5rem; /* Aumenta o espaçamento vertical entre linhas */
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+  }
+
+  .modal-md {
+    margin: 1rem auto;
+    max-width: 95%;
+  }
+
+  .form-control,
+  .form-select {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .card {
+    margin-bottom: 6rem;
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+  }
+}

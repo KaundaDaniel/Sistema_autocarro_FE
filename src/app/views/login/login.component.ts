@@ -6,18 +6,20 @@ import { ConfigService } from 'src/app/providers/config.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
   admin: any = {
-    username: null,
-    password: null
-  }
+    email: null,
+    nome: null,
+    id: null,
+    telefone: null,
+    password: null,
+  };
 
-  isLoggedIn: boolean = sessionStorage.getItem('sessionToken') ? true : false
+  isLoggedIn: boolean = sessionStorage.getItem('sessionToken') ? true : false;
 
-  private userLogged = false
+  private userLogged = false;
   loading: boolean = false;
 
   constructor(
@@ -26,54 +28,69 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     if (this.isLoggedIn) {
-      this.router.navigateByUrl('/home')
+      this.router.navigateByUrl('/home');
     }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   _signIn() {
-    if (this.admin.username == null) {
-      this.configService.SwalSuccess("O campo E-mail é obrigatório")
-      return
+    console.log('Ola Admin', this.admin);
+
+    if (!this.admin.email) {
+      this.configService.SwalSuccess('O campo E-mail é obrigatório');
+      return;
     }
 
-    if (this.admin.password == null) {
-      this.configService.SwalSuccess("O campo Senha é obrigatório")
-      return
+    if (!this.admin.password) {
+      this.configService.SwalSuccess('O campo Senha é obrigatório');
+      return;
     }
 
-    this.loading = true
+    this.loading = true;
 
-    this._authService.signIn(this.admin)
-      .subscribe(
-        response => {
+    this._authService.signIn(this.admin).subscribe(
+      (response) => {
+        const token = response.token;
+        const refreshToken = response.refreshToken;
 
-          let data = response.data
+        // Pega os restantes dados da resposta
+        const email = response.email;
+        const nome = response.nome;
+        const telefone = response.telefone;
+        const usuarioId = response.usuarioId;
+        const roles = response.roles;
 
-          if (response.code == 200) {
+        if (token) {
+          const currentUser = {
+            token,
+            refreshToken,
+            email,
+            nome,
+            telefone,
+            usuarioId,
+            roles,
+          };
 
-            sessionStorage.setItem('sessionToken', data.token.token)
-            sessionStorage.setItem('currentUser', JSON.stringify(data));
-            this.userLogged = true
-            this.loading = false
+          sessionStorage.setItem('sessionToken', token);
+          sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-            this.configService.toastrSucess(response.message)
-            this.router.navigateByUrl('/home')
-          } else {
-            this.configService.toastrError(response.message)
-          }
-        },
-        (error) => {
-          console.log(error)
-          if (!error.ok) {
-            this.userLogged = false
-            this.configService.toastrError(error.message)
-            this.router.navigate(['/'])
-          }
+          this.userLogged = true;
+          this.loading = false;
+
+          this.configService.toastrSucess('Login efectuado com sucesso');
+          this.router.navigateByUrl('/home');
+        } else {
+          this.configService.toastrError('Resposta inválida do servidor');
+          this.loading = false;
         }
-      )
+      },
+      (error) => {
+        console.log(error);
+        this.userLogged = false;
+        this.loading = false;
+        this.configService.toastrError(error.message || 'Erro na autenticação');
+      }
+    );
   }
-
 }

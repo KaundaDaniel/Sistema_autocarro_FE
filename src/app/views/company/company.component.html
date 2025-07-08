@@ -1,181 +1,431 @@
 <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <app-navbar></app-navbar>
-    <!-- partial -->
-    <div class="container-fluid page-body-wrapper">
-        <!-- partial:../../partials/_sidebar.html -->
-        <app-sidebar></app-sidebar>
-        <!-- partial -->
-        <div class="main-panel">
-            <div class="content-wrapper">
-                <!-- Page Title Header Starts-->
-                <app-header></app-header>
-                <!-- Page Title Header Ends-->
-                <div class="row">
-                    <div class="col-lg-4 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h4 class="card-title">Logotipo</h4>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="company" style="height: 495px">
-                                    <img src="./../../../assets/images/company/logos/ajca.png">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Dados da empresa</h4>
-                            </div>
-                            <div class="card-body">
-                                <form [formGroup]="companyForm" (submit)="save();">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="control-label"><i class="fa fa-edit"></i>Nome</label>
-                                            <div class="form-group">
-                                                <input type="text" formControlName="name" name="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors, 'is-valid': f.name.touched && !f.name.errors }" />
-                                                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['name'].errors.required">O campo nome é obrigatório</div>
-                                                </div>
-                                            </div>
-                                        </div>
+  <app-navbar></app-navbar>
 
-                                        <div class="col-md-6">
-                                            <label class="control-label"><i class="fa fa-edit"></i>Contribuente</label>
-                                            <div class="form-group">
-                                                <input
-                                                    type="text"
-                                                    formControlName="contributor"
-                                                    name="contributor"
-                                                    class="form-control"
-                                                    [ngClass]="{ 'is-invalid': submitted && f.contributor.errors, 'is-valid': f.contributor.touched && !f.contributor.errors }"
-                                                />
-                                                <div *ngIf="submitted && f['contributor'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['contributor'].errors.required">O campo contributor é obrigatório</div>
-                                                </div>
-                                                <small>Nº de contribuinte da empresa</small>
-                                            </div>
-                                        </div>
+  <div class="container-fluid page-body-wrapper">
+    <app-sidebar></app-sidebar>
 
-                                        <div class="col-md-6">
-                                            <label><i class="fa fa-edit"></i>Email</label>
-                                            <div class="form-group">
-                                                <input type="email" formControlName="email" name="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors, 'is-valid': f.email.touched && !f.email.errors }" />
-                                                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['email'].errors.required">O campo email é obrigatório</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label><i class="fa fa-edit"></i>Telefone</label>
-                                            <div class="form-group">
-                                                <input type="number" formControlName="phone" name="phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phone.errors, 'is-valid': f.phone.touched && !f.phone.errors }" />
-                                                <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['phone'].errors.required">O campo telefone é obrigatório</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label><i class="fa fa-edit"></i>Número do Whatsapp</label>
-                                            <div class="form-group">
-                                                <input type="number" formControlName="whatsapp_number" name="whatsapp_number" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.whatsapp_number.errors, 'is-valid': f.whatsapp_number.touched && !f.whatsapp_number.errors }" />
-                                                <div *ngIf="submitted && f['whatsapp_number'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['whatsapp_number'].errors.required">O campo número de whatsapp é obrigatório</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label><i class="fa fa-edit"></i>Nome Comercial</label>
-                                            <div class="form-group">
-                                                <input
-                                                    type="text"
-                                                    formControlName="commercial_name"
-                                                    name="commercial_name"
-                                                    class="form-control"
-                                                    [ngClass]="{ 'is-invalid': submitted && f.commercial_name.errors, 'is-valid': f.commercial_name.touched && !f.commercial_name.errors }"
-                                                />
-                                                <div *ngIf="submitted && f['commercial_name'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['commercial_name'].errors.required">O campo commercial_name é obrigatório</div>
-                                                </div>
-                                                <small>Designação informal pela qual é conhecida a empresa. Ex: Papelaria Antunes</small>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label><i class="fa fa-edit"></i>Slogan</label>
-                                            <div class="form-group">
-                                                <input
-                                                    type="text"
-                                                    formControlName="slogan"
-                                                    name="slogan"
-                                                    class="form-control"
-                                                    [ngClass]="{ 'is-invalid': submitted && f.slogan.errors, 'is-valid': f.slogan.touched && !f.slogan.errors }"
-                                                />
-                                                <div *ngIf="submitted && f['slogan'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['slogan'].errors.required">O campo slogan é obrigatório</div>
-                                                </div>
-                                                <small>Expressão que aparece imediatamente abaixo do nome nos documentos</small>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-6">
-                                            <label><i class="fa fa-edit"></i>Website</label>
-                                            <div class="form-group">
-                                                <input
-                                                    type="text"
-                                                    formControlName="website"
-                                                    name="website"
-                                                    class="form-control"
-                                                    [ngClass]="{ 'is-invalid': submitted && f.website.errors, 'is-valid': f.website.touched && !f.website.errors }"
-                                                />
-                                                <div *ngIf="submitted && f['website'].errors" class="invalid-feedback">
-                                                    <div *ngIf="f['website'].errors.required">O campo website é obrigatório</div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label"><i class="fa fa-edit"></i> Endereço</label>
-                                                    <textarea
-                                                        type="text"
-                                                        formControlName="address"
-                                                        name="address"
-                                                        class="form-control"
-                                                        placeholder="Nome">
-                                                    </textarea>                               
-                                                </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="btn-group">
-                                                <button type="button" (click)="setCompany()" class="btn btn-secondary mr-1" data-toggle="modal" data-target="#associarContaModal">Associar Coordenada Bancária</button>
-                                                <button class="btn btn-success btn-sm mr-1" type="submit" [disabled]="companyForm.valid">Validar</button>
-                                                <button type="submit" [disabled]="companyForm.pristine || companyForm.invalid" class="btn btn-primary btn-sm">Salvar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
-            <app-footer></app-footer>
-            <AssociarConta [company]="company"></AssociarConta>
-            <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <app-header></app-header>
+        <div class="col-md-6">
+          <h1 class="titulo-table">Empresas</h1>
         </div>
-        <!-- main-panel ends -->
+        <div class="filtro-card p-3 mb-3 shadow-sm rounded bg-white">
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <!-- Select -->
+            <div
+              class="query-builder-container flex-grow-1"
+              style="min-width: 200px; max-width: 250px"
+            >
+              <select
+                class="form-select custom-select"
+                [(ngModel)]="campoSelecionado"
+                name="campo"
+              >
+                <option disabled selected value="">Selecionar um campo</option>
+                <option value="nome">Nome</option>
+                <option value="nif">NIF</option>
+                <option value="cidade">Cidade</option>
+                <option value="distrito">Distrito</option>
+                <option value="contacto">Contacto</option>
+              </select>
+            </div>
+
+            <!-- Input -->
+            <div
+              class="flex-grow-1"
+              *ngIf="campoSelecionado"
+              style="min-width: 250px; max-width: 300px"
+            >
+              <input
+                type="text"
+                [(ngModel)]="valorFiltro"
+                [placeholder]="getPlaceholder()"
+                class="form-control"
+              />
+            </div>
+
+            <!-- Botões -->
+            <div class="d-flex gap-2">
+              <button class="btn btn-custom-verde" (click)="filtrar()">
+                <i class="fas fa-search"></i> Filtrar
+              </button>
+              <button
+                class="btn btn-outline-custom-vermelho"
+                (click)="limpar()"
+              >
+                <i class="fas fa-broom"></i> Limpar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cabeçalho + Botão -->
+        <div class="row justify-content-between align-items-center mb-3">
+          <div class="col-md-12 d-flex justify-content-end">
+            <button class="btn btn-custom-red" (click)="abrirModal(template)">
+              <i class="mdi mdi-plus"></i> Nova Empresa
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal com ngx-bootstrap -->
+        <ng-template #template let-modal>
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">
+              <i class="mdi mdi-office-building"></i>
+              {{ isEditando ? "Editar Empresa" : "Cadastrar  Empresa" }}
+            </h5>
+
+            <button type="button" class="close" (click)="fecharModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form [formGroup]="companyForm" (ngSubmit)="save()">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Nome</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="nome"
+                    placeholder="Ex: Empresa XYZ Ltda"
+                    [ngClass]="{ 'is-invalid': submitted && f.nome.errors }"
+                  />
+                  <div
+                    *ngIf="submitted && f.nome.errors"
+                    class="invalid-feedback"
+                  >
+                    Nome é obrigatório
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>Contacto</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="contacto"
+                    placeholder="Ex: 912345678"
+                    [ngClass]="{ 'is-invalid': submitted && f.contacto.errors }"
+                  />
+                  <div
+                    *ngIf="submitted && f.contacto.errors"
+                    class="invalid-feedback"
+                  >
+                    Contacto é obrigatório
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>NIF</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="nif"
+                    placeholder="Ex: 123456789"
+                    [ngClass]="{ 'is-invalid': submitted && f.nif.errors }"
+                  />
+                  <div
+                    *ngIf="submitted && f.nif.errors"
+                    class="invalid-feedback"
+                  >
+                    NIF inválido (9 dígitos)
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>Endereço</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="endereco"
+                    placeholder="Ex: Rua Principal, 123"
+                    [ngClass]="{ 'is-invalid': submitted && f.endereco.errors }"
+                  />
+                  <div
+                    *ngIf="submitted && f.endereco.errors"
+                    class="invalid-feedback"
+                  >
+                    Endereço é obrigatório
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>Cidade</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="cidade"
+                    placeholder="Ex: Luanda"
+                    [ngClass]="{ 'is-invalid': submitted && f.cidade.errors }"
+                  />
+                  <div
+                    *ngIf="submitted && f.cidade.errors"
+                    class="invalid-feedback"
+                  >
+                    Cidade é obrigatória
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>Distrito</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="distrito"
+                    placeholder="Ex: Ingombota"
+                    [ngClass]="{ 'is-invalid': submitted && f.distrito.errors }"
+                  />
+                  <div
+                    *ngIf="submitted && f.distrito.errors"
+                    class="invalid-feedback"
+                  >
+                    Distrito é obrigatório
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label>Código Postal</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="codigoPostal"
+                    placeholder="Ex: 1000-001"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.codigoPostal.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && f.codigoPostal.errors"
+                    class="invalid-feedback"
+                  >
+                    Código postal inválido
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  (click)="fecharModal()"
+                >
+                  <i class="mdi mdi-close"></i> Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="loading"
+                >
+                  <i
+                    class="mdi"
+                    [ngClass]="
+                      loading ? 'mdi-loading mdi-spin' : 'mdi-content-save'
+                    "
+                  ></i>
+
+                  {{ isEditando ? "Actualizar Empresa" : "Salvar Empresa" }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </ng-template>
+
+        <!-- Tabela das empresas -->
+        <table
+          class="table table-bordered table-hover shadow rounded table-striped align-middle"
+        >
+          <thead class="table-danger">
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>NIF</th>
+              <th>Cidade</th>
+              <th>Distrito</th>
+              <th>Contacto</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let empresa of empresas">
+              <td>{{ empresa.idEmpresa }}</td>
+              <td>{{ empresa.nome }}</td>
+              <td>{{ empresa.nif }}</td>
+              <td>{{ empresa.cidade }}</td>
+              <td>{{ empresa.distrito }}</td>
+              <td>{{ empresa.contacto }}</td>
+              <td class="text-center">
+                <button
+                  class="btn btn-sm btn-outline-primary me-1"
+                  (click)="verDetalhes(empresa)"
+                  title="Ver Detalhes"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-warning me-1"
+                  (click)="editar(empresa)"
+                  title="Editar"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  (click)="apagar(empresa.idEmpresa)"
+                  title="Apagar"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Paginação -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <small class="text-muted">
+            Página {{ paginaActual + 1 }} de {{ totalPaginas }} ({{
+              totalRegistos
+            }}
+            registos)
+          </small>
+
+          <nav>
+            <ul class="pagination pagination-sm mb-0">
+              <li class="page-item" [class.disabled]="paginaActual === 0">
+                <button
+                  class="page-link"
+                  (click)="irParaPagina(paginaActual - 1)"
+                >
+                  <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+              </li>
+
+              <li
+                class="page-item"
+                *ngFor="
+                  let pagina of [].constructor(totalPaginas);
+                  let i = index
+                "
+                [class.active]="i === paginaActual"
+              >
+                <button class="page-link" (click)="irParaPagina(i)">
+                  {{ i + 1 }}
+                </button>
+              </li>
+
+              <li
+                class="page-item"
+                [class.disabled]="paginaActual + 1 >= totalPaginas"
+              >
+                <button
+                  class="page-link"
+                  (click)="irParaPagina(paginaActual + 1)"
+                >
+                  Próxima <i class="fas fa-chevron-right"></i>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Modal de Detalhes -->
+        <ng-template #modalDetalhes let-modal>
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title">
+                <i class="mdi mdi-domain me-2"></i> Detalhes da Empresa
+              </h5>
+              <button
+                type="button"
+                class="close text-white"
+                (click)="modalRef?.hide()"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <div class="detalhes-empresa">
+                <ul class="list-group mb-4">
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span class="fw-bold">Nome:</span>
+                    <span class="text-end">{{
+                      empresaSelecionada?.nome || "--"
+                    }}</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span class="fw-bold">NIF:</span>
+                    <span class="text-end">{{
+                      empresaSelecionada?.nif || "--"
+                    }}</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span class="fw-bold">Cidade:</span>
+                    <span class="text-end">{{
+                      empresaSelecionada?.cidade || "--"
+                    }}</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span class="fw-bold">Distrito:</span>
+                    <span class="text-end">{{
+                      empresaSelecionada?.distrito || "--"
+                    }}</span>
+                  </li>
+                  <li
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <span class="fw-bold">Contacto:</span>
+                    <span class="text-end">{{
+                      empresaSelecionada?.contacto || "--"
+                    }}</span>
+                  </li>
+                </ul>
+
+                <h6 class="mb-3 text-primary">
+                  <i class="mdi mdi-bus me-1"></i> Autocarros Associados:
+                </h6>
+                <ul class="list-group mb-3">
+                  <li
+                    class="list-group-item d-flex align-items-center"
+                    *ngFor="let nome of empresaSelecionada?.nomesAutocarros"
+                  >
+                    <i class="mdi mdi-bus text-primary me-2"></i>
+                    <span>{{ nome }}</span>
+                  </li>
+                  <li
+                    class="list-group-item text-muted d-flex align-items-center"
+                    *ngIf="!empresaSelecionada?.nomesAutocarros?.length"
+                  >
+                    <i class="mdi mdi-alert-circle-outline me-2"></i>
+                    Nenhum autocarro associado
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn btn-secondary" (click)="modalRef?.hide()">
+                <i class="mdi mdi-close me-1"></i> Fechar
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <app-footer></app-footer>
+      <AssociarConta [company]="company"></AssociarConta>
     </div>
-    <!-- page-body-wrapper ends -->
+  </div>
 </div>

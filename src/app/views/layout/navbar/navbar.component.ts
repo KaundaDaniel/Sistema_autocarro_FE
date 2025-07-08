@@ -8,10 +8,9 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-
   notifications: any = [];
 
   current_user: any;
@@ -23,33 +22,30 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     private httpService: HttpService,
     private configService: ConfigService,
-    public translate: TranslateService,
+    public translate: TranslateService
   ) {
-
-    this.isNotOnline()
+    this.isNotOnline();
     //this.getLastsNotifications()
-    this.current_user = authService.current_user()
+    this.current_user = authService.current_user();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   logout() {
-    this.authService.removeTokenOfUser()
+    this.authService.removeTokenOfUser();
   }
 
   changeLanguage(event: any) {
-    const lang = event.target.value
-    this.setLanguage(lang)
+    const lang = event.target.value;
+    this.setLanguage(lang);
 
-    this.reloadPage()
+    this.reloadPage();
   }
 
   isNotOnline() {
-
     if (!navigator.onLine) {
       this.configService.toastrWarning('Sem conexão à internet');
     }
-
   }
 
   reloadPage() {
@@ -57,25 +53,31 @@ export class NavbarComponent implements OnInit {
   }
 
   getLastsNotifications() {
-    this.http.get(this.httpService.base_url + '/admin/last_notifications', { headers: this.authService.headers })
-      .subscribe(res => {
-        this.notifications = Object(res)
+    this.http
+      .get(this.httpService.base_url + '/admin/last_notifications', {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.notifications = Object(res);
+      });
   }
 
   readNotification(notification: any) {
-
-    this.http.patch(`${this.httpService.base_url}/admin/read-notification/${notification.id}`, null, { headers: this.authService.headers })
-      .subscribe(response => {
-        console.log(response)
-        this.getLastsNotifications()
-      })
+    this.http
+      .patch(
+        `${this.httpService.base_url}/admin/read-notification/${notification.id}`,
+        null,
+        { headers: this.authService.getHeaders() }
+      )
+      .subscribe((response) => {
+        console.log(response);
+        this.getLastsNotifications();
+      });
   }
 
   setLanguage(lang: any) {
-    localStorage.setItem('lang', lang)
+    localStorage.setItem('lang', lang);
     this.translate.setDefaultLang(lang);
     this.translate.use(lang);
   }
-
 }

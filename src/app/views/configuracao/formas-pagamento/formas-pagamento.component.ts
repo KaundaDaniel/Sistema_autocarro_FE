@@ -6,25 +6,23 @@ import { HttpService } from 'src/app/providers/http.service';
 @Component({
   selector: 'app-formas-pagamento',
   templateUrl: './formas-pagamento.component.html',
-  styleUrls: ['./formas-pagamento.component.css']
+  styleUrls: ['./formas-pagamento.component.css'],
 })
 export class FormasPagamentoComponent implements OnInit {
-
   public filters = {
     search: null,
     pagination: {
       page: 1,
       perPage: 5,
       total: 0,
-      lastPage: 0
-    }
-  }
-
+      lastPage: 0,
+    },
+  };
 
   public loading = false;
 
-  public payment_method: any
-  public payment_methods: any = []
+  public payment_method: any;
+  public payment_methods: any = [];
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -33,23 +31,23 @@ export class FormasPagamentoComponent implements OnInit {
     this.listaOfPaymentMethod();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   listaOfPaymentMethod() {
-    this.loading = true
-    this.http.get(`${this.httpService.base_url}/payment_methods/listagem`, { headers: this.authService.headers })
-      .subscribe(res => {
-        this.payment_methods = Object(res)
-        this.loading = false
+    this.loading = true;
+    this.http
+      .get(`${this.httpService.base_url}/payment_methods/listagem`, {
+        headers: this.authService.getHeaders(),
       })
+      .subscribe((res) => {
+        this.payment_methods = Object(res);
+        this.loading = false;
+      });
   }
 
   setCategoria(item: any) {
     this.payment_method = item;
   }
 
-  getPageFilterData(event: any) {
-
-  }
-
+  getPageFilterData(event: any) {}
 }
