@@ -18,13 +18,20 @@ export class AutocarroComponent implements OnInit {
   isEditando: boolean = false;
   loading = false;
   submitted = false;
-  campoFiltro: string = '';
-  valorFiltro: string = '';
 
   @ViewChild('modalCriarAutocarro') modalCriarRef!: TemplateRef<any>;
 
-  empresas: any[] = []; // Popular esta lista via HTTP
+  empresas: any[] = [];
   autocarros: any[] = [];
+
+  // Paginação
+  paginaActual = 1;
+  itensPorPagina = 8;
+  totalRegistos = 0;
+
+  // Filtros
+  campoFiltro: string = '';
+  valorFiltro: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -42,46 +49,10 @@ export class AutocarroComponent implements OnInit {
     this.listarAutocarros();
   }
 
-  aplicarFiltro() {
-    const filtros: any = {};
-
-    switch (this.campoFiltro) {
-      case 'nomeEmpresa':
-        filtros.nomeEmpresa = this.valorFiltro;
-        break;
-      case 'estado':
-        filtros.estado = this.valorFiltro;
-        break;
-      case 'identificacao':
-        filtros.identificacao = this.valorFiltro;
-        break;
-      case 'tipo':
-        filtros.tipo = this.valorFiltro;
-        break;
-      case 'capacidade':
-        filtros.capacidade = this.valorFiltro;
-        break;
-      case 'origem':
-        filtros.origem = this.valorFiltro;
-        break;
-      case 'destino':
-        filtros.destino = this.valorFiltro;
-        break;
-    }
-
-    this.listarAutocarros(filtros);
-  }
-
-  limparFiltro() {
-    this.campoFiltro = '';
-    this.valorFiltro = '';
-    this.listarAutocarros();
-  }
-
   initForm() {
     this.autocarroForm = this.fb.group({
       idAutocarro: [null],
-      identificacao: [
+      matricula: [
         '',
         [
           Validators.required,
@@ -95,8 +66,23 @@ export class AutocarroComponent implements OnInit {
       idEmpresa: [null, Validators.required],
     });
   }
+
+  getPaginas(): number[] {
+    const totalPaginas = Math.ceil(this.totalRegistos / this.itensPorPagina);
+    return Array.from({ length: totalPaginas }, (_, i) => i + 1);
+  }
+
   get f() {
     return this.autocarroForm.controls;
+  }
+
+  abrirModal() {
+    this.isEditando = false;
+    this.submitted = false;
+    this.autocarroForm.reset({ tipo: 'standard', estado: 'disponivel' });
+    this.modalRef = this.modalService.show(this.modalCriarRef, {
+      class: 'modal-md',
+    });
   }
 
   editar(idAutocarro: number, event: Event) {
@@ -108,7 +94,6 @@ export class AutocarroComponent implements OnInit {
 
     this.isEditando = true;
     this.submitted = false;
-
     this.modalRef = this.modalService.show(this.modalCriarRef, {
       class: 'modal-md',
     });
@@ -138,15 +123,8 @@ export class AutocarroComponent implements OnInit {
     }
   }
 
-  abrirModal() {
-    this.isEditando = false;
-    this.autocarroForm.reset({ tipo: 'standard', estado: 'disponivel' });
-    this.modalRef = this.modalService.show(this.modalCriarRef, {
-      class: 'modal-md',
-    });
-  }
-
   salvarAutocarro() {
+    this.submitted = true;
     if (this.autocarroForm.invalid) return;
 
     const dados = this.autocarroForm.value;
@@ -179,22 +157,77 @@ export class AutocarroComponent implements OnInit {
       .subscribe((res: any) => (this.empresas = res?.content || []));
   }
 
-  listarAutocarros(filtros: any = {}) {
-    const params: any = {};
+  listarAutocarros(filtrar = false) {
+    this.loading = true;
+    const endpoint = filtrar
+      ? `${this.httpService.base_url}/autocarros/filtrar`
+      : `${this.httpService.base_url}/autocarros`;
 
-    if (filtros.nomeEmpresa) params.nomeEmpresa = filtros.nomeEmpresa;
-    if (filtros.estado) params.estado = filtros.estado;
-    if (filtros.tipo) params.tipo = filtros.tipo;
-    if (filtros.capacidade) params.capacidade = filtros.capacidade;
-    if (filtros.origem) params.origem = filtros.origem;
-    if (filtros.destino) params.destino = filtros.destino;
+    const params: any = {
+      page: this.paginaActual - 1,
+      size: this.itensPorPagina,
+    };
+
+    if (filtrar) {
+      switch (this.campoFiltro) {
+        case 'nomeEmpresa':
+          params.nomeEmpresa = this.valorFiltro;
+          break;
+        case 'estado':
+          params.estado = this.valorFiltro;
+          break;
+        case 'tipo':
+          params.tipo = this.valorFiltro;
+          break;
+        case 'matricula':
+          params.matricula = this.valorFiltro;
+          break;
+
+        case 'capacidade':
+          params.capacidade = this.valorFiltro;
+          break;
+        case 'origem':
+          params.origem = this.valorFiltro;
+          break;
+        case 'destino':
+          params.destino = this.valorFiltro;
+          break;
+      }
+    }
 
     this.http
-      .get(`${this.httpService.base_url}/autocarros/filtrar`, {
+      .get(endpoint, {
         headers: this.auth.getHeaders(),
         params,
       })
-      .subscribe((res: any) => (this.autocarros = res?.content || []));
+      .subscribe({
+        next: (res: any) => {
+          this.autocarros = res?.content || [];
+          this.totalRegistos = res?.totalElements || 0;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.config.toastrError('Erro ao carregar autocarros');
+          this.loading = false;
+        },
+      });
+  }
+
+  filtrar() {
+    this.paginaActual = 1;
+    this.listarAutocarros(true);
+  }
+
+  limparFiltro() {
+    this.campoFiltro = '';
+    this.valorFiltro = '';
+    this.paginaActual = 1;
+    this.listarAutocarros();
+  }
+
+  paginaAlterada(pagina: number) {
+    this.paginaActual = pagina;
+    this.listarAutocarros(!!this.campoFiltro && !!this.valorFiltro);
   }
 
   verDetalhes(id: number) {
