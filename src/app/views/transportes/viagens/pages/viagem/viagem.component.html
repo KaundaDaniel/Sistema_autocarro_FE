@@ -1,0 +1,340 @@
+<div class="container-scroller">
+  <app-navbar></app-navbar>
+  <div class="container-fluid page-body-wrapper">
+    <app-sidebar></app-sidebar>
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <app-header></app-header>
+        <div class="col-md-6">
+          <h1 class="titulo-table">Viagens</h1>
+        </div>
+        <!-- Inicio do  Filtro das Viagens -->
+        <div class="filtro-card p-3 mb-3 shadow-sm-rounded-bg-white">
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <div
+              class="query-builder-container flex-grow-1"
+              style="min-width: 200px; max-width: 250px"
+            >
+              <select
+                class="form-select custom-select"
+                name="campoFiltro"
+                [(ngModel)]="campoFiltro"
+              >
+                <option disabled selected value="">Selecionar um campo</option>
+                <option value="nomeEmpresa">Origem</option>
+                <option value="estado">Estado</option>
+                <option value="identificacao">Matricula</option>
+                <option value="tipo">Tipo</option>
+                <option value="capacidade">Capacidade</option>
+                <option value="origem">Origem</option>
+                <option value="destino">Destino</option>
+              </select>
+            </div>
+
+            <!-- Input para filtrar as viagens -->
+            <div class="flex-grow-1" style="min-width: 250px; max-width: 300px">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="valorFiltro"
+                name="valorFiltro"
+              />
+            </div>
+
+            <!-- Botão de filtrar -->
+            <div class="d-flex gap-2">
+              <button class="btn btn-custom-verde" (click)="filtrarViagens()">
+                <i class="fas fa-search"></i> Filtrar
+              </button>
+              <button class="btn btn-outline-custom-vermelho">
+                <i class="fas fa-broom"></i>Limpar
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Fim do filtro de viagens -->
+
+        <div class="row justify-content-between align-items-center mb-3">
+          <div class="col-md-12 d-flex justify-content-end">
+            <button class="btn btn-custom-red" (click)="abrirModal()">
+              <i class="fas fa-road me-2"></i>Nova Viagem
+            </button>
+          </div>
+        </div>
+
+        <ng-template #modalCriarViagem let-modal>
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">
+              <i class="fas fa-road me-2"></i>
+              {{ isEditando ? "Editar" : "Novo" }} Viagem
+            </h5>
+            <button
+              type="button"
+              class="close text-white"
+              (click)="modalRef?.hide()"
+              aria-label="Fechar"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <form [formGroup]="viagemForm" (ngSubmit)="salvarViagem()">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Origem</label>
+                    <select class="form-select" formControlName="origem">
+                      <option [value]="null" disabled selected>
+                        -- Selecione a origem --
+                      </option>
+                      <option
+                        *ngFor="let provincia of provincias"
+                        [value]="provincia"
+                      >
+                        {{ provincia }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="submitted && viagemForm.get('origem')?.invalid"
+                      class="text-danger"
+                    >
+                      Origem obrigatória
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Destino</label>
+                    <select class="form-select" formControlName="destino">
+                      <option [value]="null" disabled selected>
+                        -- Selecione o Destino --
+                      </option>
+                      <option
+                        *ngFor="let provincia of provincias"
+                        [value]="provincia"
+                      >
+                        {{ provincia }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="submitted && viagemForm.get('destino')?.invalid"
+                      class="text-danger"
+                    >
+                      Destino obrigatório
+                    </div>
+                    <div
+                      *ngIf="viagemForm.errors?.origemIgualDestino"
+                      class="text-danger"
+                    >
+                      A origem e o destino não podem ser iguais.
+                    </div>
+                  </div>
+                </div>
+                <!-- Data de Partida -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Data de Partida</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">
+                      <i class="fas fa-calendar-alt"></i>
+                    </span>
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      id="dataPartida"
+                      formControlName="dataPartida"
+                      [min]="minDateTime"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.dataPartida?.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="submitted && f.dataPartida?.errors"
+                      class="invalid-feedback"
+                    >
+                      Data de partida inválida ou obrigatória
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Data de Chegada -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Data de Chegada</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">
+                      <i class="fas fa-calendar-alt"></i>
+                    </span>
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      formControlName="dataChegada"
+                      [min]="dataPartidaMin || minDateTime"
+                      id="dataChegada"
+                      [ngClass]="{
+        'is-invalid': submitted && (f.dataChegada?.errors || viagemForm.errors?.['datasInvalidas'])
+      }"
+                    />
+                    <div
+                      *ngIf="submitted && (f.dataChegada?.errors || viagemForm.errors?.['datasInvalidas'])"
+                      class="invalid-feedback"
+                    >
+                      A data de chegada deve ser posterior à data de partida
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Preço Base -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Preço Base</label>
+                  <div class="input-group">
+                    <span class="input-group-text">Kz</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      formControlName="precoBase"
+                      placeholder="15000"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.precoBase?.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="submitted && f.precoBase?.errors"
+                      class="invalid-feedback"
+                    >
+                      Valor inválido
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Autocarro -->
+                <div class="col-md-6">
+                  <label class="form-label fw-bold">Autocarro</label>
+                  <select
+                    class="form-select"
+                    formControlName="idAutocarro"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.idAutocarro?.errors
+                    }"
+                  >
+                    <option [value]="null" disabled selected>
+                      -- Selecione o Autocarro --
+                    </option>
+                    <option
+                      *ngFor="let autocarro of autocarros"
+                      [value]="autocarro.idAutocarro"
+                    >
+                      {{ autocarro.matricula }} -
+                      {{ autocarro.nomeEmpresa || "Empresa Desconhecida" }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="submitted && f.idAutocarro?.errors"
+                    class="invalid-feedback"
+                  >
+                    Selecione um autocarro
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer border-top-0">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="modalRef?.hide()"
+              >
+                <i class="fas fa-times me-1"></i> Cancelar
+              </button>
+              <button
+                class="btn btn-primary px-4 py-2"
+                type="submit"
+                [disabled]="loading"
+              >
+                <i class="fas fa-save me-2"></i>
+                <span *ngIf="!loading">Salvar Viagem</span>
+                <span
+                  *ngIf="loading"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </button>
+            </div>
+          </form>
+        </ng-template>
+
+        <!--INICIO DA LISTAGEM DAS VIAGEMS -->
+        <div class="col-md-12">
+          <div class="row g-3">
+            <div
+              class="col-12 col-sm-6 col-md-4 col-lg-3"
+              *ngFor="let viagem of viagens"
+            >
+              <div class="card" style="height: 300px">
+                <div class="viagem-info p-3">
+                  <div class="local">
+                    <span class="label">De</span>
+                    <span class="valor">{{ viagem.origem }}</span>
+                  </div>
+                  <div class="duracao">
+                    <span class="label">Duração</span>
+                    <span class="valor">
+                      {{ viagem.duracao }}
+                    </span>
+                  </div>
+                  <div class="local text-end">
+                    <span class="label">Para</span>
+                    <span class="valor">{{ viagem.destino }}</span>
+                  </div>
+                </div>
+
+                <div class="matricula px-3">
+                  <small>Matrícula</small>
+                  <div class="valor">
+                    <i class="fa fa-bus"></i>
+                    {{ viagem.matricula || "N/D" }}
+                  </div>
+                </div>
+
+                <div class="preco px-3 pb-2">
+                  <div><small>Preço</small></div>
+                  <div class="valor">
+                    Kz {{ viagem.precoBase | number : "1.2-2" : "pt-PT" }}
+                  </div>
+                </div>
+                <div class="acoes-card">
+                  <button
+                    class="btn-ver"
+                    title="Ver"
+                    (click)="abrirDetalhes(viagem)"
+                  >
+                    <i class="fa fa-eye"></i>
+                  </button>
+                  <button
+                    class="btn-editar"
+                    title="Editar"
+                    (click)="editarViagem(viagem)"
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button
+                    class="btn-apagar"
+                    title="Apagar"
+                    (click)="confirmarRemocao(viagem)"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>
+</div>
+
+<div class="card-body"></div>

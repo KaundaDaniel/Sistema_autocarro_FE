@@ -25,7 +25,7 @@
                 <option disabled selected value="">Selecionar um campo</option>
                 <option value="nomeEmpresa">Nome da Empresa</option>
                 <option value="estado">Estado</option>
-                <option value="identificacao">Matricula</option>
+                <option value="matricula">Matricula</option>
                 <option value="tipo">Tipo</option>
                 <option value="capacidade">Capacidade</option>
                 <option value="origem">Origem</option>
@@ -45,7 +45,11 @@
 
             <!-- Botões -->
             <div class="d-flex gap-2">
-              <button class="btn btn-custom-verde" (click)="aplicarFiltro()">
+              <button
+                class="btn btn-custom-verde"
+                (keyup.enter)="filtrar()"
+                (click)="filtrar()"
+              >
                 <i class="fas fa-search"></i> Filtrar
               </button>
               <button
@@ -91,23 +95,23 @@
               <form [formGroup]="autocarroForm" (ngSubmit)="salvarAutocarro()">
                 <div class="modal-body">
                   <div class="row g-3">
-                    <!-- Identificação -->
+                    <!-- Matricula -->
                     <div class="col-md-6">
-                      <label class="form-label fw-bold">Identificação</label>
+                      <label class="form-label fw-bold">Matricula</label>
                       <input
                         type="text"
                         class="form-control mb-2"
-                        formControlName="identificacao"
+                        formControlName="matricula"
                         placeholder="Ex: AB-1234"
                         [ngClass]="{
-                          'is-invalid': submitted && f.identificacao?.errors
+                          'is-invalid': submitted && f.matricula.errors
                         }"
                       />
                       <div
-                        *ngIf="submitted && f.identificacao?.errors"
+                        *ngIf="submitted && f.matricula?.errors"
                         class="invalid-feedback"
                       >
-                        Identificação é obrigatória
+                        Matrícula é obrigatória
                       </div>
                     </div>
 
@@ -243,8 +247,13 @@
             >
           </div>
           <div class="autocarros-container">
+            <div *ngIf="loading" class="d-flex justify-content-center my-3">
+              <div class="spinner-grow text-danger" role="status">
+                <span class="visually-hidden">A carregar...</span>
+              </div>
+            </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-              <div class="col mb-2" *ngFor="let autocarro of autocarros">
+              <div class="col mb-4" *ngFor="let autocarro of autocarros">
                 <div
                   class="card mb-4 cursor-pointer h-100 border-0 shadow-sm hover-effect"
                   (click)="verDetalhes(autocarro.idAutocarro)"
@@ -252,7 +261,7 @@
                   <div class="card-header bg-white border-bottom-0 pb-0">
                     <h5 class="card-title text-primary mb-1">
                       <i class="fas fa-bus text-muted me-2"></i>
-                      {{ autocarro.identificacao }}
+                      {{ autocarro.matricula }}
                     </h5>
                     <span
                       class="badge"
@@ -307,6 +316,38 @@
                 </div>
               </div>
             </div>
+
+            <nav
+              *ngIf="totalRegistos > itensPorPagina"
+              class="d-flex justify-content-center mt-4"
+            >
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  [class.disabled]="paginaActual === 1"
+                  (click)="paginaAlterada(paginaActual - 1)"
+                >
+                  <a class="page-link">Anterior</a>
+                </li>
+
+                <li
+                  class="page-item"
+                  *ngFor="let pagina of getPaginas()"
+                  [class.active]="paginaActual === pagina"
+                  (click)="paginaAlterada(pagina)"
+                >
+                  <a class="page-link">{{ pagina }}</a>
+                </li>
+
+                <li
+                  class="page-item"
+                  [class.disabled]="paginaActual === getPaginas().length"
+                  (click)="paginaAlterada(paginaActual + 1)"
+                >
+                  <a class="page-link">Próxima</a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
