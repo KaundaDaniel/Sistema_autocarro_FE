@@ -56,6 +56,7 @@ export class ViagemComponent implements OnInit {
   initForm() {
     this.viagemForm = this.fb.group(
       {
+        idViagem: [null],
         origem: ['', Validators.required],
         destino: ['', Validators.required],
         dataPartida: ['', Validators.required],
@@ -162,7 +163,7 @@ export class ViagemComponent implements OnInit {
   }
   confirmarRemocao(viagem: any) {
     if (confirm('Tens certeza que desejas apagar esta viagem?')) {
-      this.apagarViagem(viagem.id);
+      this.apagarViagem(viagem.idViagem);
     }
   }
   apagarViagem(id: number) {
@@ -173,6 +174,12 @@ export class ViagemComponent implements OnInit {
       .subscribe(() => {
         this.carregarViagens();
       });
+  }
+
+  limparFiltro() {
+    this.campoFiltro = '';
+    this.valorFiltro = '';
+    this.carregarViagens();
   }
 
   abrirDetalhes(open: any) {}
@@ -209,36 +216,43 @@ export class ViagemComponent implements OnInit {
     this.loading = true;
 
     const dados = { ...this.viagemForm.value };
+    const url = this.isEditando
+      ? `${this.httpService.base_url}/viagens/${dados.idViagem}`
+      : `${this.httpService.base_url}/viagens`;
+    const metodo = this.isEditando ? 'put' : 'post';
 
-    this.http
-      .post(`${this.httpService.base_url}/viagens`, dados, {
-        headers: this.auth.getHeaders(),
-      })
-      .subscribe({
-        next: () => {
-          this.config.toastrSucess('Viagem criada com sucesso');
-          this.viagemForm.reset();
-          this.modalRef?.hide();
-          this.submitted = false;
-          this.carregarViagens();
-        },
-        error: (err) => {
-          const mensagemErro = err?.error?.message || 'Erro ao criar viagem';
-          this.config.toastrError(mensagemErro);
-          console.error(err);
-          this.loading = false;
-        },
+    this.http[metodo](url, dados, {
+      headers: this.auth.getHeaders(),
+    }).subscribe({
+      next: () => {
+        const mensagem = this.isEditando
+          ? 'Viagem actualizada com sucesso'
+          : 'Viagem criada com sucesso';
 
-        complete: () => {
-          this.loading = false;
-        },
-      });
+        this.config.toastrSucess(mensagem);
+        this.viagemForm.reset();
+        this.modalRef?.hide();
+        this.submitted = false;
+        this.carregarViagens();
+      },
+      error: (err) => {
+        const mensagemErro = err?.error?.message || 'Erro ao criar viagem';
+        this.config.toastrError(mensagemErro);
+        console.error(err);
+        this.loading = false;
+      },
+
+      complete: () => {
+        this.loading = false;
+      },
+    });
   }
 
   editarViagem(viagem: any) {
     this.isEditando = true;
     this.viagemForm.patchValue({
       origem: viagem.origem,
+      idViagem: viagem.idViagem,
       destino: viagem.destino,
       dataPartida: viagem.dataPartida,
       dataChegada: viagem.dataChegada,
@@ -255,6 +269,7 @@ export class ViagemComponent implements OnInit {
       })
       .subscribe(
         (res: any) => {
+          console.log('Ola res', res);
           this.viagens = (res.content || []).map((v: any) => ({
             ...v,
             duracao: this.calcularDuracao(v.dataPartida, v.dataChegada),
@@ -276,20 +291,23 @@ export class ViagemComponent implements OnInit {
       return;
     }
 
+    const campo = encodeURIComponent(this.campoFiltro);
+    const valor = encodeURIComponent(this.valorFiltro);
+
     this.http
-      .get(
-        `${this.httpService.base_url}/viagens/buscar?${this.campoFiltro}=${this.valorFiltro}`,
-        {
-          headers: this.auth.getHeaders(),
-        }
-      )
+      .get(`${this.httpService.base_url}/viagens/buscar?${campo}=${valor}`, {
+        headers: this.auth.getHeaders(),
+      })
       .subscribe(
         (res: any) => {
-          this.viagens = res.content || [];
+          this.viagens = (res.content || []).map((v: any) => ({
+            ...v,
+            duracao: this.calcularDuracao(v.dataPartida, v.dataChegada),
+          }));
         },
         (error) => {
+          this.config.toastrError('Erro ao filtrar viagens');
           console.error('Erro ao filtrar viagens:', error);
-          this.viagens = [];
         }
       );
   }

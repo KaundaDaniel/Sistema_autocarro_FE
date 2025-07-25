@@ -21,13 +21,12 @@
                 [(ngModel)]="campoFiltro"
               >
                 <option disabled selected value="">Selecionar um campo</option>
-                <option value="nomeEmpresa">Origem</option>
-                <option value="estado">Estado</option>
-                <option value="identificacao">Matricula</option>
-                <option value="tipo">Tipo</option>
-                <option value="capacidade">Capacidade</option>
                 <option value="origem">Origem</option>
                 <option value="destino">Destino</option>
+                <option value="estado">Estado</option>
+                <option value="matricula">Matrícula</option>
+                <option value="tipo">Tipo</option>
+                <option value="capacidade">Capacidade</option>
               </select>
             </div>
 
@@ -46,7 +45,10 @@
               <button class="btn btn-custom-verde" (click)="filtrarViagens()">
                 <i class="fas fa-search"></i> Filtrar
               </button>
-              <button class="btn btn-outline-custom-vermelho">
+              <button
+                class="btn btn-outline-custom-vermelho"
+                (click)="limparFiltro()"
+              >
                 <i class="fas fa-broom"></i>Limpar
               </button>
             </div>
@@ -252,7 +254,8 @@
                 [disabled]="loading"
               >
                 <i class="fas fa-save me-2"></i>
-                <span *ngIf="!loading">Salvar Viagem</span>
+                <span *ngIf="!loading"></span>
+                {{ isEditando ? "Actualizar Viagem" : "Salvar Viagem" }}
                 <span
                   *ngIf="loading"
                   class="spinner-border spinner-border-sm"
