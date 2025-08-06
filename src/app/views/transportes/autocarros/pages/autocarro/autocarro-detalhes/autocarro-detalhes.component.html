@@ -42,18 +42,76 @@
               </div>
             </div>
 
-            <h5 class="mb-3 text-muted">Mapa de Lugares</h5>
-            <div class="row row-cols-4 g-2">
-              <div *ngFor="let lugar of autocarro.lugares" class="col">
+            <h5 class="mb-3 text-muted">
+              <i class="fas fa-map me-2"></i>Mapa de Lugares - Layout do
+              Autocarro
+            </h5>
+
+            <!-- Novo Layout do Autocarro -->
+            <div class="bus-layout-container">
+              <div class="bus-front">
+                <i class="fas fa-steering-wheel me-2"></i>FRENTE DO AUTOCARRO
+              </div>
+
+              <!-- Gerar filas dinamicamente baseado nos lugares -->
+              <div
+                *ngFor="let row of getSeatsInRows(); let i = index"
+                class="seat-row"
+              >
                 <div
-                  class="text-center py-2 rounded shadow-sm border small"
-                  [ngClass]="{
-                    'bg-success text-white': lugar.estado === 'LIVRE',
-                    'bg-danger text-white': lugar.estado !== 'LIVRE'
-                  }"
+                  *ngFor="let seat of row; let j = index"
+                  class="seat"
+                  [class.seat-livre]="seat && seat.estado === 'LIVRE'"
+                  [class.seat-ocupado]="seat && seat.estado !== 'LIVRE'"
+                  [class.seat-selecionado]="
+                    seat && isSelected(seat.numeroLugar)
+                  "
+                  [class.aisle]="!seat"
+                  (click)="seat && seat.estado === 'LIVRE' && toggleSeat(seat)"
                 >
-                  {{ lugar.numeroLugar }}
+                  <ng-container *ngIf="seat">
+                    <span class="seat-number">{{ seat.numeroLugar }}</span>
+                    <i class="seat-icon" [class]="getSeatIcon(seat)"></i>
+                  </ng-container>
                 </div>
+              </div>
+
+              <!-- Legenda -->
+              <div class="legend">
+                <h6 class="mb-2">
+                  <i class="fas fa-info-circle me-2"></i>Legenda:
+                </h6>
+                <div class="d-flex flex-wrap">
+                  <div class="legend-item">
+                    <div class="legend-seat seat-livre"></div>
+                    <span>Livre</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-seat seat-ocupado"></div>
+                    <span>Ocupado</span>
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-seat seat-selecionado"></div>
+                    <span>Selecionado</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Informações de seleção -->
+              <div class="selected-info" *ngIf="selectedSeats.length > 0">
+                <div class="alert alert-info">
+                  <strong
+                    ><i class="fas fa-ticket-alt me-2"></i>Lugares
+                    Selecionados:</strong
+                  >
+                  {{ selectedSeats.join(", ") }}
+                </div>
+                <button
+                  class="btn btn-success w-100"
+                  (click)="confirmarSelecao()"
+                >
+                  <i class="fas fa-check-circle me-2"></i>Confirmar Seleção
+                </button>
               </div>
             </div>
           </div>
@@ -63,7 +121,6 @@
           </ng-template>
         </div>
       </div>
-
       <app-footer></app-footer>
     </div>
   </div>

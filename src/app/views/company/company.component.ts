@@ -65,7 +65,7 @@ export class CompanyComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
-      nif: [null, [Validators.required, Validators.pattern(/^\d{9}$/)]],
+      nif: [null, [Validators.required, Validators.pattern(/^\d{10}$/)]],
       endereco: [null, [Validators.required, Validators.maxLength(255)]],
       cidade: [null, [Validators.required, Validators.maxLength(100)]],
       distrito: [null, [Validators.required, Validators.maxLength(100)]],
@@ -102,7 +102,6 @@ export class CompanyComponent implements OnInit {
   }
 
   filtrar() {
-    // Limpa todos os filtros
     for (const key of Object.keys(this.filtros)) {
       this.filtros[key] = '';
     }
@@ -180,7 +179,6 @@ export class CompanyComponent implements OnInit {
         this.loading = false;
         const mensagem = err?.error?.message || 'Erro ao salvar empresa.';
         this.configService.toastrError(mensagem);
-        console.error('Erro ao salvar empresa:', err);
       },
     });
   }
@@ -199,6 +197,7 @@ export class CompanyComponent implements OnInit {
       this.companyForm.patchValue(empresa);
     }, 0);
   }
+
   verDetalhes(empresa: any) {
     const url = `${this.httpService.base_url}/empresas/${empresa.idEmpresa}/detalhes`;
 
@@ -210,8 +209,9 @@ export class CompanyComponent implements OnInit {
         });
       },
       error: (err) => {
-        this.configService.toastrError('Erro ao carregar detalhes da empresa');
-        console.error('Erro detalhes empresa:', err);
+        const mensagem =
+          err?.error?.message || 'Erro ao carregar detalhes da empresa';
+        this.configService.toastrError(mensagem);
       },
     });
   }
@@ -223,10 +223,10 @@ export class CompanyComponent implements OnInit {
           headers: this.authService.getHeaders(),
         })
         .subscribe(() => {
+          this.configService.toastrSucess('Sucesso');
           this.getEmpresas();
         });
     }
-    console.log('🔐 Apagando empresa', idEmpresa);
   }
 
   irParaPagina(pagina: number) {
