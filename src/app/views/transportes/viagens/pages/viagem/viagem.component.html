@@ -8,7 +8,6 @@
         <div class="col-md-6">
           <h1 class="titulo-table">Viagens</h1>
         </div>
-        <!-- Inicio do  Filtro das Viagens -->
         <div class="filtro-card p-3 mb-3 shadow-sm-rounded-bg-white">
           <div class="d-flex align-items-center flex-wrap gap-2">
             <div
@@ -30,7 +29,6 @@
               </select>
             </div>
 
-            <!-- Input para filtrar as viagens -->
             <div class="flex-grow-1" style="min-width: 250px; max-width: 300px">
               <input
                 type="text"
@@ -40,7 +38,6 @@
               />
             </div>
 
-            <!-- Botão de filtrar -->
             <div class="d-flex gap-2">
               <button class="btn btn-custom-verde" (click)="filtrarViagens()">
                 <i class="fas fa-search"></i> Filtrar
@@ -54,7 +51,6 @@
             </div>
           </div>
         </div>
-        <!-- Fim do filtro de viagens -->
 
         <div class="row justify-content-between align-items-center mb-3">
           <div class="col-md-12 d-flex justify-content-end">
@@ -134,7 +130,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- Data de Partida -->
                 <div class="col-md-6">
                   <label class="form-label fw-bold">Data de Partida</label>
                   <div class="input-group">
@@ -160,7 +155,6 @@
                   </div>
                 </div>
 
-                <!-- Data de Chegada -->
                 <div class="col-md-6">
                   <label class="form-label fw-bold">Data de Chegada</label>
                   <div class="input-group">
@@ -186,7 +180,6 @@
                   </div>
                 </div>
 
-                <!-- Preço Base -->
                 <div class="col-md-6">
                   <label class="form-label fw-bold">Preço Base</label>
                   <div class="input-group">
@@ -209,7 +202,6 @@
                   </div>
                 </div>
 
-                <!-- Autocarro -->
                 <div class="col-md-6">
                   <label class="form-label fw-bold">Autocarro</label>
                   <select
@@ -267,7 +259,121 @@
           </form>
         </ng-template>
 
-        <!--INICIO DA LISTAGEM DAS VIAGEMS -->
+        <ng-template #modalDetalhesViagem let-modal>
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">
+              <i class="fas fa-road me-2"></i> Detalhes da Viagem
+            </h5>
+            <button
+              type="button"
+              class="close text-white"
+              (click)="modalRef?.hide()"
+              aria-label="Fechar"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="detalhes-empresa list-group">
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span><i class="fas fa-map-marker-alt me-2"></i> Origem</span>
+                <span class="text-end">{{
+                  viagemSelecionada?.origem || "N/D"
+                }}</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span><i class="fas fa-map-marker-alt me-2"></i> Destino</span>
+                <span class="text-end">{{
+                  viagemSelecionada?.destino || "N/D"
+                }}</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span
+                  ><i class="fas fa-calendar-alt me-2"></i> Data de
+                  Partida</span
+                >
+                <span class="text-end">{{
+                  formatDateTime(viagemSelecionada?.dataPartida) || "N/D"
+                }}</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span
+                  ><i class="fas fa-calendar-check me-2"></i> Data de
+                  Chegada</span
+                >
+                <span class="text-end">{{
+                  formatDateTime(viagemSelecionada?.dataChegada) || "N/D"
+                }}</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span><i class="fas fa-clock me-2"></i> Duração</span>
+                <span class="text-end">{{
+                  viagemSelecionada?.duracao || "N/D"
+                }}</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span
+                  ><i class="fas fa-money-bill-wave me-2"></i> Preço Base</span
+                >
+                <span class="text-end"
+                  >Kz
+                  {{
+                    viagemSelecionada?.precoBase
+                      | number : "1.2-2" : "pt-PT" || "N/D"
+                  }}</span
+                >
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span
+                  ><i class="fas fa-bus me-2"></i> Matrícula do Autocarro</span
+                >
+                <span class="text-end">{{
+                  viagemSelecionada?.matricula || "N/D"
+                }}</span>
+              </div>
+              <div
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                <span><i class="fas fa-info-circle me-2"></i> Status</span>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-success': viagemSelecionada?.status === 'Concluída',
+                    'bg-warning': viagemSelecionada?.status === 'Não Concluída',
+                    'bg-primary': viagemSelecionada?.status === 'Em Andamento',
+                    'bg-secondary': !viagemSelecionada?.status
+                  }"
+                >
+                  {{ viagemSelecionada?.status || "Desconhecido" }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-top-0">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="modalRef?.hide()"
+            >
+              <i class="fas fa-times me-1"></i> Fechar
+            </button>
+          </div>
+        </ng-template>
+
         <div class="col-md-12">
           <div class="row g-3">
             <div
@@ -277,7 +383,7 @@
               <div class="card" style="height: 300px">
                 <div class="viagem-info p-3">
                   <div class="local">
-                    <span class="label">De</span>
+                    <span class="label">De:</span>
                     <span class="valor">{{ viagem.origem }}</span>
                   </div>
                   <div class="duracao">
@@ -287,16 +393,38 @@
                     </span>
                   </div>
                   <div class="local text-end">
-                    <span class="label">Para</span>
+                    <span class="label">Para:</span>
                     <span class="valor">{{ viagem.destino }}</span>
                   </div>
                 </div>
 
-                <div class="matricula px-3">
-                  <small>Matrícula</small>
-                  <div class="valor">
-                    <i class="fa fa-bus"></i>
-                    {{ viagem.matricula || "N/D" }}
+                <div
+                  class="d-flex justify-content-between align-items-center px-3"
+                >
+                  <div class="">
+                    <small>Matrícula:</small>
+                    <div class="valor">
+                      <i class="fa fa-bus"></i>
+                      {{ viagem.matricula || "N/D" }}
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <small class="">Estado:</small>
+                    <div class="valor">
+                      <span
+                        class="badge"
+                        [ngClass]="{
+                          'bg-success': viagem.statusDisplay === 'Concluída',
+                          'bg-warning':
+                            viagem.statusDisplay === 'Não Concluída',
+                          'bg-primary': viagem.statusDisplay === 'Em Andamento',
+                          'bg-secondary':
+                            viagem.statusDisplay === 'Desconhecido'
+                        }"
+                      >
+                        {{ viagem.statusDisplay || "Em andamento" }}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -310,7 +438,7 @@
                   <button
                     class="btn-ver"
                     title="Ver"
-                    (click)="abrirDetalhes(viagem)"
+                    (click)="verDetalhes(viagem)"
                   >
                     <i class="fa fa-eye"></i>
                   </button>

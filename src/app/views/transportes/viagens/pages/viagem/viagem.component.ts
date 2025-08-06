@@ -19,7 +19,9 @@ export class ViagemComponent implements OnInit {
   submitted = false;
   viagens: any[] = [];
   modalRef?: BsModalRef;
+  viagemSelecionada: any = null;
   @ViewChild('modalCriarViagem') modalCriarRef!: TemplateRef<any>;
+  @ViewChild('modalDetalhesViagem') modalDetalhesRef!: TemplateRef<any>;
   minDateTime: string = '';
   campoFiltro = '';
   valorFiltro = '';
@@ -41,7 +43,34 @@ export class ViagemComponent implements OnInit {
     this.carregarViagens();
   }
 
-  verDetalhes() {}
+  verDetalhes(viagem: any): void {
+    this.viagemSelecionada = {
+      ...viagem,
+      duracao: this.calcularDuracao(viagem.dataPartida, viagem.dataChegada),
+      status: this.mapStatusToDisplay(viagem.status),
+    };
+    this.modalRef = this.modalService.show(this.modalDetalhesRef, {
+      class: 'modal-lg',
+    });
+  }
+
+  abrirDetalhes(viagem: any): void {
+    this.verDetalhes(viagem);
+  }
+
+  formatDateTime(dateTime: string | undefined): string {
+    if (!dateTime) return 'N/D';
+    const date = new Date(dateTime);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    };
+    return date.toLocaleString('pt-PT', options);
+  }
 
   private formatDateToInputValue(date: Date): string {
     const pad = (n: number) => n.toString().padStart(2, '0');
@@ -68,7 +97,6 @@ export class ViagemComponent implements OnInit {
         validators: [this.validarDatas, this.validarOrigemDestino],
       }
     );
-    // Atualizar min de dataChegada dinamicamente
     this.viagemForm
       .get('dataPartida')
       ?.valueChanges.subscribe((dataPartida) => {
@@ -76,7 +104,7 @@ export class ViagemComponent implements OnInit {
           this.dataPartidaMin = new Date(dataPartida)
             .toISOString()
             .slice(0, 16);
-          this.viagemForm.get('dataChegada')?.updateValueAndValidity(); // Forçar revalidação
+          this.viagemForm.get('dataChegada')?.updateValueAndValidity();
         } else {
           this.dataPartidaMin = this.minDateTime;
         }
@@ -142,11 +170,7 @@ export class ViagemComponent implements OnInit {
       })
       .subscribe(
         (res: any) => {
-          console.log('Resposta dos autocarros:', res);
           this.autocarros = res.content || [];
-          if (this.autocarros.length === 0) {
-            console.warn('Nenhum autocarro disponível retornado.');
-          }
         },
         (error) => {
           console.error('Erro ao carregar autocarros:', error);
@@ -160,18 +184,22 @@ export class ViagemComponent implements OnInit {
     this.viagemForm.reset();
     this.submitted = false;
     this.loading = false;
+    this.viagemSelecionada = null;
   }
+
   confirmarRemocao(viagem: any) {
     if (confirm('Tens certeza que desejas apagar esta viagem?')) {
       this.apagarViagem(viagem.idViagem);
     }
   }
+
   apagarViagem(id: number) {
     this.http
       .delete(`${this.httpService.base_url}/viagens/${id}`, {
         headers: this.auth.getHeaders(),
       })
       .subscribe(() => {
+        this.config.toastrSucess('Sucesso');
         this.carregarViagens();
       });
   }
@@ -182,7 +210,25 @@ export class ViagemComponent implements OnInit {
     this.carregarViagens();
   }
 
-  abrirDetalhes(open: any) {}
+  verificarStatusViagem(id: number): void {
+    this.http
+      .get<{ status: string }>(
+        `${this.httpService.base_url}/viagens/${id}/status`,
+        {
+          headers: this.auth.getHeaders(),
+        }
+      )
+      .subscribe(
+        (res: { status: string }) => {
+          this.config.toastrInfo(res.status);
+        },
+        (error) => {
+          const mensagemErro =
+            error?.error?.message || 'Erro ao verificar status da viagem';
+          this.config.toastrError(mensagemErro);
+        }
+      );
+  }
 
   calcularDuracao(dataInicio: string, dataFim: string): string {
     const inicio = new Date(dataInicio);
@@ -209,7 +255,6 @@ export class ViagemComponent implements OnInit {
     this.submitted = true;
 
     if (this.viagemForm.invalid) {
-      console.log('Formulário inválido. Erros:', this.viagemForm.errors);
       return;
     }
 
@@ -228,7 +273,6 @@ export class ViagemComponent implements OnInit {
         const mensagem = this.isEditando
           ? 'Viagem actualizada com sucesso'
           : 'Viagem criada com sucesso';
-
         this.config.toastrSucess(mensagem);
         this.viagemForm.reset();
         this.modalRef?.hide();
@@ -238,10 +282,8 @@ export class ViagemComponent implements OnInit {
       error: (err) => {
         const mensagemErro = err?.error?.message || 'Erro ao criar viagem';
         this.config.toastrError(mensagemErro);
-        console.error(err);
         this.loading = false;
       },
-
       complete: () => {
         this.loading = false;
       },
@@ -269,21 +311,52 @@ export class ViagemComponent implements OnInit {
       })
       .subscribe(
         (res: any) => {
-          console.log('Ola res', res);
           this.viagens = (res.content || []).map((v: any) => ({
             ...v,
             duracao: this.calcularDuracao(v.dataPartida, v.dataChegada),
+            statusDisplay: this.mapStatusToDisplay(
+              v.status ||
+                this.calcularStatusFallback(v.dataPartida, v.dataChegada)
+            ),
           }));
+          console.log('ola Vagens', this.viagens);
         },
-
         (error) => {
           const mensagemErro =
             error?.error?.message || 'Erro ao carregar viagem';
           this.config.toastrError(mensagemErro);
-          console.error('Erro ao carregar viagens:', error);
           this.viagens = [];
         }
       );
+  }
+
+  private mapStatusToDisplay(status: string): string {
+    switch (status) {
+      case 'NAO_CONCLUIDA':
+        return 'Não Concluída';
+      case 'EM_ANDAMENTO':
+        return 'Em Andamento';
+      case 'CONCLUIDA':
+        return 'Concluída';
+      default:
+        return 'Desconhecido';
+    }
+  }
+
+  private calcularStatusFallback(
+    dataPartida: string,
+    dataChegada: string
+  ): string {
+    const now = new Date();
+    const partida = new Date(dataPartida);
+    const chegada = new Date(dataChegada);
+    if (partida > now) {
+      return 'NAO_CONCLUIDA';
+    } else if (chegada > now) {
+      return 'EM_ANDAMENTO';
+    } else {
+      return 'CONCLUIDA';
+    }
   }
 
   filtrarViagens() {
@@ -303,11 +376,14 @@ export class ViagemComponent implements OnInit {
           this.viagens = (res.content || []).map((v: any) => ({
             ...v,
             duracao: this.calcularDuracao(v.dataPartida, v.dataChegada),
+            statusDisplay: this.mapStatusToDisplay(
+              v.status ||
+                this.calcularStatusFallback(v.dataPartida, v.dataChegada)
+            ),
           }));
         },
         (error) => {
           this.config.toastrError('Erro ao filtrar viagens');
-          console.error('Erro ao filtrar viagens:', error);
         }
       );
   }
