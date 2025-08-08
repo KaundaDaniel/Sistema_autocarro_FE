@@ -1,123 +1,132 @@
-<div class="container-scroller">
+<div class="container-scroller bg-light min-vh-100 dark-mode">
   <app-navbar></app-navbar>
-
   <div class="container-fluid page-body-wrapper">
     <app-sidebar></app-sidebar>
-
     <div class="main-panel">
       <div class="content-wrapper">
         <app-header></app-header>
-
         <div class="container py-4">
-          <h2 class="mb-4 text-danger">Detalhes do Autocarro</h2>
+          <div class="d-flex align-items-center mb-4">
+            <i class="fas fa-bus fa-2x text-primary me-3"></i>
+            <h2 class="mb-0 fw-bold text-gradient">Detalhes do Autocarro</h2>
+          </div>
 
           <div *ngIf="autocarro; else loading">
-            <div class="card shadow-sm mb-4">
-              <div class="card-body">
-                <h4 class="card-title text-primary">
-                  <i class="fas fa-bus me-2"></i>{{ autocarro.identificacao }}
-                  <span class="badge bg-secondary ms-2">{{
-                    autocarro.tipo
-                  }}</span>
-                </h4>
-                <p class="mb-2">
-                  <strong>Capacidade:</strong>
-                  {{ autocarro.capacidade }} lugares
-                </p>
-                <p class="mb-2">
-                  <strong>Estado:</strong>
-                  <span
-                    class="badge"
-                    [ngClass]="{
-                      'bg-success': autocarro.estado === 'disponivel',
-                      'bg-warning': autocarro.estado === 'manutencao'
-                    }"
-                  >
-                    {{ autocarro.estado | titlecase }}
-                  </span>
-                </p>
-                <p class="mb-0">
-                  <strong>Empresa:</strong> {{ autocarro.nomeEmpresa }}
-                </p>
-              </div>
-            </div>
+            <div class="autocarro-grid row g-4">
+              <!-- Detalhes do Autocarro -->
+              <div class="autocarro-detalhe col-lg-4 col-12">
+                <div class="card shadow border-0 mb-4 animate__animated animate__fadeIn">
+                  <div class="card-body">
+                    <h4 class="card-title text-primary fw-bold mb-2">
+                      {{ autocarro.identificacao }}
+                      <span class="badge bg-secondary ms-2 text-uppercase">{{ autocarro.tipo }}</span>
+                    </h4>
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                      <span class="badge bg-primary-subtle text-primary px-3 py-2 fs-6">
+                        <i class="fas fa-users me-1"></i> Capacidade: <b>{{ autocarro.capacidade }}</b> lugares
+                      </span>
+                      <span class="badge"
+                        [ngClass]="{
+                          'bg-success-subtle text-success': autocarro.estado === 'disponivel',
+                          'bg-warning-subtle text-warning': autocarro.estado === 'manutencao',
+                          'bg-danger-subtle text-danger': autocarro.estado === 'indisponivel'
+                        }">
+                        <i class="fas fa-circle me-1"></i> {{ autocarro.estado | titlecase }}
+                      </span>
+                      <span class="badge bg-light text-dark border px-3 py-2">
+                        <i class="fas fa-building me-1"></i> Empresa: <b>{{ autocarro.nomeEmpresa }}</b>
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-            <h5 class="mb-3 text-muted">
-              <i class="fas fa-map me-2"></i>Mapa de Lugares - Layout do
-              Autocarro
-            </h5>
+                <!-- Legenda -->
+                <div class="legend mt-4">
+                  <h6 class="mb-2 fw-semibold">
+                    <i class="fas fa-info-circle me-2 text-primary"></i>Legenda:
+                  </h6>
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="legend-item d-flex align-items-center">
+                      <div class="legend-seat seat-livre me-2"></div> <span>Livre</span>
+                    </div>
+                    <div class="legend-item d-flex align-items-center">
+                      <div class="legend-seat seat-ocupado me-2"></div> <span>Ocupado</span>
+                    </div>
+                    <div class="legend-item d-flex align-items-center">
+                      <div class="legend-seat seat-selecionado me-2"></div> <span>Selecionado</span>
+                    </div>
+                  </div>
+                </div>
 
-            <!-- Novo Layout do Autocarro -->
-            <div class="bus-layout-container">
-              <div class="bus-front">
-                <i class="fas fa-steering-wheel me-2"></i>FRENTE DO AUTOCARRO
-              </div>
-
-              <!-- Gerar filas dinamicamente baseado nos lugares -->
-              <div
-                *ngFor="let row of getSeatsInRows(); let i = index"
-                class="seat-row"
-              >
-                <div
-                  *ngFor="let seat of row; let j = index"
-                  class="seat"
-                  [class.seat-livre]="seat && seat.estado === 'LIVRE'"
-                  [class.seat-ocupado]="seat && seat.estado !== 'LIVRE'"
-                  [class.seat-selecionado]="
-                    seat && isSelected(seat.numeroLugar)
-                  "
-                  [class.aisle]="!seat"
-                  (click)="seat && seat.estado === 'LIVRE' && toggleSeat(seat)"
-                >
-                  <ng-container *ngIf="seat">
-                    <span class="seat-number">{{ seat.numeroLugar }}</span>
-                    <i class="seat-icon" [class]="getSeatIcon(seat)"></i>
-                  </ng-container>
+                <!-- Seleção -->
+                <div class="selected-info mt-4" *ngIf="selectedSeats.length > 0">
+                  <div class="alert alert-primary d-flex align-items-center mb-3">
+                    <i class="fas fa-ticket-alt me-2"></i>
+                    <strong class="me-2">Lugares Selecionados:</strong>
+                    <span class="fw-semibold">{{ selectedSeats.join(", ") }}</span>
+                  </div>
+                  <button class="btn btn-primary w-100 py-2 fw-bold shadow-sm" (click)="confirmarSelecao()">
+                    <i class="fas fa-check-circle me-2"></i>Confirmar Seleção
+                  </button>
                 </div>
               </div>
 
-              <!-- Legenda -->
-              <div class="legend">
-                <h6 class="mb-2">
-                  <i class="fas fa-info-circle me-2"></i>Legenda:
-                </h6>
-                <div class="d-flex flex-wrap">
-                  <div class="legend-item">
-                    <div class="legend-seat seat-livre"></div>
-                    <span>Livre</span>
+              <!-- Mapa de Lugares Estilizado -->
+              <div class="autocarro-mapa col-lg-8 col-12">
+                <h5 class="mb-3 text-muted fw-semibold">
+                  <i class="fas fa-map me-2"></i> Mapa de Lugares <span class="text-primary">| Layout do Autocarro</span>
+                </h5>
+                <div class="bus-layout-container p-4 rounded shadow-sm bg-white animate__animated animate__fadeInUp">
+                  <div class="bus-front text-center mb-3 text-muted">
+                    <span class="bus-front-icon">🧑‍✈️</span>
+                    <span class="ms-2">Frente do Autocarro</span>
                   </div>
-                  <div class="legend-item">
-                    <div class="legend-seat seat-ocupado"></div>
-                    <span>Ocupado</span>
+                  <div class="bus-seats-wrapper">
+                    <div class="bus-seats-numbers">
+                      <div class="row">
+                        <div class="col-2 d-flex flex-column align-items-end pe-2">
+                          
+                        </div>
+                        <div class="col-8">
+                          <div class="bus-seat-map-vertical">
+                            <ng-container *ngFor="let row of getSeatsInRows()">
+                              <div class="bus-seat-row d-flex justify-content-center align-items-center mb-1">
+                                <ng-container *ngFor="let seat of row">
+                                  <div
+                                    class="bus-seat"
+                                    [class.seat-livre]="seat && seat.estado === 'LIVRE'"
+                                    [class.seat-ocupado]="seat && seat.estado !== 'LIVRE'"
+                                    [class.seat-selecionado]="seat && isSelected(seat.numeroLugar)"
+                                    [class.aisle]="!seat"
+                                    (click)="seat && seat.estado === 'LIVRE' && toggleSeat(seat)"
+                                    tabindex="0">
+                                    <ng-container *ngIf="seat">
+                                      <span class="bus-seat-number">{{ seat.numeroLugar }}</span>
+                                    </ng-container>
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </ng-container>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
                   </div>
-                  <div class="legend-item">
-                    <div class="legend-seat seat-selecionado"></div>
-                    <span>Selecionado</span>
+                  <div class="bus-rear text-center mt-3 text-muted">
+                    <span class="bus-rear-icon">🚪</span>
+                    <span class="ms-2">Porta / WC</span>
                   </div>
                 </div>
-              </div>
-
-              <!-- Informações de seleção -->
-              <div class="selected-info" *ngIf="selectedSeats.length > 0">
-                <div class="alert alert-info">
-                  <strong
-                    ><i class="fas fa-ticket-alt me-2"></i>Lugares
-                    Selecionados:</strong
-                  >
-                  {{ selectedSeats.join(", ") }}
-                </div>
-                <button
-                  class="btn btn-success w-100"
-                  (click)="confirmarSelecao()"
-                >
-                  <i class="fas fa-check-circle me-2"></i>Confirmar Seleção
-                </button>
               </div>
             </div>
           </div>
 
           <ng-template #loading>
-            <p>A carregar dados do autocarro...</p>
+            <div class="d-flex flex-column align-items-center justify-content-center py-5">
+              <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+              <p class="text-muted fs-5">A carregar dados do autocarro...</p>
+            </div>
           </ng-template>
         </div>
       </div>
@@ -125,3 +134,126 @@
     </div>
   </div>
 </div>
+
+<style>
+.dark-mode {
+  background-color: #f7f7fa;
+  color: #222;
+}
+.text-gradient {
+  background: linear-gradient(90deg, #1e88e5 0%, #1976d2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.bus-layout-container {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 2px 16px 0 rgba(30, 136, 229, 0.08);
+  max-width: 600px;
+  margin: 0 auto;
+}
+.bus-front, .bus-rear {
+  font-weight: 600;
+  font-size: 1rem;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+}
+.bus-front-icon, .bus-rear-icon {
+  font-size: 1.3rem;
+}
+.bus-seats-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.bus-seats-numbers {
+  width: 100%;
+}
+.bus-seat-map-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bus-seat-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.bus-seat {
+  width: 36px;
+  height: 36px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #222;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.18s;
+  box-shadow: 0 1px 2px 0 rgba(30, 136, 229, 0.04);
+}
+.bus-seat.seat-livre {
+  background-color: #e9ecef;
+  border-color: #b0bec5;
+}
+.bus-seat.seat-ocupado {
+  background-color: #b0bec5;
+  color: #fff;
+  cursor: not-allowed;
+  border-color: #b0bec5;
+}
+.bus-seat.seat-selecionado {
+  background-color: #1976d2;
+  color: #fff;
+  border-color: #1565c0;
+}
+.bus-seat.aisle {
+  border: none;
+  box-shadow: none;
+  cursor: default;
+
+}
+.seat-number-label {
+  font-size: 0.85rem;
+  color: #b0bec5;
+  font-weight: 500;
+  margin-bottom: 2px;
+  text-align: center;
+}
+.legend {
+  margin-top: 1.5rem;
+}
+.legend-seat {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  margin-right: 6px;
+  border: 2px solid #b0bec5;
+  display: inline-block;
+}
+.legend-seat.seat-livre {
+  background: #e9ecef;
+}
+.legend-seat.seat-ocupado {
+  background: #b0bec5;
+}
+.legend-seat.seat-selecionado {
+  background: #1976d2;
+  border-color: #1565c0;
+}
+.selected-info .alert {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: none;
+}
+.btn-primary {
+  background: #1976d2;
+  border: none;
+}
+.btn-primary:hover {
+  background: #1565c0;
+}
+</style>
