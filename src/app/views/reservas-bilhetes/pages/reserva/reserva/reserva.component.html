@@ -168,8 +168,10 @@
                 type="button"
                 class="btn-close"
                 aria-label="Fechar"
-                (click)="modal.dismiss()"
-              ></button>
+                (click)="modalRef?.hide()"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
 
             <div class="modal-body">
@@ -268,7 +270,9 @@
               <button class="btn btn-outline-secondary">Exportar</button>
               <button class="btn btn-warning">Marcar Reservado</button>
               <button class="btn btn-success">Marcar Pago</button>
-              <button class="btn btn-danger">Cancelar</button>
+              <button class="btn btn-danger" (click)="modalRef?.hide()">
+                Cancelar
+              </button>
             </div>
           </ng-template>
 
