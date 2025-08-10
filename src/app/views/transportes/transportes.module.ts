@@ -11,8 +11,6 @@ import { ArchwizardModule } from 'angular-archwizard';
   declarations: [ViagemComponent],
   imports: [
     CommonModule,
-    LayoutModule,
-    LayoutModule,
     TransportesRoutingModule,
     ReactiveFormsModule,
     LayoutModule,

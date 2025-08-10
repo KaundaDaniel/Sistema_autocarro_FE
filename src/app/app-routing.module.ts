@@ -50,6 +50,12 @@ const routes: Routes = [
         (m) => m.ProcessosJuridicosModule
       ),
   },
+  {
+  path: 'reservas-bilhetes',
+  loadChildren: () => import('./views/reservas-bilhetes/reservas-bilhetes.module')
+    .then(m => m.ReservasBilhetesModule)
+}
+
 ];
 
 @NgModule({
