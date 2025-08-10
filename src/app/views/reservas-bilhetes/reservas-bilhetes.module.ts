@@ -5,18 +5,16 @@ import { ReservasBilhetesRoutingModule } from './reservas-bilhetes-routing.modul
 import { ReservaComponent } from './pages/reserva/reserva/reserva.component';
 import { BilheteComponent } from './pages/bilhete/bilhete/bilhete.component';
 import { PagamentoComponent } from './pages/pagamento/pagamento/pagamento.component';
-import { LayoutModule } from "src/app/views/layout/layout.module";
+import { LayoutModule } from 'src/app/views/layout/layout.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    ReservaComponent,
-    BilheteComponent,
-    PagamentoComponent
-  ],
+  declarations: [ReservaComponent, BilheteComponent, PagamentoComponent],
   imports: [
     CommonModule,
     ReservasBilhetesRoutingModule,
-    LayoutModule
-]
+    LayoutModule,
+    FormsModule,
+  ],
 })
 export class ReservasBilhetesModule {}
