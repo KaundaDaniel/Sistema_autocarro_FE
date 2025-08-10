@@ -1,0 +1,83 @@
+:host {
+  --texto-principal: #333;
+}
+
+/* Cards base */
+.card-stat {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  color: var(--texto-principal);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  transition: all 0.18s ease;
+}
+
+.card-stat .card-content {
+  position: relative;
+  z-index: 2;
+}
+
+.card-stat .fa-bg {
+  position: absolute;
+  right: 14px;
+  top: 8px;
+  font-size: 54px;
+  opacity: 0.08;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.stat-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+/* Gradientes suaves */
+.card-vendas {
+  background: linear-gradient(135deg, #ffeaea, #ffd6d6);
+}
+.card-ocupacao {
+  background: linear-gradient(135deg, #eaf2ff, #d6e4ff);
+}
+.card-pendentes {
+  background: linear-gradient(135deg, #fff1e3, #ffe2c8);
+}
+.card-cancelamentos {
+  background: linear-gradient(135deg, #f6f0ff, #e9dcff);
+}
+
+/* Hover suave */
+.card-stat:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Tabela */
+.table thead {
+  background-color: #ff4949 !important;
+  color: #fff !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 73, 73, 0.04);
+}
+
+/* Badges */
+.badge {
+  font-size: 0.78rem;
+  padding: 6px 10px;
+}
+.pagination .page-link {
+  cursor: pointer;
+}

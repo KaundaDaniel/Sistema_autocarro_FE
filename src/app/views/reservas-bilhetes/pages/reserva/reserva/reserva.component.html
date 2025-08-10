@@ -5,10 +5,300 @@
     <div class="main-panel">
       <div class="content-wrapper">
         <app-header></app-header>
-         <div class="col-md-6">
-        <div class="titulo-table">Reservas</div>
-    </div>
-      </div>
+        <div class="col-md-6">
+          <div class="titulo-table">Reservas</div>
+        </div>
+        <div class="container-fluid">
+          <!-- Filtros -->
+          <div class="card mb-3 p-3">
+            <div class="row g-2 align-items-end">
+              <div class="row mb-3">
+                <!-- Intervalo de Datas -->
+                <div class="col-md-4">
+                  <label for="startDate">Data inicial</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    [(ngModel)]="dataInicio"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="endDate">Data final</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    [(ngModel)]="dataFim"
+                  />
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                  <button
+                    class="btn btn-danger w-100"
+                    (click)="filtrarPorData()"
+                  >
+                    <i class="fas fa-filter"></i> Filtrar
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Origem</label>
+                <select class="form-select">
+                  <option>Todas</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Destino</label>
+                <select class="form-select">
+                  <option>Todas</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Estado</label>
+                <select class="form-select">
+                  <option>Todos</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Pesquisa</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="PNR, passageiro, email, rota..."
+                />
+              </div>
+              <div class="col-md-1 text-end">
+                <button class="btn btn-outline-secondary w-100">
+                  <i class="fas fa-eraser"></i>
+                </button>
+              </div>
+            </div>
+          </div>
 
+          <!-- Estatísticas (substitui a secção actual) -->
+          <div class="row mb-4">
+            <div class="col-md-3">
+              <div class="card-stat card-vendas">
+                <div class="card-content">
+                  <p class="stat-title">Vendas (7d)</p>
+                  <p class="stat-value">
+                    <!-- {{ totalVendas | currency : "EUR" }} -->
+                  </p>
+                </div>
+                <i class="fas fa-shopping-cart fa-bg"></i>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card-stat card-ocupacao">
+                <div class="card-content">
+                  <p class="stat-title">Ocupação média</p>
+                  <p class="stat-value"><!-- {{ ocupacaoMedia }} -->%</p>
+                </div>
+                <i class="fas fa-chart-line fa-bg"></i>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card-stat card-pendentes">
+                <div class="card-content">
+                  <p class="stat-title">Pendentes</p>
+                  <p class="stat-value"><!-- {{ pendentes }} --></p>
+                </div>
+                <i class="fas fa-hourglass-half fa-bg"></i>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card-stat card-cancelamentos">
+                <div class="card-content">
+                  <p class="stat-title">Cancelamentos</p>
+                  <p class="stat-value"><!-- {{ cancelamentos }} --></p>
+                </div>
+                <i class="fas fa-ban fa-bg"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabela com Paginação -->
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Reserva #</th>
+                  <th>Cliente</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let reserva of reservasPaginadas">
+                  <td>{{ reserva.id }}</td>
+                  <td>{{ reserva.cliente }}</td>
+                  <td>{{ reserva.data | date : "dd/MM/yyyy" }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'bg-success': reserva.status === 'Confirmada',
+                        'bg-warning': reserva.status === 'Pendente',
+                        'bg-danger': reserva.status === 'Cancelada'
+                      }"
+                    >
+                      {{ reserva.status }}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-sm btn-primary"
+                      (click)="abrirModal(detalhesReserva, reserva)"
+                    >
+                      Ver Detalhes
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ng-template para o modal -->
+          <ng-template #detalhesReserva let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title">Detalhes da Reserva</h5>
+              <button
+                type="button"
+                class="btn-close"
+                aria-label="Fechar"
+                (click)="modal.dismiss()"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="d-flex align-items-center mb-3">
+                <div
+                  class="avatar bg-secondary rounded-circle text-white d-flex align-items-center justify-content-center me-3"
+                  style="width: 50px; height: 50px"
+                >
+                  {{ reservaSelecionada?.nome?.[0] }}
+                </div>
+                <div>
+                  <strong>{{ reservaSelecionada?.nome }}</strong
+                  ><br />
+                  <small>{{ reservaSelecionada?.email }}</small>
+                </div>
+                <span
+                  class="badge bg-success ms-auto"
+                  *ngIf="reservaSelecionada?.status === 'Pago'"
+                  >Pago</span
+                >
+                <span
+                  class="badge bg-warning ms-auto"
+                  *ngIf="reservaSelecionada?.status === 'Reservado'"
+                  >Reservado</span
+                >
+                <span
+                  class="badge bg-danger ms-auto"
+                  *ngIf="reservaSelecionada?.status === 'Cancelado'"
+                  >Cancelado</span
+                >
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-4">
+                  <strong>PNR</strong><br />{{ reservaSelecionada?.pnr }}
+                </div>
+                <div class="col-4">
+                  <strong>Telemóvel</strong><br />{{
+                    reservaSelecionada?.telefone
+                  }}
+                </div>
+                <div class="col-4">
+                  <strong>Assento</strong><br />{{
+                    reservaSelecionada?.assento
+                  }}
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-4">
+                  <strong>Origem</strong><br />{{ reservaSelecionada?.origem }}
+                </div>
+                <div class="col-4">
+                  <strong>Destino</strong><br />{{
+                    reservaSelecionada?.destino
+                  }}
+                </div>
+                <div class="col-4">
+                  <strong>Embarque</strong><br />{{
+                    reservaSelecionada?.embarque
+                  }}
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-4">
+                  <strong>Data</strong><br />{{ reservaSelecionada?.data }}
+                </div>
+                <div class="col-4">
+                  <strong>Hora</strong><br />{{ reservaSelecionada?.hora }}
+                </div>
+                <div class="col-4">
+                  <strong>Preço</strong><br />{{ reservaSelecionada?.preco }} €
+                </div>
+              </div>
+
+              <div class="row mb-2">
+                <div class="col-4">
+                  <strong>Autocarro</strong><br />{{
+                    reservaSelecionada?.autocarro
+                  }}
+                </div>
+                <div class="col-4">
+                  <strong>Motorista</strong><br />{{
+                    reservaSelecionada?.motorista
+                  }}
+                </div>
+              </div>
+
+              <div class="mt-3 p-2 bg-light rounded">
+                <strong>Notas:</strong> {{ reservaSelecionada?.notas }}
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button class="btn btn-outline-secondary">Exportar</button>
+              <button class="btn btn-warning">Marcar Reservado</button>
+              <button class="btn btn-success">Marcar Pago</button>
+              <button class="btn btn-danger">Cancelar</button>
+            </div>
+          </ng-template>
+
+          <!-- Controlo de Paginação -->
+          <nav>
+            <ul class="pagination justify-content-end">
+              <li class="page-item" [class.disabled]="paginaActual === 1">
+                <a class="page-link" (click)="mudarPagina(paginaActual - 1)"
+                  >Anterior</a
+                >
+              </li>
+              <li
+                *ngFor="let p of totalPaginasArray"
+                class="page-item"
+                [class.active]="p === paginaActual"
+              >
+                <a class="page-link" (click)="mudarPagina(p)">{{ p }}</a>
+              </li>
+              <li
+                class="page-item"
+                [class.disabled]="paginaActual === totalPaginas"
+              >
+                <a class="page-link" (click)="mudarPagina(paginaActual + 1)"
+                  >Seguinte</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
